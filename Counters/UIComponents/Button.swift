@@ -7,7 +7,7 @@ final class Button: UIButton {
     override var isEnabled: Bool {
         get { super.isEnabled }
         set {
-            backgroundColor = newValue ? ColorConstants.accentColor : ColorConstants.disabledColor
+            backgroundColor = newValue ? .accentColor : .accentColorDisable
             super.isEnabled = newValue
         }
     }
@@ -48,13 +48,6 @@ final class Button: UIButton {
 // MARK: - Private definitions
 
 private extension Button {
-
-    enum ColorConstants {
-        static let accentColor = UIColor(named: "AccentColor")
-        static let textColor = UIColor(named: "ButtonText")
-        static let disabledColor = accentColor?.withAlphaComponent(0.5)
-    }
-
     enum LayoutConstants {
         static let cornerRadius: CGFloat = 8.0
         static let edgeInsets: CGFloat = 8.0
@@ -71,8 +64,23 @@ private extension Button {
                                          bottom: LayoutConstants.edgeInsets,
                                          right: LayoutConstants.edgeInsets)
         layer.cornerRadius = LayoutConstants.cornerRadius
-        backgroundColor = ColorConstants.accentColor
-        setTitleColor(ColorConstants.textColor, for: .normal)
+        backgroundColor = .accentColor
+        setTitleColor(UIColor.buttonText, for: .normal)
         titleLabel?.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: Font.title)
     }
 }
+
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+struct Button_Preview: PreviewProvider {
+    static var previews: some View {
+        UIViewPreviewContainer { _ in
+            Button(title: "Continue")
+        }
+        .padding()
+        .previewLayout(.fixed(width: 297, height: 57))
+    }
+}
+#endif
