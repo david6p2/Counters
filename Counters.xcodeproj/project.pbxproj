@@ -12,6 +12,15 @@
 		350AF6ED25E0365A0000F698 /* UIImage+Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350AF6EC25E0365A0000F698 /* UIImage+Badge.swift */; };
 		35868D2825E03F090028AF1D /* WelcomeViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35868D2725E03F090028AF1D /* WelcomeViewPresenter.swift */; };
 		35EAFB7925CC9E3B00DCFE10 /* Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = 35EAFB7825CC9E3B00DCFE10 /* Networking.m */; };
+		6324CD5E2629364A00F79036 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6324CD5D2629364A00F79036 /* CoordinatorProtocol.swift */; };
+		6324CD662629368B00F79036 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6324CD652629368B00F79036 /* MainCoordinator.swift */; };
+		6324CD6B262938C400F79036 /* WelcomeViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6324CD6A262938C400F79036 /* WelcomeViewDelegate.swift */; };
+		6324CD712629471400F79036 /* CountersBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6324CD702629471400F79036 /* CountersBoardView.swift */; };
+		6324CD7A2629479400F79036 /* CountersBoardNoContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6324CD792629479400F79036 /* CountersBoardNoContentView.swift */; };
+		6324CD822629481F00F79036 /* CountersBoardNoContentViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6324CD812629481F00F79036 /* CountersBoardNoContentViewDelegate.swift */; };
+		6324CD8A2629487100F79036 /* CountersBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6324CD892629487100F79036 /* CountersBoardViewController.swift */; };
+		6324CD8F262948CE00F79036 /* CountersBoardViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6324CD8E262948CE00F79036 /* CountersBoardViewDelegate.swift */; };
+		6324CD97262948EE00F79036 /* CountersBoardViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6324CD96262948EE00F79036 /* CountersBoardViewPresenter.swift */; };
 		DE3EBACC25E048CE00DA1E0D /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3EBACB25E048CE00DA1E0D /* Button.swift */; };
 		DECA256C25CC8D4200851431 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECA256B25CC8D4200851431 /* AppDelegate.swift */; };
 		DECA257025CC8D4200851431 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECA256F25CC8D4200851431 /* WelcomeViewController.swift */; };
@@ -47,6 +56,15 @@
 		35EAFB7625CC9E3A00DCFE10 /* Counters-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Counters-Bridging-Header.h"; sourceTree = "<group>"; };
 		35EAFB7725CC9E3B00DCFE10 /* Networking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Networking.h; sourceTree = "<group>"; };
 		35EAFB7825CC9E3B00DCFE10 /* Networking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Networking.m; sourceTree = "<group>"; };
+		6324CD5D2629364A00F79036 /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
+		6324CD652629368B00F79036 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		6324CD6A262938C400F79036 /* WelcomeViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewDelegate.swift; sourceTree = "<group>"; };
+		6324CD702629471400F79036 /* CountersBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersBoardView.swift; sourceTree = "<group>"; };
+		6324CD792629479400F79036 /* CountersBoardNoContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersBoardNoContentView.swift; sourceTree = "<group>"; };
+		6324CD812629481F00F79036 /* CountersBoardNoContentViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersBoardNoContentViewDelegate.swift; sourceTree = "<group>"; };
+		6324CD892629487100F79036 /* CountersBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersBoardViewController.swift; sourceTree = "<group>"; };
+		6324CD8E262948CE00F79036 /* CountersBoardViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersBoardViewDelegate.swift; sourceTree = "<group>"; };
+		6324CD96262948EE00F79036 /* CountersBoardViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersBoardViewPresenter.swift; sourceTree = "<group>"; };
 		DE3EBACB25E048CE00DA1E0D /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		DECA256825CC8D4200851431 /* Counters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Counters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DECA256B25CC8D4200851431 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +139,36 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
+		6324CD5C2629362400F79036 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				6324CD5D2629364A00F79036 /* CoordinatorProtocol.swift */,
+				6324CD652629368B00F79036 /* MainCoordinator.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		6324CD6F262946DD00F79036 /* CountersBoard */ = {
+			isa = PBXGroup;
+			children = (
+				6324CD782629477800F79036 /* Views */,
+				6324CD702629471400F79036 /* CountersBoardView.swift */,
+				6324CD892629487100F79036 /* CountersBoardViewController.swift */,
+				6324CD8E262948CE00F79036 /* CountersBoardViewDelegate.swift */,
+				6324CD96262948EE00F79036 /* CountersBoardViewPresenter.swift */,
+			);
+			path = CountersBoard;
+			sourceTree = "<group>";
+		};
+		6324CD782629477800F79036 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6324CD792629479400F79036 /* CountersBoardNoContentView.swift */,
+				6324CD812629481F00F79036 /* CountersBoardNoContentViewDelegate.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		DE3EBACA25E048C200DA1E0D /* UIComponents */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,6 +229,8 @@
 		DECA25AA25CC8FD600851431 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				6324CD5C2629362400F79036 /* Coordinators */,
+				6324CD6F262946DD00F79036 /* CountersBoard */,
 				35868D2F25E0522E0028AF1D /* Extensions */,
 				35EAFB7425CC9E0800DCFE10 /* Services */,
 				DECA25AE25CC908800851431 /* AppDelegate */,
@@ -228,9 +278,10 @@
 			isa = PBXGroup;
 			children = (
 				350AF6E225E035750000F698 /* Views */,
-				35868D2725E03F090028AF1D /* WelcomeViewPresenter.swift */,
-				DECA256F25CC8D4200851431 /* WelcomeViewController.swift */,
 				350AF6D825E02D5E0000F698 /* WelcomeView.swift */,
+				DECA256F25CC8D4200851431 /* WelcomeViewController.swift */,
+				6324CD6A262938C400F79036 /* WelcomeViewDelegate.swift */,
+				35868D2725E03F090028AF1D /* WelcomeViewPresenter.swift */,
 			);
 			path = Welcome;
 			sourceTree = "<group>";
@@ -366,13 +417,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6324CD712629471400F79036 /* CountersBoardView.swift in Sources */,
 				35868D2825E03F090028AF1D /* WelcomeViewPresenter.swift in Sources */,
+				6324CD8A2629487100F79036 /* CountersBoardViewController.swift in Sources */,
+				6324CD7A2629479400F79036 /* CountersBoardNoContentView.swift in Sources */,
 				350AF6ED25E0365A0000F698 /* UIImage+Badge.swift in Sources */,
 				DECA257025CC8D4200851431 /* WelcomeViewController.swift in Sources */,
+				6324CD662629368B00F79036 /* MainCoordinator.swift in Sources */,
+				6324CD97262948EE00F79036 /* CountersBoardViewPresenter.swift in Sources */,
 				DECA256C25CC8D4200851431 /* AppDelegate.swift in Sources */,
 				DE3EBACC25E048CE00DA1E0D /* Button.swift in Sources */,
+				6324CD822629481F00F79036 /* CountersBoardNoContentViewDelegate.swift in Sources */,
+				6324CD5E2629364A00F79036 /* CoordinatorProtocol.swift in Sources */,
+				6324CD8F262948CE00F79036 /* CountersBoardViewDelegate.swift in Sources */,
 				35EAFB7925CC9E3B00DCFE10 /* Networking.m in Sources */,
 				350AF6D925E02D5E0000F698 /* WelcomeView.swift in Sources */,
+				6324CD6B262938C400F79036 /* WelcomeViewDelegate.swift in Sources */,
 				350AF6E425E035840000F698 /* WelcomeFeatureView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

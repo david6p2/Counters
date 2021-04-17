@@ -23,6 +23,8 @@ internal final class WelcomeView: UIView {
     private let stackView = UIStackView()
     private let button = Button()
 
+    weak var delegate: WelcomeViewDelegate?
+
     // MARK: - Initialization
     
     init() {
@@ -169,6 +171,6 @@ private extension WelcomeView {
 
 private extension WelcomeView {
     @objc func didPressContinue() {
-        
+        delegate?.onContinuePressed()
     }
 }

@@ -11,6 +11,7 @@ protocol WelcomeViewControllerPresenter {
 }
 
 class WelcomeViewController: UIViewController {
+    weak var coordinator: MainCoordinator?
     private lazy var innerView = WelcomeView()
     
     private let presenter: WelcomeViewControllerPresenter
@@ -31,13 +32,21 @@ class WelcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.isNavigationBarHidden = true
         additionalSafeAreaInsets = Constants.additionalInsets
         innerView.configure(with: presenter.viewModel)
+        innerView.delegate = self
     }
 }
 
 private extension WelcomeViewController {
     enum Constants {
         static let additionalInsets = UIEdgeInsets(top: 26, left: 39, bottom: 20, right: 39)
+    }
+}
+
+extension WelcomeViewController: WelcomeViewDelegate {
+    func onContinuePressed() {
+        coordinator?.showCountersBoard()
     }
 }
