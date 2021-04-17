@@ -11,7 +11,6 @@ protocol WelcomeViewControllerPresenter {
 }
 
 class WelcomeViewController: UIViewController {
-    
     weak var coordinator: MainCoordinator?
     private lazy var innerView = WelcomeView()
     
@@ -33,6 +32,7 @@ class WelcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.isNavigationBarHidden = true
         additionalSafeAreaInsets = Constants.additionalInsets
         innerView.configure(with: presenter.viewModel)
         innerView.delegate = self
@@ -47,6 +47,6 @@ private extension WelcomeViewController {
 
 extension WelcomeViewController: WelcomeViewDelegate {
     func onContinuePressed() {
-        print("continue")
+        coordinator?.showCountersBoard()
     }
 }

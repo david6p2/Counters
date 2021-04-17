@@ -18,7 +18,6 @@ class MainCoordinator: CoordinatorProtocol {
     }
 
     func start() {
-
         guard let navigationController = navigationController else {
             return
         }
@@ -26,7 +25,17 @@ class MainCoordinator: CoordinatorProtocol {
         let presenter = WelcomeViewPresenter()
         let vc = WelcomeViewController(presenter: presenter)
         vc.coordinator = self
-        navigationController.isNavigationBarHidden = false
         navigationController.pushViewController(vc, animated: false)
+    }
+
+    func showCountersBoard() {
+        guard let navigationController = navigationController else {
+            return
+        }
+
+        let presenter = CountersBoardViewPresenter()
+        let vc = CountersBoardViewController(presenter: presenter)
+        vc.coordinator = self
+        navigationController.pushViewController(vc, animated: true)
     }
 }

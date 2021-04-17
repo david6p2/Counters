@@ -13,4 +13,5 @@ protocol CoordinatorProtocol {
     init(navigationController: UINavigationController)
 
     func start()
+    func showCountersBoard()
 }
