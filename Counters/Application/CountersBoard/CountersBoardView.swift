@@ -123,3 +123,19 @@ extension CountersBoardView: CountersBoardNoContentViewDelegate {
         print("Button Pressed")
     }
 }
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+struct CountersDashboard_Preview: PreviewProvider {
+    static var previews: some View {
+        UIViewPreviewContainer { _ in
+            let view = CountersBoardView()
+            view.configure(with: CountersBoardViewPresenter.init().viewModel)
+            return view
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
+    }
+}
+#endif
