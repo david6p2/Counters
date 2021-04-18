@@ -19,7 +19,6 @@ internal final class CountersBoardView: UIView {
 
     // MARK: - Properties
 
-    private let stackView = UIStackView()
     private let noContentView = CountersBoardNoContentView()
     private let countersTableView = UITableView()
     private let additionToolBar = UIToolbar()
@@ -47,6 +46,7 @@ internal final class CountersBoardView: UIView {
         //super.title = viewModel.title
 
         // Navigation Items
+        // TODO: Take title from ViewModel
         editButton = UIBarButtonItem(
             title: "Edit",
             style: .plain,
@@ -62,15 +62,10 @@ internal final class CountersBoardView: UIView {
         
         delegate?.setupNavigationControllerWith(title: viewModel.title, editBarButton: editButton, toolbarItems: toolbarItems)
 
-        stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-
         // TODO: Check States
         // Setup No Content View
         noContentView.configure(with: viewModel.noCounters)
         noContentView.delegate = self
-        stackView.addArrangedSubview(noContentView)
-
-
     }
 
     @objc private func edit(sender: UIBarButtonItem) {
@@ -84,20 +79,12 @@ private extension CountersBoardView {
     enum Constants {
         static let spacing: CGFloat = 24
         static let buttonHeight: CGFloat = 57
-        static let stackViewTopMargin: CGFloat = 45
     }
 
     enum Font {
         static let kern: CGFloat = 0.34
         static let title = UIFont.systemFont(ofSize: 33, weight: .heavy)
         static let description = UIFont.systemFont(ofSize: 17, weight: .regular)
-    }
-
-    enum Shadow {
-        static let opacity: Float = 1
-        static let radius: CGFloat = 16
-        static let offset = CGSize(width: 0, height: 8)
-        static let color = UIColor(white: 0, alpha: 0.1).cgColor
     }
 }
 
@@ -106,36 +93,28 @@ private extension CountersBoardView {
 private extension CountersBoardView {
     func setup() {
         backgroundColor = .systemBackground
-        setupStackView()
         setupViewHierarchy()
         setupConstraints()
     }
 
-    func setupStackView() {
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = Constants.spacing
-        stackView.alignment = .top
-    }
-
     func setupViewHierarchy() {
-        addSubview(stackView)
+        addSubview(noContentView)
     }
 
     func setupConstraints() {
         let guide = safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             // stack view
-            stackView.topAnchor.constraint(
+            noContentView.topAnchor.constraint(
                 equalTo: guide.topAnchor
             ),
-            stackView.leadingAnchor.constraint(
+            noContentView.leadingAnchor.constraint(
                 equalTo: guide.leadingAnchor
             ),
-            stackView.trailingAnchor.constraint(
+            noContentView.trailingAnchor.constraint(
                 equalTo: guide.trailingAnchor
             ),
-            stackView.bottomAnchor.constraint(
+            noContentView.bottomAnchor.constraint(
                 equalTo: guide.bottomAnchor
             )
         ])

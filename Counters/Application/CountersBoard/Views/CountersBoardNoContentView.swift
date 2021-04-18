@@ -45,9 +45,7 @@ class CountersBoardNoContentView: UIView {
         subtitleLabel.attributedText = .init(string: viewModel.subtitle, attributes: [.kern: Font.kern])
         actionButton.setTitle(viewModel.buttonTitle, for: .normal)
         stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(subtitleLabel)
-        stackView.addArrangedSubview(actionButton)
+        stackView.addArrangedSubviews(titleLabel, subtitleLabel, actionButton)
     }
 }
 // MARK: - Constants
@@ -80,6 +78,9 @@ private extension CountersBoardNoContentView {
 
 private extension CountersBoardNoContentView {
     func setup() {
+        self.backgroundColor = .background
+        self.frame = self.bounds
+        self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         setupTitleLabel()
         setupSubtitleLabel()
         setupButton()
