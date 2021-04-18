@@ -150,3 +150,19 @@ private extension CountersBoardNoContentView {
         delegate?.noContentButtonsPressed()
     }
 }
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+struct CountersDashboardNoContent_Preview: PreviewProvider {
+    static var previews: some View {
+        UIViewPreviewContainer { _ in
+            let view = CountersBoardNoContentView()
+            view.configure(with: CountersBoardViewPresenter.init().viewModel.noCounters)
+            return view
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
+    }
+}
+#endif

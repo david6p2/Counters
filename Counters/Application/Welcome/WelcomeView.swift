@@ -174,3 +174,19 @@ private extension WelcomeView {
         delegate?.onContinuePressed()
     }
 }
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+struct Welcome_Preview: PreviewProvider {
+    static var previews: some View {
+        UIViewPreviewContainer { _ in
+            let view = WelcomeView()
+            view.configure(with: WelcomeViewPresenter.init().viewModel)
+            return view
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
+    }
+}
+#endif
