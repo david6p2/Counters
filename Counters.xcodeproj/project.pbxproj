@@ -126,14 +126,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		35868D2F25E0522E0028AF1D /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				350AF6EC25E0365A0000F698 /* UIImage+Badge.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
 		35EAFB7425CC9E0800DCFE10 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +178,7 @@
 			children = (
 				6324CDAE262A8EF700F79036 /* UIColor+Extension.swift */,
 				6324CDB6262A938E00F79036 /* UIView+Extension.swift */,
+				350AF6EC25E0365A0000F698 /* UIImage+Badge.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -241,7 +234,6 @@
 		DECA256A25CC8D4200851431 /* Counters */ = {
 			isa = PBXGroup;
 			children = (
-				DE3EBACA25E048C200DA1E0D /* UIComponents */,
 				DECA25AA25CC8FD600851431 /* Application */,
 				DECA25AC25CC900C00851431 /* Config */,
 				DECA25AB25CC900000851431 /* Resources */,
@@ -270,9 +262,9 @@
 		DECA25AA25CC8FD600851431 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				DE3EBACA25E048C200DA1E0D /* UIComponents */,
 				6324CD5C2629362400F79036 /* Coordinators */,
 				6324CD6F262946DD00F79036 /* CountersBoard */,
-				35868D2F25E0522E0028AF1D /* Extensions */,
 				35EAFB7425CC9E0800DCFE10 /* Services */,
 				DECA25AE25CC908800851431 /* AppDelegate */,
 				DECA25AD25CC906700851431 /* Launch */,
