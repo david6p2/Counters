@@ -43,8 +43,6 @@ internal final class CountersBoardView: UIView {
     // MARK: - Configuration
 
     func configure(with viewModel: ViewModel) {
-        //super.title = viewModel.title
-
         // Navigation Items
         // TODO: Take title from ViewModel
         editButton = UIBarButtonItem(
@@ -104,7 +102,6 @@ private extension CountersBoardView {
     func setupConstraints() {
         let guide = safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            // stack view
             noContentView.topAnchor.constraint(
                 equalTo: guide.topAnchor
             ),

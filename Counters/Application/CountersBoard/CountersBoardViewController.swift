@@ -35,7 +35,6 @@ class CountersBoardViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        additionalSafeAreaInsets = Constants.additionalInsets
         innerView.delegate = self
         innerView.configure(with: presenter.viewModel)
     }
@@ -58,12 +57,6 @@ class CountersBoardViewController: UIViewController {
     func setupToolbar(_ toolbarItems: [UIBarButtonItem]) {
         self.toolbarItems = toolbarItems
         navigationController?.setToolbarHidden(false, animated: false)
-    }
-}
-
-private extension CountersBoardViewController {
-    enum Constants {
-        static let additionalInsets = UIEdgeInsets(top: 26, left: 39, bottom: 20, right: 39)
     }
 }
 
