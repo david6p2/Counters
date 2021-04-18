@@ -80,7 +80,7 @@ private extension CountersBoardNoContentView {
     func setup() {
         self.backgroundColor = .background
         self.frame = self.bounds
-        self.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        self.translatesAutoresizingMaskIntoConstraints = false
         setupTitleLabel()
         setupSubtitleLabel()
         setupButton()
