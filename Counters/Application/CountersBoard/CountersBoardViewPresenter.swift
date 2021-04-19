@@ -19,6 +19,7 @@ extension CountersBoardViewPresenter: CountersBoardViewControllerPresenter {
     var viewModel:  CountersBoardView.ViewModel {
         return .init(titleString: "COUNTERSDASHBOARD_TITLE".localized(),
                      editString: "COUNTERSDASHBOARD_EDIT".localized(),
+                     searchPlaceholder: "COUNTERSDASHBOARD_SEARCHPLACEHOLDER".localized(),
                      noCounters: noCountersVM)
     }
 }
