@@ -16,6 +16,7 @@ class CountersBoardViewController: UIViewController {
     weak var coordinator: MainCoordinator?
     private lazy var innerView = CountersBoardView()
     private var editButton: UIBarButtonItem!
+    var searchController = UISearchController()
 
     private let presenter: CountersBoardViewPresenter
 
@@ -39,7 +40,7 @@ class CountersBoardViewController: UIViewController {
         innerView.configure(with: presenter.viewModel)
     }
 
-    func setupNavigationBarAndToolbar(_ title: String) {
+    func setupNavigationBar(_ title: String) {
         guard let navigationController = navigationController else {
             return
         }
@@ -49,9 +50,16 @@ class CountersBoardViewController: UIViewController {
         navigationController.navigationBar.prefersLargeTitles = true
     }
 
-    func setupNavigationBar(_ editBarButton: UIBarButtonItem) {
+    func setupNavigationBarEditButton(_ editBarButton: UIBarButtonItem) {
         editButton = editBarButton
         navigationItem.leftBarButtonItem = editBarButton
+    }
+
+    func setupSearchController(_ placeholder: String) {
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.placeholder = placeholder
+        searchController.obscuresBackgroundDuringPresentation = true
+        navigationItem.searchController = searchController
     }
 
     func setupToolbar(_ toolbarItems: [UIBarButtonItem]) {
@@ -61,10 +69,19 @@ class CountersBoardViewController: UIViewController {
 }
 
 extension CountersBoardViewController: CountersBoardViewDelegate {
-    func setupNavigationControllerWith(title: String, editBarButton: UIBarButtonItem, toolbarItems: [UIBarButtonItem]) {
-        setupNavigationBarAndToolbar(title)
-        setupNavigationBar(editBarButton)
+    func setupNavigationControllerWith(title: String, editBarButton: UIBarButtonItem, searchPlaceholder: String, toolbarItems: [UIBarButtonItem]) {
+        setupNavigationBar(title)
+        setupNavigationBarEditButton(editBarButton)
+        setupSearchController(searchPlaceholder)
         setupToolbar(toolbarItems)
     }
+}
+
+extension CountersBoardViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        print(searchController.searchBar.text ?? "No Value")
+    }
+
+
 }
 
