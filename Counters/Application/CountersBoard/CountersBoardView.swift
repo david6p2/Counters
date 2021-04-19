@@ -15,6 +15,7 @@ internal final class CountersBoardView: UIView {
     struct ViewModel {
         let titleString: String
         let editString: String
+        let searchPlaceholder: String
         let noCounters: CountersBoardNoContentView.ViewModel
     }
 
@@ -58,7 +59,7 @@ internal final class CountersBoardView: UIView {
         let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
         let toolbarItems = [spacer, add]
         
-        delegate?.setupNavigationControllerWith(title: viewModel.titleString, editBarButton: editButton, toolbarItems: toolbarItems)
+        delegate?.setupNavigationControllerWith(title: viewModel.titleString, editBarButton: editButton, searchPlaceholder: viewModel.searchPlaceholder, toolbarItems: toolbarItems)
 
         // TODO: Check States
         // Setup No Content View

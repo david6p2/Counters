@@ -9,5 +9,5 @@ import UIKit
 
 /// CountersDashboard actions
 protocol CountersBoardViewDelegate: class {
-    func setupNavigationControllerWith(title: String, editBarButton: UIBarButtonItem, toolbarItems: [UIBarButtonItem])
+    func setupNavigationControllerWith(title: String, editBarButton: UIBarButtonItem, searchPlaceholder: String, toolbarItems: [UIBarButtonItem])
 }
