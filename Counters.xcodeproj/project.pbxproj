@@ -26,6 +26,7 @@
 		6324CDBD262A956400F79036 /* UIViewControllerPreviewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6324CDBC262A956400F79036 /* UIViewControllerPreviewContainer.swift */; };
 		6324CDC5262A959B00F79036 /* UIViewPreviewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6324CDC4262A959B00F79036 /* UIViewPreviewContainer.swift */; };
 		6324CDCA262A9D3100F79036 /* CounterCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6324CDC9262A9D3100F79036 /* CounterCardView.swift */; };
+		638496D1262CF240002EB98F /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638496D0262CF240002EB98F /* String+Extension.swift */; };
 		63A5A9C6262AB3DF004E5A6D /* SF-Pro-Rounded-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 63A5A9C5262AB3DF004E5A6D /* SF-Pro-Rounded-Semibold.otf */; };
 		DE3EBACC25E048CE00DA1E0D /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3EBACB25E048CE00DA1E0D /* Button.swift */; };
 		DECA256C25CC8D4200851431 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECA256B25CC8D4200851431 /* AppDelegate.swift */; };
@@ -76,6 +77,7 @@
 		6324CDBC262A956400F79036 /* UIViewControllerPreviewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerPreviewContainer.swift; sourceTree = "<group>"; };
 		6324CDC4262A959B00F79036 /* UIViewPreviewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewPreviewContainer.swift; sourceTree = "<group>"; };
 		6324CDC9262A9D3100F79036 /* CounterCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterCardView.swift; sourceTree = "<group>"; };
+		638496D0262CF240002EB98F /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		63A5A9C5262AB3DF004E5A6D /* SF-Pro-Rounded-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Semibold.otf"; sourceTree = "<group>"; };
 		DE3EBACB25E048CE00DA1E0D /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		DECA256825CC8D4200851431 /* Counters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Counters.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -179,6 +181,7 @@
 				6324CDAE262A8EF700F79036 /* UIColor+Extension.swift */,
 				6324CDB6262A938E00F79036 /* UIView+Extension.swift */,
 				350AF6EC25E0365A0000F698 /* UIImage+Badge.swift */,
+				638496D0262CF240002EB98F /* String+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 				DECA256C25CC8D4200851431 /* AppDelegate.swift in Sources */,
 				DE3EBACC25E048CE00DA1E0D /* Button.swift in Sources */,
 				6324CDCA262A9D3100F79036 /* CounterCardView.swift in Sources */,
+				638496D1262CF240002EB98F /* String+Extension.swift in Sources */,
 				6324CDC5262A959B00F79036 /* UIViewPreviewContainer.swift in Sources */,
 				6324CDBD262A956400F79036 /* UIViewControllerPreviewContainer.swift in Sources */,
 				6324CD822629481F00F79036 /* CountersBoardNoContentViewDelegate.swift in Sources */,
