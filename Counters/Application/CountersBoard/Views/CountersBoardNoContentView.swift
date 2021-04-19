@@ -109,7 +109,6 @@ private extension CountersBoardNoContentView {
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         actionButton.addTarget(self, action: #selector(didPressActionButton), for: .touchUpInside)
 
-        actionButton.layer.cornerRadius = 8
         actionButton.clipsToBounds = false
         actionButton.layer.shadowRadius = Shadow.radius
         actionButton.layer.shadowColor = Shadow.color
