@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// ` UIColor` extension
 extension UIColor {
     static let accentColorDisable = UIColor.accentColor.withAlphaComponent(0.5)
     static let accentColor = UIColor(named: "AccentColor")!
