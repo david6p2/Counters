@@ -63,7 +63,7 @@ private extension Button {
                                          left: LayoutConstants.edgeInsets,
                                          bottom: LayoutConstants.edgeInsets,
                                          right: LayoutConstants.edgeInsets)
-        layer.cornerRadius = LayoutConstants.cornerRadius
+        self.cornerRadius(radius: LayoutConstants.cornerRadius)
         backgroundColor = .accentColor
         setTitleColor(UIColor.buttonText, for: .normal)
         titleLabel?.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: Font.title)
