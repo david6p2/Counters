@@ -13,6 +13,7 @@ public extension Collection where Element == UIView {
     }
 }
 
+/// ` UIView` extension
 public extension UIView {
     /// A convenience method that adds subviews, in the order they appear and sets them to use autolayout.
     ///
@@ -69,6 +70,11 @@ public extension UIView {
 }
 
 public extension UIView {
+
+    /// Round the corners of a `UIView` using a UIBezierPath
+    /// - Parameters:
+    ///   - corners: The corners of the rectange
+    ///   - radius: The radius you want to give to the corners
     func roundCorners(corners: UIRectCorner, radius: CGFloat) {
         let path = UIBezierPath(
             roundedRect: bounds,
@@ -81,6 +87,13 @@ public extension UIView {
         mask.path = path.cgPath
 
         layer.mask = mask
+    }
+
+    /// Add rounded corners by modifing the `cornerRadius` of the `layer`
+    /// - Parameter radius: The radius you want to give to the corners
+    func cornerRadius(radius: CGFloat = 10) {
+        layer.cornerRadius = radius
+        clipsToBounds = true
     }
 }
 
