@@ -13,7 +13,8 @@ internal final class CountersBoardView: UIView {
     // MARK: - View Model
 
     struct ViewModel {
-        let title: String
+        let titleString: String
+        let editString: String
         let noCounters: CountersBoardNoContentView.ViewModel
     }
 
@@ -44,9 +45,8 @@ internal final class CountersBoardView: UIView {
 
     func configure(with viewModel: ViewModel) {
         // Navigation Items
-        // TODO: Take title from ViewModel
         editButton = UIBarButtonItem(
-            title: "Edit",
+            title: viewModel.editString,
             style: .plain,
             target: self,
             action: #selector(self.edit(sender:))
@@ -58,7 +58,7 @@ internal final class CountersBoardView: UIView {
         let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
         let toolbarItems = [spacer, add]
         
-        delegate?.setupNavigationControllerWith(title: viewModel.title, editBarButton: editButton, toolbarItems: toolbarItems)
+        delegate?.setupNavigationControllerWith(title: viewModel.titleString, editBarButton: editButton, toolbarItems: toolbarItems)
 
         // TODO: Check States
         // Setup No Content View

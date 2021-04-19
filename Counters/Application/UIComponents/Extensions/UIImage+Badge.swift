@@ -6,6 +6,7 @@
 
 import UIKit
 
+/// `UIImage` extensions
 internal extension UIImage {
     private enum Constants {
         static let size = CGSize(width: 49, height: 49)

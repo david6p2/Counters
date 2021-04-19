@@ -23,6 +23,7 @@
 
 // MARK: - CountersDashboard
 "COUNTERSDASHBOARD_TITLE" = "Counters";
+"COUNTERSDASHBOARD_EDIT" = "Edit";
 
 "COUNTERSDASHBOARD_NO_CONTENT_TITLE" = "No counters yet";
 "COUNTERSDASHBOARD_NO_CONTENT_SUBTITLE" = "“When I started counting my blessings, my whole life turned around.” \n—Willie Nelson";
