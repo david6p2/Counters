@@ -41,8 +41,8 @@ class CountersBoardNoContentView: UIView {
     // MARK: - Configuration
 
     func configure(with viewModel: ViewModel) {
-        titleLabel.attributedText = .init(string: viewModel.title, attributes: [.kern: Font.kern])
-        subtitleLabel.attributedText = .init(string: viewModel.subtitle, attributes: [.kern: Font.kern])
+        titleLabel.attributedText = .init(string: viewModel.title, attributes: [.kern: Font.titleKern])
+        subtitleLabel.attributedText = .init(string: viewModel.subtitle, attributes: [.kern: Font.subtitleKern])
         actionButton.setTitle(viewModel.buttonTitle, for: .normal)
         stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         stackView.addArrangedSubviews(titleLabel, subtitleLabel, actionButton)
@@ -53,23 +53,19 @@ class CountersBoardNoContentView: UIView {
 private extension CountersBoardNoContentView {
     enum Constants {
         static let spacing: CGFloat = 20
-        static let imageWidth: CGFloat = 49
-        static let horizontalSpacing: CGFloat = 15
-        static let verticalSpacing: CGFloat = 7
-        static let stackViewTopMargin: CGFloat = 45
-        static let stackViewSideMargin: CGFloat = 20
     }
 
     enum Font {
-        static let kern: CGFloat = 0.34
-        static let title = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        static let titleKern: CGFloat = 0.44
+        static let subtitleKern: CGFloat = 0.34
+        static let title = UIFont.systemFont(ofSize: 22, weight: .semibold)
         static let subtitle = UIFont.systemFont(ofSize: 17, weight: .regular)
     }
 
     enum Shadow {
         static let opacity: Float = 1
-        static let radius: CGFloat = 16
-        static let offset = CGSize(width: 0, height: 8)
+        static let radius: CGFloat = 8
+        static let offset = CGSize(width: 0, height: 4)
         static let color = UIColor(white: 0, alpha: 0.1).cgColor
     }
 }
@@ -92,16 +88,18 @@ private extension CountersBoardNoContentView {
     func setupTitleLabel() {
         titleLabel.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: Font.title)
         titleLabel.numberOfLines = 0
-        titleLabel.textAlignment = .center
         titleLabel.lineBreakMode = .byCharWrapping
+        titleLabel.textAlignment = .center
+        titleLabel.textColor = .primaryText
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
     }
 
     func setupSubtitleLabel() {
         subtitleLabel.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: Font.subtitle)
         subtitleLabel.numberOfLines = 0
+        subtitleLabel.lineBreakMode = .byWordWrapping
         subtitleLabel.textAlignment = .center
-        subtitleLabel.textColor = UIColor(named: "DescriptionText")
+        subtitleLabel.textColor = .secondaryText
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
     }
 
