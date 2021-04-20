@@ -58,6 +58,7 @@ class CountersBoardViewController: UIViewController {
     func setupSearchController(_ placeholder: String) {
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = placeholder
+        searchController.searchBar.tintColor = .accentColor
         searchController.obscuresBackgroundDuringPresentation = true
         navigationItem.searchController = searchController
     }
