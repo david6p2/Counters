@@ -12,13 +12,29 @@ import UIKit
 internal final class CountersBoardView: UIView {
     // MARK: - View Model
 
-    struct ViewModel {
-        static var empty: ViewModel = .init(titleString: "", editString: "", searchPlaceholder: "", isLoading: false, noContent: .empty)
+    struct ParentViewModel {
+        static let defaultVM: ParentViewModel = .init(titleString: "COUNTERSDASHBOARD_TITLE".localized(),
+                                                            editString: "COUNTERSDASHBOARD_EDIT".localized(),
+                                                            searchPlaceholder: "COUNTERSDASHBOARD_SEARCHPLACEHOLDER".localized()
+        )
 
         let titleString: String
         let editString: String
         let searchPlaceholder: String
+    }
 
+    struct ViewModel {
+        static var empty: ViewModel = .init(
+            parentVM: .init(
+                titleString: "",
+                editString: "",
+                searchPlaceholder: ""
+            ),
+            isLoading: false,
+            noContent: .empty
+        )
+
+        let parentVM: ParentViewModel
         let isLoading: Bool
         let noContent: CountersBoardNoContentView.ViewModel
         //let countersList: [Celdas]
@@ -52,7 +68,7 @@ internal final class CountersBoardView: UIView {
     func configure(with viewModel: ViewModel) {
         // Navigation Items
         editButton = UIBarButtonItem(
-            title: viewModel.editString,
+            title: viewModel.parentVM.editString,
             style: .plain,
             target: self,
             action: #selector(self.edit(sender:))
@@ -64,7 +80,7 @@ internal final class CountersBoardView: UIView {
         let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
         let toolbarItems = [spacer, add]
         
-        delegate?.setupNavigationControllerWith(title: viewModel.titleString, editBarButton: editButton, searchPlaceholder: viewModel.searchPlaceholder, toolbarItems: toolbarItems)
+        delegate?.setupNavigationControllerWith(title: viewModel.parentVM.titleString, editBarButton: editButton, searchPlaceholder: viewModel.parentVM.searchPlaceholder, toolbarItems: toolbarItems)
 
         // TODO: Check States
         // Setup No Content View
@@ -138,19 +154,17 @@ struct CountersDashboard_Preview: PreviewProvider {
         UIViewPreviewContainer { _ in
             let view = CountersBoardView()
 
-            let noContentVM: CountersBoardNoContentView.ViewModel = .init(
-                title: "COUNTERSDASHBOARD_ERROR_TITLE".localized(),
-                subtitle: "COUNTERSDASHBOARD_ERROR_SUBTITLE".localized(),
-                buttonTitle: "COUNTERSDASHBOARD_ERROR_BUTTONTITLE".localized(),
-                isHidden: false
+            let noContentVM: CountersBoardNoContentView.ViewModel = .init(title: "COUNTERSDASHBOARD_ERROR_TITLE".localized(),
+                                                                          subtitle: "COUNTERSDASHBOARD_ERROR_SUBTITLE".localized(),
+                                                                          buttonTitle: "COUNTERSDASHBOARD_ERROR_BUTTONTITLE".localized(),
+                                                                          isHidden: false
             )
 
-            view.configure(with: .init(
-                            titleString: "Counters",
-                            editString: "Edit",
-                            searchPlaceholder: "Search",
-                            isLoading: false,
-                            noContent: noContentVM))
+            view.configure(with: .init(parentVM: CountersBoardView.ParentViewModel.defaultVM,
+                                       isLoading: false,
+                                       noContent: noContentVM)
+            )
+            
             return view
         }
         .padding()

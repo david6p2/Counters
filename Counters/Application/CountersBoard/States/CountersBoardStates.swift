@@ -20,38 +20,44 @@ protocol CountersBoardState { //El VM Usa esto comoo un state para delegarle al 
 
 class CountersBoardStateLoading: CountersBoardState {
     var viewModel: CountersBoardView.ViewModel {
-        return CountersBoardView.ViewModel(titleString: "Loading".localized(), editString: "COUNTERSDASHBOARD_EDIT".localized(), searchPlaceholder: "COUNTERSDASHBOARD_SEARCHPLACEHOLDER".localized(), isLoading: true, noContent: .empty)
+        let parentVM: CountersBoardView.ParentViewModel = .init(titleString: "Loading".localized(),
+                                                                editString: "COUNTERSDASHBOARD_EDIT".localized(),
+                                                                searchPlaceholder: "COUNTERSDASHBOARD_SEARCHPLACEHOLDER".localized()
+        )
+
+        return CountersBoardView.ViewModel(parentVM: parentVM,
+                                           isLoading: true,
+                                           noContent: .empty
+        )
     }
 }
 
 class CountersBoardStateNoContent: CountersBoardState {
     var viewModel: CountersBoardView.ViewModel {
-        return CountersBoardView.ViewModel(titleString: "COUNTERSDASHBOARD_TITLE".localized(),
-                                           editString: "COUNTERSDASHBOARD_EDIT".localized(),
-                                           searchPlaceholder: "COUNTERSDASHBOARD_SEARCHPLACEHOLDER".localized(),
+        let noContentVM: CountersBoardNoContentView.ViewModel = .init(title: "COUNTERSDASHBOARD_NO_CONTENT_TITLE".localized(),
+                                                                    subtitle: "COUNTERSDASHBOARD_NO_CONTENT_SUBTITLE".localized(),
+                                                                    buttonTitle: "COUNTERSDASHBOARD_NO_CONTENT_BUTTONTITLE".localized(),
+                                                                    isHidden: false
+        )
+
+        return CountersBoardView.ViewModel(parentVM: CountersBoardView.ParentViewModel.defaultVM,
                                            isLoading: false,
-                                           noContent: .init(
-                                            title: "COUNTERSDASHBOARD_NO_CONTENT_TITLE".localized(),
-                                            subtitle: "COUNTERSDASHBOARD_NO_CONTENT_SUBTITLE".localized(),
-                                            buttonTitle: "COUNTERSDASHBOARD_NO_CONTENT_BUTTONTITLE".localized(),
-                                            isHidden: false
-                                           )
+                                           noContent: noContentVM
         )
     }
 }
 
 class CountersBoardStateError: CountersBoardState {
     var viewModel: CountersBoardView.ViewModel {
-        return CountersBoardView.ViewModel(titleString: "COUNTERSDASHBOARD_TITLE".localized(),
-                                           editString: "COUNTERSDASHBOARD_EDIT".localized(),
-                                           searchPlaceholder: "COUNTERSDASHBOARD_SEARCHPLACEHOLDER".localized(),
+        let errorVM: CountersBoardNoContentView.ViewModel = .init( title: "COUNTERSDASHBOARD_ERROR_TITLE".localized(),
+                                                                     subtitle: "COUNTERSDASHBOARD_ERROR_SUBTITLE".localized(),
+                                                                     buttonTitle: "COUNTERSDASHBOARD_ERROR_BUTTONTITLE".localized(),
+                                                                     isHidden: false
+        )
+
+        return CountersBoardView.ViewModel(parentVM: CountersBoardView.ParentViewModel.defaultVM,
                                            isLoading: false,
-                                           noContent: .init(
-                                            title: "COUNTERSDASHBOARD_ERROR_TITLE".localized(),
-                                            subtitle: "COUNTERSDASHBOARD_ERROR_SUBTITLE".localized(),
-                                            buttonTitle: "COUNTERSDASHBOARD_ERROR_BUTTONTITLE".localized(),
-                                            isHidden: false
-                                           )
+                                           noContent: errorVM
         )
     }
 }
