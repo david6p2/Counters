@@ -11,7 +11,7 @@ import UIKit
 class CountersBoardNoContentView: UIView {
 
     // MARK: - View Model
-    /// The CountersBoardNoContentView
+    /// The CountersBoard No Content ViewModel
     struct ViewModel: Hashable {
         /// Title string for the No content view
         let title: String
@@ -52,6 +52,7 @@ class CountersBoardNoContentView: UIView {
         titleLabel.attributedText = .init(string: viewModel.title, attributes: [.kern: Font.titleKern])
         subtitleLabel.attributedText = .init(string: viewModel.subtitle, attributes: [.kern: Font.subtitleKern])
         actionButton.setTitle(viewModel.buttonTitle, for: .normal)
+        isHidden = viewModel.isHidden
         stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         stackView.addArrangedSubviews(titleLabel, subtitleLabel, actionButton)
     }
