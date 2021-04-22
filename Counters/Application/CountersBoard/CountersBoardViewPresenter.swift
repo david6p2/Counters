@@ -7,20 +7,38 @@
 
 import UIKit
 
-internal final class CountersBoardViewPresenter {
-    private let noCountersVM: CountersBoardNoContentView.ViewModel =
-        .init(
-            title: "COUNTERSDASHBOARD_NO_CONTENT_TITLE".localized(),
-            subtitle: "COUNTERSDASHBOARD_NO_CONTENT_SUBTITLE".localized(),
-            buttonTitle: "COUNTERSDASHBOARD_NO_CONTENT_BUTTONTITLE".localized())
+protocol CountersBoardPresenterProtocol {
+    //var viewModel: CountersBoardView.ViewModel { get }
+
+    func viewDidLoad()
+    
+    func handleMainActionCTA()
+    func handelCounterIncrease()
+    func handelCounterDecrease()
 }
 
-extension CountersBoardViewPresenter: CountersBoardViewControllerPresenter {
-    var viewModel:  CountersBoardView.ViewModel {
-        return .init(titleString: "COUNTERSDASHBOARD_TITLE".localized(),
-                     editString: "COUNTERSDASHBOARD_EDIT".localized(),
-                     searchPlaceholder: "COUNTERSDASHBOARD_SEARCHPLACEHOLDER".localized(),
-                     noCounters: noCountersVM)
+protocol CountersBoardViewProtocol: class {
+    func setup(viewModel: CountersBoardView.ViewModel)
+}
+
+internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol {
+    weak var view: CountersBoardViewProtocol?
+    var currentStateStrategy: CountersBoardState = CountersBoardStateNoContent()
+
+    func viewDidLoad() {
+        view?.setup(viewModel: currentStateStrategy.viewModel)
+    }
+
+    func handleMainActionCTA() {
+
+    }
+
+    func handelCounterIncrease() {
+
+    }
+
+    func handelCounterDecrease() {
+
     }
 }
 

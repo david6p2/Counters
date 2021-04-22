@@ -7,14 +7,22 @@
 
 import UIKit
 
+/// The view to show when there is no content to show or an error has ocurred in the Counters Board
 class CountersBoardNoContentView: UIView {
 
     // MARK: - View Model
-
+    /// The CountersBoardNoContentView
     struct ViewModel: Hashable {
+        /// Title string for the No content view
         let title: String
+        /// subtitle string for the No content view
         let subtitle: String
+        /// Button tsitle string for the No content view
         let buttonTitle: String
+        /// Tell if should be hidden
+        let isHidden: Bool
+
+        static var empty: ViewModel = .init(title: "", subtitle: "", buttonTitle: "", isHidden: true)
     }
 
     // MARK: - Properties
@@ -48,6 +56,7 @@ class CountersBoardNoContentView: UIView {
         stackView.addArrangedSubviews(titleLabel, subtitleLabel, actionButton)
     }
 }
+
 // MARK: - Constants
 
 private extension CountersBoardNoContentView {
@@ -155,7 +164,13 @@ struct CountersDashboardNoContent_Preview: PreviewProvider {
     static var previews: some View {
         UIViewPreviewContainer { _ in
             let view = CountersBoardNoContentView()
-            view.configure(with: CountersBoardViewPresenter.init().viewModel.noCounters)
+            let noContentVM: CountersBoardNoContentView.ViewModel = .init(
+                title: "COUNTERSDASHBOARD_NO_CONTENT_TITLE".localized(),
+                subtitle: "COUNTERSDASHBOARD_NO_CONTENT_SUBTITLE".localized(),
+                buttonTitle: "COUNTERSDASHBOARD_NO_CONTENT_BUTTONTITLE".localized(),
+                isHidden: false
+            )
+            view.configure(with: noContentVM)
             return view
         }
         .padding()

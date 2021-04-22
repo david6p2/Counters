@@ -7,6 +7,9 @@
 import UIKit
 
 internal final class WelcomeViewPresenter {
+
+    weak var view: WelcomeViewProtocol?
+
     private let features: [WelcomeFeatureView.ViewModel] = [
         .init(
             badge: UIImage.badge(sytemIcon: "42.circle.fill",
@@ -26,10 +29,18 @@ internal final class WelcomeViewPresenter {
             title: "WELCOME_COUNT_FEATURE_TITLE".localized(),
             subtitle: "WELCOME_COUNT_FEATURE_DESCRIPTION".localized()
         )]
+
+    func viewDidLoad() {
+        view?.setup(viewModel: viewModel)
+    }
+
+    func continuePressed() {
+        //view.presentCounterBoard()
+    }
 }
 
 extension WelcomeViewPresenter: WelcomeViewControllerPresenter {
-    var viewModel: WelcomeView.ViewModel {
+    private var viewModel: WelcomeView.ViewModel {
         
         let welcome = NSMutableAttributedString(string: "WELCOME_TITLE".localized())
         let range = (welcome.string as NSString).range(of: "APP_NAME".localized())
