@@ -7,20 +7,16 @@
 
 import UIKit
 
-protocol CountersBoardViewControllerPresenter {
-    var viewModel: CountersBoardView.ViewModel { get }
-}
-
 class CountersBoardViewController: UIViewController {
 
     weak var coordinator: MainCoordinator?
-    private lazy var innerView = CountersBoardView()
+    private lazy var innerView = CountersBoardView() // closures de interaccion
     private var editButton: UIBarButtonItem!
     var searchController = UISearchController()
 
-    private let presenter: CountersBoardViewPresenter
+    private let presenter: CountersBoardPresenterProtocol
 
-    init(presenter: CountersBoardViewPresenter) {
+    init(presenter: CountersBoardPresenterProtocol) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -37,7 +33,7 @@ class CountersBoardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         innerView.delegate = self
-        innerView.configure(with: presenter.viewModel)
+        presenter.viewDidLoad()
     }
 
     func setupNavigationBar(_ title: String) {
@@ -69,6 +65,14 @@ class CountersBoardViewController: UIViewController {
     }
 }
 
+extension CountersBoardViewController: CountersBoardViewProtocol {
+    func setup(viewModel: CountersBoardView.ViewModel) {
+        innerView.configure(with: viewModel)
+    }
+
+
+}
+
 extension CountersBoardViewController: CountersBoardViewDelegate {
     func setupNavigationControllerWith(title: String, editBarButton: UIBarButtonItem, searchPlaceholder: String, toolbarItems: [UIBarButtonItem]) {
         setupNavigationBar(title)
@@ -82,7 +86,5 @@ extension CountersBoardViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         print(searchController.searchBar.text ?? "No Value")
     }
-
-
 }
 

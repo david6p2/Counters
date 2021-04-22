@@ -24,6 +24,7 @@ class MainCoordinator: CoordinatorProtocol {
 
         let presenter = WelcomeViewPresenter()
         let vc = WelcomeViewController(presenter: presenter)
+        presenter.view = vc
         vc.coordinator = self
         navigationController.pushViewController(vc, animated: false)
     }
@@ -35,6 +36,7 @@ class MainCoordinator: CoordinatorProtocol {
 
         let presenter = CountersBoardViewPresenter()
         let vc = CountersBoardViewController(presenter: presenter)
+        presenter.view = vc
         vc.coordinator = self
         navigationController.pushViewController(vc, animated: true)
     }
