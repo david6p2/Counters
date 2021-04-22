@@ -43,6 +43,7 @@ internal final class CountersBoardView: UIView {
     // MARK: - Properties
 
     private let noContentView = CountersBoardNoContentView()
+    private let loadingView = CountersBoardLoadingView()
     private let countersTableView = UITableView()
     private let additionToolBar = UIToolbar()
     private let itemsCountedLabel = UILabel()
@@ -86,6 +87,9 @@ internal final class CountersBoardView: UIView {
         // Setup No Content View
         noContentView.configure(with: viewModel.noContent)
         noContentView.delegate = self
+
+        // Setup Loading View
+        loadingView.configure(with: viewModel.isLoading)
     }
 
     @objc private func edit(sender: UIBarButtonItem) {
@@ -119,6 +123,7 @@ private extension CountersBoardView {
 
     func setupViewHierarchy() {
         addSubview(noContentView)
+        addSubview(loadingView)
     }
 
     func setupConstraints() {
@@ -135,7 +140,21 @@ private extension CountersBoardView {
             ),
             noContentView.bottomAnchor.constraint(
                 equalTo: guide.bottomAnchor
+            ),
+
+            loadingView.topAnchor.constraint(
+                equalTo: guide.topAnchor
+            ),
+            loadingView.leadingAnchor.constraint(
+                equalTo: guide.leadingAnchor
+            ),
+            loadingView.trailingAnchor.constraint(
+                equalTo: guide.trailingAnchor
+            ),
+            loadingView.bottomAnchor.constraint(
+                equalTo: guide.bottomAnchor
             )
+
         ])
     }
 }
