@@ -13,10 +13,15 @@ internal final class CountersBoardView: UIView {
     // MARK: - View Model
 
     struct ViewModel {
+        static var empty: ViewModel = .init(titleString: "", editString: "", searchPlaceholder: "", isLoading: false, noContent: .empty)
+
         let titleString: String
         let editString: String
         let searchPlaceholder: String
-        let noCounters: CountersBoardNoContentView.ViewModel
+
+        let isLoading: Bool
+        let noContent: CountersBoardNoContentView.ViewModel
+        //let countersList: [Celdas]
     }
 
     // MARK: - Properties
@@ -63,7 +68,7 @@ internal final class CountersBoardView: UIView {
 
         // TODO: Check States
         // Setup No Content View
-        noContentView.configure(with: viewModel.noCounters)
+        noContentView.configure(with: viewModel.noContent)
         noContentView.delegate = self
     }
 
@@ -121,7 +126,7 @@ private extension CountersBoardView {
 
 extension CountersBoardView: CountersBoardNoContentViewDelegate {
     func noContentButtonsPressed() {
-        print("Button Pressed")
+        print("Button Pressed to notify presenter")
     }
 }
 
@@ -132,7 +137,20 @@ struct CountersDashboard_Preview: PreviewProvider {
     static var previews: some View {
         UIViewPreviewContainer { _ in
             let view = CountersBoardView()
-            view.configure(with: CountersBoardViewPresenter.init().viewModel)
+
+            let noContentVM: CountersBoardNoContentView.ViewModel = .init(
+                title: "COUNTERSDASHBOARD_ERROR_TITLE".localized(),
+                subtitle: "COUNTERSDASHBOARD_ERROR_SUBTITLE".localized(),
+                buttonTitle: "COUNTERSDASHBOARD_ERROR_BUTTONTITLE".localized(),
+                isHidden: false
+            )
+
+            view.configure(with: .init(
+                            titleString: "Counters",
+                            editString: "Edit",
+                            searchPlaceholder: "Search",
+                            isLoading: false,
+                            noContent: noContentVM))
             return view
         }
         .padding()

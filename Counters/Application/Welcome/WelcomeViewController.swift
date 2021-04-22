@@ -7,7 +7,11 @@
 import UIKit
 
 protocol WelcomeViewControllerPresenter {
-    var viewModel: WelcomeView.ViewModel { get }
+    func viewDidLoad()
+}
+
+protocol WelcomeViewProtocol: class {
+    func setup(viewModel: WelcomeView.ViewModel)
 }
 
 class WelcomeViewController: UIViewController {
@@ -34,9 +38,17 @@ class WelcomeViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         additionalSafeAreaInsets = Constants.additionalInsets
-        innerView.configure(with: presenter.viewModel)
+        presenter.viewDidLoad()
         innerView.delegate = self
     }
+}
+
+extension WelcomeViewController: WelcomeViewProtocol {
+    func setup(viewModel: WelcomeView.ViewModel) {
+        innerView.configure(with: viewModel)
+    }
+
+
 }
 
 private extension WelcomeViewController {

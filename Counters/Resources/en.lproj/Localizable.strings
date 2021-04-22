@@ -29,3 +29,7 @@
 "COUNTERSDASHBOARD_NO_CONTENT_TITLE" = "No counters yet";
 "COUNTERSDASHBOARD_NO_CONTENT_SUBTITLE" = "“When I started counting my blessings, my whole life turned around.” \n—Willie Nelson";
 "COUNTERSDASHBOARD_NO_CONTENT_BUTTONTITLE" = "Create a counter";
+
+"COUNTERSDASHBOARD_ERROR_TITLE" = "Couldn’t load the counters";
+"COUNTERSDASHBOARD_ERROR_SUBTITLE" = "The Internet connection appears to be offline.";
+"COUNTERSDASHBOARD_ERROR_BUTTONTITLE" = "Retry";
