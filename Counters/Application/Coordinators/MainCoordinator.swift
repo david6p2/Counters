@@ -26,6 +26,7 @@ class MainCoordinator: CoordinatorProtocol {
         let vc = WelcomeViewController(presenter: presenter)
         presenter.view = vc
         vc.coordinator = self
+        navigationController.isNavigationBarHidden = true
         navigationController.pushViewController(vc, animated: false)
     }
 
@@ -38,6 +39,7 @@ class MainCoordinator: CoordinatorProtocol {
         let vc = CountersBoardViewController(presenter: presenter)
         presenter.view = vc
         vc.coordinator = self
+        navigationController.isNavigationBarHidden = false
         navigationController.pushViewController(vc, animated: true)
     }
 }
