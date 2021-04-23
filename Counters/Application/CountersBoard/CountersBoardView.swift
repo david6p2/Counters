@@ -94,6 +94,7 @@ internal final class CountersBoardView: UIView {
 
         // Setup Loading View
         loadingView.configure(with: viewModel.isLoading)
+        loadingView.isHidden = !viewModel.isLoading
     }
 
     @objc private func edit(sender: UIBarButtonItem) {
