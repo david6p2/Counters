@@ -22,6 +22,7 @@ class CountersBoardStateLoading: CountersBoardState {
     var viewModel: CountersBoardView.ViewModel {
         let parentVM: CountersBoardView.ParentViewModel = .init(titleString: "Loading".localized(),
                                                                 editString: "COUNTERSDASHBOARD_EDIT".localized(),
+                                                                isEditEnabled: false,
                                                                 searchPlaceholder: "COUNTERSDASHBOARD_SEARCHPLACEHOLDER".localized()
         )
 

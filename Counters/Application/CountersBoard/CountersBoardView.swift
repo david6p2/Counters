@@ -15,11 +15,13 @@ internal final class CountersBoardView: UIView {
     struct ParentViewModel {
         static let defaultVM: ParentViewModel = .init(titleString: "COUNTERSDASHBOARD_TITLE".localized(),
                                                             editString: "COUNTERSDASHBOARD_EDIT".localized(),
+                                                            isEditEnabled: false,
                                                             searchPlaceholder: "COUNTERSDASHBOARD_SEARCHPLACEHOLDER".localized()
         )
 
         let titleString: String
         let editString: String
+        let isEditEnabled: Bool
         let searchPlaceholder: String
     }
 
@@ -28,6 +30,7 @@ internal final class CountersBoardView: UIView {
             parentVM: .init(
                 titleString: "",
                 editString: "",
+                isEditEnabled: false,
                 searchPlaceholder: ""
             ),
             isLoading: false,
@@ -75,6 +78,7 @@ internal final class CountersBoardView: UIView {
             action: #selector(self.edit(sender:))
         )
         editButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.orange], for: .normal)
+        editButton.isEnabled = viewModel.parentVM.isEditEnabled
 
         // Toolbar Items
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
