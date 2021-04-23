@@ -19,9 +19,12 @@ class WelcomeViewController: UIViewController {
     private lazy var innerView = WelcomeView()
     
     private let presenter: WelcomeViewControllerPresenter
+
+    let userDefaults: KeyValueStorageProtocol
     
-    init(presenter: WelcomeViewControllerPresenter) {
+    init(presenter: WelcomeViewControllerPresenter, userDefaults: KeyValueStorageProtocol = UserDefaults.standard) {
         self.presenter = presenter
+        self.userDefaults = userDefaults
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -58,7 +61,8 @@ private extension WelcomeViewController {
 
 extension WelcomeViewController: WelcomeViewDelegate {
     func onContinuePressed() {
-        // TODO: Set UserDefaults key to not show Welcome Card
+        let userDefaults: KeyValueStorageProtocol = UserDefaults.standard
+        userDefaults.set(true, forKey: OnboardingKey.welcomeWasShown.rawValue)
         coordinator?.showCountersBoard()
     }
 }
