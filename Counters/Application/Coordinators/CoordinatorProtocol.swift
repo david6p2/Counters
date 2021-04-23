@@ -9,8 +9,9 @@ import UIKit
 
 protocol CoordinatorProtocol {
     var childCoordinators: [CoordinatorProtocol] { get }
+    var userDefaults: KeyValueStorageProtocol { get }
 
-    init(navigationController: UINavigationController)
+    init(navigationController: UINavigationController, userDefaults: KeyValueStorageProtocol)
 
     func start()
     func showCountersBoard()

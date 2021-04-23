@@ -10,14 +10,24 @@ import UIKit
 class MainCoordinator: CoordinatorProtocol {
     var childCoordinators = [CoordinatorProtocol]()
     private var window = UIWindow(frame: UIScreen.main.bounds)
+    internal var userDefaults: KeyValueStorageProtocol
 
     weak var navigationController: UINavigationController?
 
-    required init(navigationController: UINavigationController) {
+    required init(navigationController: UINavigationController, userDefaults: KeyValueStorageProtocol) {
         self.navigationController = navigationController
+        self.userDefaults = userDefaults
     }
 
     func start() {
+        if userDefaults.bool(forKey: OnboardingKey.welcomeWasShown.rawValue) {
+            showCountersBoard()
+        } else {
+            showWelcome()
+        }
+    }
+
+    func showWelcome() {
         guard let navigationController = navigationController else {
             return
         }
