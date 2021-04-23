@@ -24,6 +24,7 @@ protocol CountersBoardViewProtocol: class {
 internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol {
     weak var view: CountersBoardViewProtocol?
     var currentStateStrategy: CountersBoardState = CountersBoardStateNoContent()
+
     func viewDidLoad() {
         view?.setup(viewModel: currentStateStrategy.viewModel)
     }
