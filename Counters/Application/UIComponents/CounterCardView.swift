@@ -72,18 +72,12 @@ class CounterCardView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with counter: Counter) {
-        self.counter.text = "\(counter.count)"
-        title.text = counter.name
+    func configure(with counter: CounterModelProtocol) {
+        self.counter.text = String(counter.count)
+        title.text = counter.title
     }
 
 
-}
-
-// Move to models folder
-struct Counter {
-    var count: Int
-    var name: String
 }
 
 // MARK: - Private definitions
@@ -105,21 +99,23 @@ private extension CounterCardView {
 import SwiftUI
 
 class ViewModel {
-    internal init(counter: Counter) {
+    internal init(counter: CounterModelProtocol) {
         self.counter = counter
     }
 
-    var counter: Counter
+    var counter: CounterModelProtocol
     @objc func valueChanged(sender: UIStepper) {
         self.counter.count = Int(sender.value)
     }
 }
 
 struct CounterCard_Preview: PreviewProvider {
-    static var viewModel = ViewModel(counter: .init(count: 0,
-                                                    name: "Title"))
-    static var viewModel2 = ViewModel(counter: .init(count: 10,
-                                                     name: "Title"))
+    static var viewModel = ViewModel(counter: CounterModel(id: "Title1",
+                                                           title: "Title",
+                                                           count: 0))
+    static var viewModel2 = ViewModel(counter: CounterModel(id: "Title2",
+                                                            title: "Title",
+                                                            count: 10))
     static var previews: some View {
         Group {
             UIViewPreviewContainer { _ in
