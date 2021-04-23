@@ -36,7 +36,6 @@ class WelcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = true
         additionalSafeAreaInsets = Constants.additionalInsets
         presenter.viewDidLoad()
         innerView.delegate = self
@@ -59,6 +58,7 @@ private extension WelcomeViewController {
 
 extension WelcomeViewController: WelcomeViewDelegate {
     func onContinuePressed() {
+        // TODO: Set UserDefaults key to not show Welcome Card
         coordinator?.showCountersBoard()
     }
 }

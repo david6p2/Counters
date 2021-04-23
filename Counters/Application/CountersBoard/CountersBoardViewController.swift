@@ -41,7 +41,6 @@ class CountersBoardViewController: UIViewController {
             return
         }
 
-        navigationController.isNavigationBarHidden = false
         self.title = title
         navigationController.navigationBar.prefersLargeTitles = true
     }
