@@ -22,7 +22,7 @@ internal final class CountersBoardView: UIView {
 
         let titleString: String
         let editString: String
-        let isEditEnabled: Bool
+        var isEditEnabled: Bool
         let searchPlaceholder: String
     }
 

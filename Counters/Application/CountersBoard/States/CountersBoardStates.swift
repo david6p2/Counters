@@ -76,7 +76,10 @@ class CountersBoardStateHasContent: CountersBoardState {
                                                                       isHidden: !counters.isEmpty
         )
 
-        return CountersBoardView.ViewModel(parentVM: CountersBoardView.ParentViewModel.defaultVM,
+        var parentVM = CountersBoardView.ParentViewModel.defaultVM
+        parentVM.isEditEnabled = noContentVM.isHidden
+
+        return CountersBoardView.ViewModel(parentVM: parentVM,
                                            isLoading: false,
                                            noContent: noContentVM,
                                            counters: counters
