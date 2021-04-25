@@ -23,7 +23,7 @@ protocol CountersBoardViewProtocol: class {
 
 internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol {
     weak var view: CountersBoardViewProtocol?
-    var currentStateStrategy: CountersBoardState = CountersBoardStateNoContent()
+    var currentStateStrategy: CountersBoardState = CountersBoardStateHasContent(CountersBoardTableView.ViewModel.mockCounters.counters)
 
     func viewDidLoad() {
         view?.setup(viewModel: currentStateStrategy.viewModel)

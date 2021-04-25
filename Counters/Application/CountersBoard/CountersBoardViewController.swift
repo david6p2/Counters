@@ -9,6 +9,8 @@ import UIKit
 
 class CountersBoardViewController: UIViewController {
 
+    // MARK: - Properties
+    
     weak var coordinator: MainCoordinator?
     private lazy var innerView = CountersBoardView() // closures de interaccion
     private var editButton: UIBarButtonItem!
@@ -16,6 +18,8 @@ class CountersBoardViewController: UIViewController {
 
     private let presenter: CountersBoardPresenterProtocol
 
+    // MARK: - Initialization
+    
     init(presenter: CountersBoardPresenterProtocol) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
@@ -26,6 +30,8 @@ class CountersBoardViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Lifecycle
+
     override func loadView() {
         view = innerView
     }
@@ -35,6 +41,8 @@ class CountersBoardViewController: UIViewController {
         innerView.delegate = self
         presenter.viewDidLoad()
     }
+
+    // MARK: - Configuration
 
     func setupNavigationBar(_ title: String) {
         guard let navigationController = navigationController else {
@@ -64,6 +72,8 @@ class CountersBoardViewController: UIViewController {
     }
 }
 
+// MARK: - View Protocol Implementation
+
 extension CountersBoardViewController: CountersBoardViewProtocol {
     func setup(viewModel: CountersBoardView.ViewModel) {
         innerView.configure(with: viewModel)
@@ -71,6 +81,8 @@ extension CountersBoardViewController: CountersBoardViewProtocol {
 
 
 }
+
+// MARK: - View Delegate Implementation
 
 extension CountersBoardViewController: CountersBoardViewDelegate {
     func setupNavigationControllerWith(title: String, editBarButton: UIBarButtonItem, searchPlaceholder: String, toolbarItems: [UIBarButtonItem]) {
@@ -80,6 +92,8 @@ extension CountersBoardViewController: CountersBoardViewDelegate {
         setupToolbar(toolbarItems)
     }
 }
+
+// MARK: - UISearchResultsUpdating Protocol Implementation
 
 extension CountersBoardViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
