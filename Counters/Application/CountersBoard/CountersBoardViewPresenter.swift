@@ -27,11 +27,17 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
 
     func viewDidLoad() {
         view?.setup(viewModel: currentStateStrategy.viewModel)
-        let client = NetworkingClient.init()
-        client.getCounters { (result) in
+
+        let countersRepository = CounterRepository()
+
+        countersRepository.getCounters { (result) in
             switch result {
             case .success(let counters):
                 print("The counters are: \(counters)")
+                guard let counters = counters else {
+                    print("The error in success is: there are no counters")
+                    return
+                }
                 let state = CountersBoardStateHasContent(counters)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.view?.setup(viewModel: state.viewModel)

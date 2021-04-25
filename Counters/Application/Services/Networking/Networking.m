@@ -1,9 +1,6 @@
 
 #import "Networking.h"
 
-// MARK: - Base URL
-NSString *const baseURL = @"http://127.0.0.1:3000";
-
 // MARK: - Error
 NSErrorDomain const CountersErrorDomain = @"counters.network.error.domain";
 
@@ -32,7 +29,11 @@ NSString * const JSONContentType = @"application/json";
                           parameters:(NSDictionary<NSString*, NSString*>* _Nullable)parameters
                    completionHandler:(JSONCompletionHandler)completion
 {
-    return [self dataRequestURL:url HTTPMethod:method parameters:parameters completionHandler:^(NSData *data, NSError *error) {
+    NSURLRequest * urlRequest = [self makeRequestWithURL:url
+                                              httpMethod:method
+                                              parameters:parameters];
+    
+    return [self dataRequestURL:urlRequest completionHandler:^(NSData * _Nullable data, NSError * _Nullable error) {
         if (error) {
             completion(nil, error);
             return;
@@ -46,23 +47,11 @@ NSString * const JSONContentType = @"application/json";
     }];
 }
 
-- (NSURLSessionTask *)dataRequestURL:(NSURL *)url
-                          HTTPMethod:(NSString *)method
-                          parameters:(NSDictionary<NSString*, NSString*>* _Nullable)parameters
+- (NSURLSessionTask *)dataRequestURL:(NSURLRequest *)urlRequest
                    completionHandler:(DataCompletionHandler)completion
 {
-    __auto_type *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    request.HTTPMethod = method;
-
-    if (parameters != nil) {
-        NSData *JSONData = [NSJSONSerialization dataWithJSONObject:parameters options:0 error:nil];
-        if (JSONData) {
-            request.HTTPBody = JSONData;
-            [request setValue:JSONContentType forHTTPHeaderField:ContentType];
-        }
-    }
-
-    return [self.client dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    return [self.client dataTaskWithRequest:urlRequest
+                          completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
             completion(data, error);
         } else if (!data) {
@@ -71,6 +60,30 @@ NSString * const JSONContentType = @"application/json";
             completion(data, nil);
         }
     }];
+}
+
+- (NSMutableURLRequest *)makeRequestWithURL:(NSURL *)url
+                                 httpMethod:(NSString *)method
+                                 parameters:(NSDictionary<NSString *, NSString *> * _Nullable)parameters
+{
+    // Set URL
+    __auto_type *request = [[NSMutableURLRequest alloc] initWithURL:url];
+
+    // Set HTTP Method
+    request.HTTPMethod = method;
+
+    // Set HTTP Body with Parameters if available
+    if (parameters != nil) {
+        NSData *JSONData = [NSJSONSerialization dataWithJSONObject:parameters options:0 error:nil];
+        if (JSONData) {
+            request.HTTPBody = JSONData;
+        }
+    }
+
+    // Set Header
+    [request setValue:JSONContentType forHTTPHeaderField:ContentType];
+
+    return request;
 }
 
 

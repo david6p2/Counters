@@ -3,10 +3,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// MARK: - Base URL
-
-extern NSString * const baseURL;
-
 // MARK: - Completion Handler
 typedef void (^JSONCompletionHandler) (id _Nullable object, NSError * _Nullable error);
 // MARK: - Handlers
@@ -26,10 +22,12 @@ typedef NS_ENUM(NSInteger, CountersErrorCode) {
                           parameters:(NSDictionary<NSString*, NSString*>* _Nullable)parameters
                    completionHandler:(JSONCompletionHandler)completion;
 
-- (NSURLSessionTask *)dataRequestURL:(NSURL *)url
-                          HTTPMethod:(NSString *)method
-                          parameters:(NSDictionary<NSString*, NSString*>* _Nullable)parameters
+- (NSURLSessionTask *)dataRequestURL:(NSURLRequest *)urlRequest
                    completionHandler:(DataCompletionHandler)completion;
+
+- (NSMutableURLRequest *)makeRequestWithURL:(NSURL *)url
+                                 httpMethod:(NSString *)method
+                                 parameters:(NSDictionary<NSString *, NSString *> * _Nullable)parameters;
 @end
 
 NS_ASSUME_NONNULL_END
