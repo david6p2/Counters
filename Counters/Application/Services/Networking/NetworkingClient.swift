@@ -7,36 +7,69 @@
 
 import Foundation
 
-struct NetworkingClient {
-    private var client = Networking()
+struct NetworkingClient: APIHandler {
+    
+    var client = Networking()
 
-    private func url(for path: String) -> URL {
-        URL(string: baseURL + path)!
+    let reachibility: Reachability = Reachability()!
+
+    func makeRequest(from route: Route) throws -> URLRequest {
+        guard let requestURL = URL(string: route.path) else {
+            throw NSError()
+        }
+
+        return client.makeRequest(with: requestURL, httpMethod: route.method.rawValue, parameters: route.parameters) as URLRequest
     }
 
-    func getCounters(completionHandler: @escaping (Result<[CounterModel], Error>) -> Void) {
-        client.dataRequest(url(for: "/api/v1/counters"),
-                           httpMethod: "GET",
-                           parameters: nil) { (data, error) in
-            if let error = error {
-                completionHandler(.failure(error))
-                return
-            }
-
-            if let data = data {
-                let response = Result {
-                    try JSONDecoder.init().decode([CounterModel].self, from: data)
-                }
-                completionHandler(response)
-            }
-        }.resume()
+    func parseResponse(data: Data) throws -> [CounterModelProtocol] {
+        return try defaultParseResponse(data: data)
     }
 }
 
-enum Route {
-    case getCounters
-    case createCounter(name: String)
-    case increaseCounter(id: String)
-    case decreaseCoounter(id: String)
-    case deleteCounter(id: String)
+class NetworkingClientLoader<T: APIHandler> {
+
+    let apiRequest: T
+
+    let reachibility: Reachability
+
+    init(apiRequest: T, reachibility: Reachability = Reachability()!) {
+        self.apiRequest = apiRequest
+        self.reachibility = reachibility
+    }
+
+    func loadAPIRequest(requestData: T.RequestDataType,
+                        completionHandler: @escaping (Result<T.ResponseDataType?, Error>) -> ()) {
+        // Check network status
+        if reachibility.connection == .none {
+            return completionHandler(.failure(NetworkError(message: "No Internet Connection")))
+        }
+
+        // Prepare url request
+        do {
+            let urlRequest = try apiRequest.makeRequest(from: requestData)
+
+            // Do Data task request
+            apiRequest.client.dataRequestURL(urlRequest) { (data, error) in
+                if let error = error {
+                    completionHandler(.failure(error))
+                    return
+                }
+
+                guard let data = data else {
+                    completionHandler(.failure(error ?? NSError()))
+                    return
+                }
+                // Parse response
+                do {
+                    let parsedResponse = try self.apiRequest.parseResponse(data: data)
+                    return completionHandler(.success(parsedResponse))
+                } catch {
+                    return completionHandler(.failure(error))
+                }
+            }.resume()
+        } catch {
+            completionHandler(.failure(error))
+            return
+        }
+    }
 }
