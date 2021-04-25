@@ -23,10 +23,23 @@ protocol CountersBoardViewProtocol: class {
 
 internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol {
     weak var view: CountersBoardViewProtocol?
-    var currentStateStrategy: CountersBoardState = CountersBoardStateHasContent(CountersBoardTableView.ViewModel.mockCounters.counters)
+    var currentStateStrategy: CountersBoardState = CountersBoardStateLoading()
 
     func viewDidLoad() {
         view?.setup(viewModel: currentStateStrategy.viewModel)
+        let client = NetworkingClient.init()
+        client.getCounters { (result) in
+            switch result {
+            case .success(let counters):
+                print("The counters are: \(counters)")
+                let state = CountersBoardStateHasContent(counters)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.view?.setup(viewModel: state.viewModel)
+                }
+            case .failure(let error):
+                print("The error is: \(error)")
+            }
+        }
     }
 
     func handleMainActionCTA() {
