@@ -29,10 +29,9 @@ class CountersBoardLoadingView: UIView {
     // MARK: - Configuration
 
     func configure(with isLoading: Bool) {
-        isHidden = isLoading
+        isHidden = !isLoading
         if isLoading {
             loaderIndicator.startAnimating()
-
         } else {
             loaderIndicator.stopAnimating()
         }

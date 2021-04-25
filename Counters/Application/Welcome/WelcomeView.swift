@@ -169,11 +169,15 @@ private extension WelcomeView {
     }
 }
 
+// MARK: - Actions
+
 private extension WelcomeView {
     @objc func didPressContinue() {
         delegate?.onContinuePressed()
     }
 }
+
+// MARK: - Preview
 
 #if canImport(SwiftUI) && DEBUG
 import SwiftUI
