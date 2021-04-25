@@ -15,3 +15,4 @@ struct CounterModel: CounterModelProtocol {
 }
 
 extension CounterModel: Decodable {}
+extension CounterModel: Hashable {}

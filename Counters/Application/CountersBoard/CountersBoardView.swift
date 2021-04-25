@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 internal final class CountersBoardView: UIView {
+
     // MARK: - View Model
 
     struct ParentViewModel {
@@ -34,25 +35,25 @@ internal final class CountersBoardView: UIView {
                 searchPlaceholder: ""
             ),
             isLoading: false,
-            noContent: .empty
+            noContent: .empty,
+            counters: CountersBoardTableView.ViewModel.empty.counters
         )
 
         let parentVM: ParentViewModel
         let isLoading: Bool
         let noContent: CountersBoardNoContentView.ViewModel
-        //let countersList: [Celdas]
+        let counters: [CounterModelProtocol]
     }
 
     // MARK: - Properties
 
     private let noContentView = CountersBoardNoContentView()
     private let loadingView = CountersBoardLoadingView()
-    private let countersTableView = UITableView()
-    private let additionToolBar = UIToolbar()
+    private let countersTableView = CountersBoardTableView()
     private let itemsCountedLabel = UILabel()
-
     private var editButton: UIBarButtonItem!
 
+    var dataSource: UITableViewDiffableDataSource<Section, CounterModel>!
     weak var delegate: CountersBoardViewDelegate?
 
     // MARK: - Initialization
@@ -81,13 +82,19 @@ internal final class CountersBoardView: UIView {
         editButton.isEnabled = viewModel.parentVM.isEditEnabled
 
         // Toolbar Items
-        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                     target: self,
+                                     action: nil
+        )
+        let add = UIBarButtonItem(barButtonSystemItem: .add,
+                                  target: self,
+                                  action: #selector(self.add(sender:))
+        )
         let toolbarItems = [spacer, add]
-        
+
+        // Call View Delegate to configure Navigation Items
         delegate?.setupNavigationControllerWith(title: viewModel.parentVM.titleString, editBarButton: editButton, searchPlaceholder: viewModel.parentVM.searchPlaceholder, toolbarItems: toolbarItems)
 
-        // TODO: Check States
         // Setup No Content View
         noContentView.configure(with: viewModel.noContent)
         noContentView.delegate = self
@@ -95,10 +102,22 @@ internal final class CountersBoardView: UIView {
         // Setup Loading View
         loadingView.configure(with: viewModel.isLoading)
         loadingView.isHidden = !viewModel.isLoading
+
+        // Setup Table View
+        countersTableView.configureDelegate = self
+        countersTableView.configure(with: viewModel.counters)
+    }
+}
+
+// MARK: - Actions
+
+private extension CountersBoardView {
+    @objc private func edit(sender: UIBarButtonItem) {
+        print("Edit button was pressed")
     }
 
-    @objc private func edit(sender: UIBarButtonItem) {
-
+    @objc private func add(sender: UIBarButtonItem) {
+        print("Add button was pressed")
     }
 }
 
@@ -122,6 +141,7 @@ private extension CountersBoardView {
 private extension CountersBoardView {
     func setup() {
         backgroundColor = .systemBackground
+        configureDataSource()
         setupViewHierarchy()
         setupConstraints()
     }
@@ -129,11 +149,13 @@ private extension CountersBoardView {
     func setupViewHierarchy() {
         addSubview(noContentView)
         addSubview(loadingView)
+        addSubview(countersTableView)
     }
 
     func setupConstraints() {
         let guide = safeAreaLayoutGuide
         NSLayoutConstraint.activate([
+            // noContentView
             noContentView.topAnchor.constraint(
                 equalTo: guide.topAnchor
             ),
@@ -147,6 +169,7 @@ private extension CountersBoardView {
                 equalTo: guide.bottomAnchor
             ),
 
+            // loadingView
             loadingView.topAnchor.constraint(
                 equalTo: guide.topAnchor
             ),
@@ -158,17 +181,75 @@ private extension CountersBoardView {
             ),
             loadingView.bottomAnchor.constraint(
                 equalTo: guide.bottomAnchor
+            ),
+
+            // countersTableView
+            guide.topAnchor.constraint(
+                equalTo: countersTableView.topAnchor
+            ),
+            countersTableView.leadingAnchor.constraint(
+                equalTo: guide.leadingAnchor
+            ),
+            countersTableView.trailingAnchor.constraint(
+                equalTo: guide.trailingAnchor
+            ),
+            countersTableView.bottomAnchor.constraint(
+                equalTo: guide.bottomAnchor
             )
 
         ])
     }
 }
 
+// MARK: - UITableViewDiffableDataSource
+extension CountersBoardView {
+
+    enum Section {
+        case main
+    }
+
+    func configureDataSource() {
+        dataSource = UITableViewDiffableDataSource<Section, CounterModel>(tableView: countersTableView,
+                                                                          cellProvider: { (tableView, indexPath, counter) -> UITableViewCell? in
+            let cell = tableView.dequeueReusableCell(withIdentifier: CountersBoardTableViewCell.reuseIdentifier,
+                                                     for: indexPath) as! CountersBoardTableViewCell
+            cell.configure(with: .init(counterModel: counter))
+            return cell
+        })
+    }
+
+    func updateData(on results: [CounterModel]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, CounterModel>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(results)
+        DispatchQueue.main.async {
+            self.dataSource.apply(snapshot, animatingDifferences: true)
+        }
+    }
+}
+
+// MARK: - CountersBoardNoContentViewDelegate
+
 extension CountersBoardView: CountersBoardNoContentViewDelegate {
     func noContentButtonsPressed() {
         print("Button Pressed to notify presenter")
     }
 }
+
+// MARK: - CountersBoardTableViewConfigureDelegate
+
+extension CountersBoardView: CountersBoardTableViewConfigureDelegate {
+    func isCallingConfigure(with counters: [CounterModelProtocol]) {
+        guard let counters = counters as? [CounterModel] else {
+            updateData(on: [])
+            return
+        }
+
+        updateData(on: counters)
+    }
+}
+
+// MARK: - Preview
 
 #if canImport(SwiftUI) && DEBUG
 import SwiftUI
@@ -186,7 +267,8 @@ struct CountersDashboard_Preview: PreviewProvider {
 
             view.configure(with: .init(parentVM: CountersBoardView.ParentViewModel.defaultVM,
                                        isLoading: false,
-                                       noContent: noContentVM)
+                                       noContent: noContentVM,
+                                       counters: CountersBoardTableView.ViewModel.empty.counters)
             )
             
             return view
