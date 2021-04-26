@@ -12,22 +12,20 @@ typedef void (^DataCompletionHandler) (NSData * _Nullable data, NSError * _Nulla
 extern NSErrorDomain const CountersErrorDomain;
 
 typedef NS_ENUM(NSInteger, CountersErrorCode) {
-    CountersErrorCodeNoData = -777
+    CountersErrorCodeNoData = -777,
+    CountersErrorCodeInvalidURL = -770
 };
 
 // MARK: - Networking
 @interface Networking : NSObject
-- (NSURLSessionTask *)jsonRequestURL:(NSURL *)url
-                          HTTPMethod:(NSString *)method
-                          parameters:(NSDictionary<NSString*, NSString*>* _Nullable)parameters
-                   completionHandler:(JSONCompletionHandler)completion;
-
 - (NSURLSessionTask *)dataRequestURL:(NSURLRequest *)urlRequest
                    completionHandler:(DataCompletionHandler)completion;
 
 - (NSMutableURLRequest *)makeRequestWithURL:(NSURL *)url
                                  httpMethod:(NSString *)method
                                  parameters:(NSDictionary<NSString *, NSString *> * _Nullable)parameters;
+
+- (NSError *)error:(CountersErrorCode)code;
 @end
 
 NS_ASSUME_NONNULL_END
