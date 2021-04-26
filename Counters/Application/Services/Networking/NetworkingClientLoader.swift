@@ -7,19 +7,19 @@
 
 import Foundation
 
-class NetworkingClientLoader<T: APIHandler> {
+class NetworkingClientLoader {
 
-    let apiRequest: T
+    let apiRequest: APIHandler
 
     let reachibility: Reachability
 
-    init(apiRequest: T, reachibility: Reachability = Reachability()!) {
+    init(apiRequest: APIHandler, reachibility: Reachability = Reachability()!) {
         self.apiRequest = apiRequest
         self.reachibility = reachibility
     }
 
-    func loadAPIRequest(requestData: T.RequestDataType,
-                        completionHandler: @escaping (Result<T.ResponseDataType?, Error>) -> ()) {
+    func loadAPIRequest(requestData: Route,
+                        completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> ()) {
         // Check network status
         if reachibility.connection == .none {
             return completionHandler(.failure(NetworkError(message: "No Internet Connection")))
