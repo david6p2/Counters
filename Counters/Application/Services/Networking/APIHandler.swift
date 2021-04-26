@@ -20,17 +20,13 @@ struct UnknownParseError: Error {
 // MARK: - APIHandler
 
 protocol  RequestHandler {
-    associatedtype RequestDataType
-
     var client: Networking { get }
 
-    func makeRequest(from data: RequestDataType) throws -> URLRequest
+    func makeRequest(from route: Route) throws -> URLRequest
 }
 
 protocol ResponseHandler {
-    associatedtype ResponseDataType
-
-    func parseResponse(data: Data) throws -> ResponseDataType
+    func parseResponse(data: Data) throws -> [CounterModelProtocol]
 }
 
 typealias APIHandler = RequestHandler & ResponseHandler
