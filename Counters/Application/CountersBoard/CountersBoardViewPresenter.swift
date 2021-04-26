@@ -28,7 +28,7 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
     func viewDidLoad() {
         view?.setup(viewModel: currentStateStrategy.viewModel)
 
-        let countersRepository = CounterRepository()
+        let countersRepository = CounterRepository(api: NetworkingClient())
 
         countersRepository.getCounters { [weak self] (result) in
             guard let self = self else { return }
