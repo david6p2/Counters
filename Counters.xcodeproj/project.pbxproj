@@ -43,6 +43,9 @@
 		638497A226363B4A002EB98F /* NetworkingClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638497A126363B4A002EB98F /* NetworkingClientTests.swift */; };
 		638497AA26366912002EB98F /* NetworkingClientLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638497A926366912002EB98F /* NetworkingClientLoader.swift */; };
 		638497B526367E3F002EB98F /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638497B426367E3F002EB98F /* Repository.swift */; };
+		638497BA263682A9002EB98F /* JSONLoaderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638497B9263682A9002EB98F /* JSONLoaderHelper.swift */; };
+		638497C126368771002EB98F /* CounterJSONExample.json in Resources */ = {isa = PBXBuildFile; fileRef = 638497BF26368770002EB98F /* CounterJSONExample.json */; };
+		638497C226368771002EB98F /* CountersJSONExample.json in Resources */ = {isa = PBXBuildFile; fileRef = 638497C026368770002EB98F /* CountersJSONExample.json */; };
 		63A5A9C6262AB3DF004E5A6D /* SF-Pro-Rounded-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 63A5A9C5262AB3DF004E5A6D /* SF-Pro-Rounded-Semibold.otf */; };
 		DE3EBACC25E048CE00DA1E0D /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3EBACB25E048CE00DA1E0D /* Button.swift */; };
 		DECA256C25CC8D4200851431 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECA256B25CC8D4200851431 /* AppDelegate.swift */; };
@@ -110,6 +113,9 @@
 		638497A126363B4A002EB98F /* NetworkingClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingClientTests.swift; sourceTree = "<group>"; };
 		638497A926366912002EB98F /* NetworkingClientLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingClientLoader.swift; sourceTree = "<group>"; };
 		638497B426367E3F002EB98F /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		638497B9263682A9002EB98F /* JSONLoaderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONLoaderHelper.swift; sourceTree = "<group>"; };
+		638497BF26368770002EB98F /* CounterJSONExample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CounterJSONExample.json; sourceTree = "<group>"; };
+		638497C026368770002EB98F /* CountersJSONExample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CountersJSONExample.json; sourceTree = "<group>"; };
 		63A5A9C5262AB3DF004E5A6D /* SF-Pro-Rounded-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Semibold.otf"; sourceTree = "<group>"; };
 		DE3EBACB25E048CE00DA1E0D /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		DECA256825CC8D4200851431 /* Counters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Counters.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -171,6 +177,7 @@
 		35EAFB7525CC9E1F00DCFE10 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				638497BE263686AE002EB98F /* JSON */,
 				6384978526361F57002EB98F /* Utils */,
 				6384979326363177002EB98F /* APIHandler.swift */,
 				35EAFB7725CC9E3B00DCFE10 /* Networking.h */,
@@ -293,6 +300,7 @@
 			isa = PBXGroup;
 			children = (
 				6384978626361F70002EB98F /* Reachability.swift */,
+				638497B9263682A9002EB98F /* JSONLoaderHelper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -319,6 +327,15 @@
 				638497A126363B4A002EB98F /* NetworkingClientTests.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		638497BE263686AE002EB98F /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				638497BF26368770002EB98F /* CounterJSONExample.json */,
+				638497C026368770002EB98F /* CountersJSONExample.json */,
+			);
+			path = JSON;
 			sourceTree = "<group>";
 		};
 		63A5A9C4262AB17D004E5A6D /* Fonts */ = {
@@ -555,10 +572,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				638497C126368771002EB98F /* CounterJSONExample.json in Resources */,
 				DECA257825CC8D4300851431 /* LaunchScreen.storyboard in Resources */,
 				DEED7FCE25CC975D00BA0CDB /* Localizable.strings in Resources */,
 				DECA257525CC8D4300851431 /* Assets.xcassets in Resources */,
 				63A5A9C6262AB3DF004E5A6D /* SF-Pro-Rounded-Semibold.otf in Resources */,
+				638497C226368771002EB98F /* CountersJSONExample.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -619,6 +638,7 @@
 				350AF6D925E02D5E0000F698 /* WelcomeView.swift in Sources */,
 				6324CD6B262938C400F79036 /* WelcomeViewDelegate.swift in Sources */,
 				6384978F26362C1F002EB98F /* CounterRepository.swift in Sources */,
+				638497BA263682A9002EB98F /* JSONLoaderHelper.swift in Sources */,
 				638497AA26366912002EB98F /* NetworkingClientLoader.swift in Sources */,
 				350AF6E425E035840000F698 /* WelcomeFeatureView.swift in Sources */,
 			);
