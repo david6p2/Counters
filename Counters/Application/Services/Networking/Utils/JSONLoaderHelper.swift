@@ -19,7 +19,7 @@ class JSONLoaderHelper {
     /// - Parameter fileName: the JSON filename to load
     /// - Throws: the NSError if it fails to load the JSON file
     /// - Returns: The Data of the loaded JSON file
-    public func loadJSON(fileName: String) throws ->  Data? {
+    public static func loadJSONToData(fileName: String) throws ->  Data? {
         guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
             throw NSError(domain: Constants.errorDomain.rawValue,
                     code: -1,
@@ -37,7 +37,7 @@ class JSONLoaderHelper {
     /// - Parameter fileName: the JSON filename to load
     /// - Throws: the NSError if it fails to load the JSON file
     /// - Returns: The Dictionary of the loaded JSON file
-    public func loadJSON(fileName: String) throws ->  [String: Any]? {
+    public static func loadJSONToDictionary(fileName: String) throws ->  [String: Any]? {
         guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
             throw NSError(domain: Constants.errorDomain.rawValue,
                           code: -1,
