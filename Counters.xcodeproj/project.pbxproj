@@ -41,6 +41,7 @@
 		6384978F26362C1F002EB98F /* CounterRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384978E26362C1F002EB98F /* CounterRepository.swift */; };
 		6384979426363177002EB98F /* APIHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384979326363177002EB98F /* APIHandler.swift */; };
 		638497A226363B4A002EB98F /* NetworkingClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638497A126363B4A002EB98F /* NetworkingClientTests.swift */; };
+		638497AA26366912002EB98F /* NetworkingClientLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638497A926366912002EB98F /* NetworkingClientLoader.swift */; };
 		63A5A9C6262AB3DF004E5A6D /* SF-Pro-Rounded-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 63A5A9C5262AB3DF004E5A6D /* SF-Pro-Rounded-Semibold.otf */; };
 		DE3EBACC25E048CE00DA1E0D /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3EBACB25E048CE00DA1E0D /* Button.swift */; };
 		DECA256C25CC8D4200851431 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECA256B25CC8D4200851431 /* AppDelegate.swift */; };
@@ -106,6 +107,7 @@
 		6384978E26362C1F002EB98F /* CounterRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterRepository.swift; sourceTree = "<group>"; };
 		6384979326363177002EB98F /* APIHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHandler.swift; sourceTree = "<group>"; };
 		638497A126363B4A002EB98F /* NetworkingClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingClientTests.swift; sourceTree = "<group>"; };
+		638497A926366912002EB98F /* NetworkingClientLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingClientLoader.swift; sourceTree = "<group>"; };
 		63A5A9C5262AB3DF004E5A6D /* SF-Pro-Rounded-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Semibold.otf"; sourceTree = "<group>"; };
 		DE3EBACB25E048CE00DA1E0D /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		DECA256825CC8D4200851431 /* Counters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Counters.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -169,10 +171,10 @@
 			children = (
 				6384978526361F57002EB98F /* Utils */,
 				6384979326363177002EB98F /* APIHandler.swift */,
-				6384978E26362C1F002EB98F /* CounterRepository.swift */,
 				35EAFB7725CC9E3B00DCFE10 /* Networking.h */,
 				35EAFB7825CC9E3B00DCFE10 /* Networking.m */,
 				6384977826353208002EB98F /* NetworkingClient.swift */,
+				638497A926366912002EB98F /* NetworkingClientLoader.swift */,
 				6384978026361D8B002EB98F /* Route.swift */,
 			);
 			path = Networking;
@@ -242,8 +244,9 @@
 			isa = PBXGroup;
 			children = (
 				6384974526329C13002EB98F /* KeyValueStorage */,
-				63849722263291BC002EB98F /* CounterModelProtocol.swift */,
 				63849738263296C4002EB98F /* CounterModel.swift */,
+				63849722263291BC002EB98F /* CounterModelProtocol.swift */,
+				6384978E26362C1F002EB98F /* CounterRepository.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -612,6 +615,7 @@
 				350AF6D925E02D5E0000F698 /* WelcomeView.swift in Sources */,
 				6324CD6B262938C400F79036 /* WelcomeViewDelegate.swift in Sources */,
 				6384978F26362C1F002EB98F /* CounterRepository.swift in Sources */,
+				638497AA26366912002EB98F /* NetworkingClientLoader.swift in Sources */,
 				350AF6E425E035840000F698 /* WelcomeFeatureView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

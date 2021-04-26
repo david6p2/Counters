@@ -30,17 +30,89 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
 
         let countersRepository = CounterRepository()
 
-        countersRepository.getCounters { (result) in
+        countersRepository.getCounters { [weak self] (result) in
+            guard let self = self else { return }
             switch result {
             case .success(let counters):
-                print("The counters are: \(counters)")
                 guard let counters = counters else {
                     print("The error in success is: there are no counters")
                     return
                 }
+                print("The counters are: \(counters)")
                 let state = CountersBoardStateHasContent(counters)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.view?.setup(viewModel: state.viewModel)
+
+//                    countersRepository.createCounter(name: "Test") { (result) in
+//                        switch result {
+//                        case .success(let counters):
+//                            print("The counters when Create are: \(counters)")
+//                            guard let counters = counters else {
+//                                print("The error in Create success is: there are no counters")
+//                                return
+//                            }
+//                            let state = CountersBoardStateHasContent(counters)
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                                self.view?.setup(viewModel: state.viewModel)
+//                            }
+//                        case .failure(let error):
+//                            print("The error is: \(error)")
+//                        }
+//                    }
+
+//                    countersRepository.increaseCounter(id: "kny33d74") { [weak self] (result) in
+//                        guard let self = self else { return }
+//                        switch result {
+//                        case .success(let counters):
+//                            guard let counters = counters else {
+//                                print("The error in Increase success is: there are no counters")
+//                                return
+//                            }
+//                            print("The counters when Increase are: \(counters)")
+//                            let state = CountersBoardStateHasContent(counters)
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                                self.view?.setup(viewModel: state.viewModel)
+//                            }
+//                        case .failure(let error):
+//                            print("The error is: \(error)")
+//                        }
+//                    }
+
+//                    countersRepository.decreaseCounter(id: "kny33d74") { [weak self] (result) in
+//                        guard let self = self else { return }
+//                        switch result {
+//                        case .success(let counters):
+//                            guard let counters = counters else {
+//                                print("The error in Decrease success is: there are no counters")
+//                                return
+//                            }
+//                            print("The counters when Decrease are: \(counters)")
+//                            let state = CountersBoardStateHasContent(counters)
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                                self.view?.setup(viewModel: state.viewModel)
+//                            }
+//                        case .failure(let error):
+//                            print("The error is: \(error)")
+//                        }
+//                    }
+
+//                    countersRepository.deleteCounter(id: "kny33d74") { [weak self] (result) in
+//                        guard let self = self else { return }
+//                        switch result {
+//                        case .success(let counters):
+//                            guard let counters = counters else {
+//                                print("The error in Delete success is: there are no counters")
+//                                return
+//                            }
+//                            print("The counters when Delete are: \(counters)")
+//                            let state = CountersBoardStateHasContent(counters)
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                                self.view?.setup(viewModel: state.viewModel)
+//                            }
+//                        case .failure(let error):
+//                            print("The error is: \(error)")
+//                        }
+//                    }
                 }
             case .failure(let error):
                 print("The error is: \(error)")
