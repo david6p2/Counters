@@ -24,29 +24,6 @@ NSString * const JSONContentType = @"application/json";
     return self;
 }
 
-- (NSURLSessionTask *)jsonRequestURL:(NSURL *)url
-                          HTTPMethod:(NSString *)method
-                          parameters:(NSDictionary<NSString*, NSString*>* _Nullable)parameters
-                   completionHandler:(JSONCompletionHandler)completion
-{
-    NSURLRequest * urlRequest = [self makeRequestWithURL:url
-                                              httpMethod:method
-                                              parameters:parameters];
-    
-    return [self dataRequestURL:urlRequest completionHandler:^(NSData * _Nullable data, NSError * _Nullable error) {
-        if (error) {
-            completion(nil, error);
-            return;
-        }
-        id object = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-        if (error) {
-            completion(nil, error);
-            return;
-        }
-        completion(object, nil);
-    }];
-}
-
 - (NSURLSessionTask *)dataRequestURL:(NSURLRequest *)urlRequest
                    completionHandler:(DataCompletionHandler)completion
 {

@@ -15,7 +15,7 @@ struct NetworkingClient: APIHandler {
 
     func makeRequest(from route: Route) throws -> URLRequest {
         guard let requestURL = URL(string: route.path) else {
-            throw NSError()
+            throw client.error(CountersErrorCode.invalidURL)
         }
 
         return client.makeRequest(with: requestURL, httpMethod: route.method.rawValue, parameters: route.parameters) as URLRequest
@@ -56,7 +56,10 @@ class NetworkingClientLoader<T: APIHandler> {
                 }
 
                 guard let data = data else {
-                    completionHandler(.failure(error ?? NSError()))
+                    completionHandler(.failure(NSError(domain: CountersErrorDomain,
+                                                       code: CountersErrorCode.noData.rawValue,
+                                                       userInfo: nil)
+                    ))
                     return
                 }
                 // Parse response
