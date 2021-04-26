@@ -7,13 +7,23 @@
 
 import Foundation
 
-class CounterRepository {
+class CounterRepository: Repository {
+
+    // MARK: - Properties
+
+    typealias Entity = CounterModelProtocol
+    
+    private let api: APIHandler
+
+    // MARK: - Initialization
+
+    init(api: APIHandler){
+        self.api = api
+    }
+
+    // MARK: - Public Methods
 
     func getCounters(completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> Void) {
-        // API
-        let api = NetworkingClient()
-
-        // API Loader
         let apiTaskLoader = NetworkingClientLoader(apiRequest: api)
 
         apiTaskLoader.loadAPIRequest(requestData: .getCounters) { (result) in
@@ -23,10 +33,6 @@ class CounterRepository {
 
     func createCounter(name: String,
                        completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> Void) {
-        // API
-        let api = NetworkingClient()
-
-        // API Loader
         let apiTaskLoader = NetworkingClientLoader(apiRequest: api)
 
         apiTaskLoader.loadAPIRequest(requestData: .createCounter(name: name)) { (result) in
@@ -36,10 +42,6 @@ class CounterRepository {
 
     func increaseCounter(id: String,
                        completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> Void) {
-        // API
-        let api = NetworkingClient()
-
-        // API Loader
         let apiTaskLoader = NetworkingClientLoader(apiRequest: api)
 
         apiTaskLoader.loadAPIRequest(requestData: .increaseCounter(id: id)) { (result) in
@@ -49,10 +51,6 @@ class CounterRepository {
 
     func decreaseCounter(id: String,
                          completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> Void) {
-        // API
-        let api = NetworkingClient()
-
-        // API Loader
         let apiTaskLoader = NetworkingClientLoader(apiRequest: api)
 
         apiTaskLoader.loadAPIRequest(requestData: .decreaseCounter(id: id)) { (result) in
@@ -62,10 +60,6 @@ class CounterRepository {
 
     func deleteCounter(id: String,
                          completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> Void) {
-        // API
-        let api = NetworkingClient()
-
-        // API Loader
         let apiTaskLoader = NetworkingClientLoader(apiRequest: api)
 
         apiTaskLoader.loadAPIRequest(requestData: .deleteCounter(id: id)) { (result) in
