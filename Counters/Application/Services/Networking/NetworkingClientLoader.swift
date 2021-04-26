@@ -7,7 +7,12 @@
 
 import Foundation
 
-class NetworkingClientLoader {
+protocol APILoader {
+    func loadAPIRequest(requestData: Route,
+                        completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> ())
+}
+
+class NetworkingClientLoader: APILoader {
 
     let apiRequest: APIHandler
 

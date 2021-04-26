@@ -47,13 +47,14 @@
 		638497C126368771002EB98F /* CounterJSONExample.json in Resources */ = {isa = PBXBuildFile; fileRef = 638497BF26368770002EB98F /* CounterJSONExample.json */; };
 		638497C226368771002EB98F /* CountersJSONExample.json in Resources */ = {isa = PBXBuildFile; fileRef = 638497C026368770002EB98F /* CountersJSONExample.json */; };
 		638497C8263689CD002EB98F /* CounterModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638497C7263689CC002EB98F /* CounterModelTests.swift */; };
+		638497D02636F9BB002EB98F /* NetworkingClientLoaderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638497CF2636F9BB002EB98F /* NetworkingClientLoaderMock.swift */; };
+		638497DB263714D4002EB98F /* CounterRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638497DA263714D4002EB98F /* CounterRepositoryTests.swift */; };
 		63A5A9C6262AB3DF004E5A6D /* SF-Pro-Rounded-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 63A5A9C5262AB3DF004E5A6D /* SF-Pro-Rounded-Semibold.otf */; };
 		DE3EBACC25E048CE00DA1E0D /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3EBACB25E048CE00DA1E0D /* Button.swift */; };
 		DECA256C25CC8D4200851431 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECA256B25CC8D4200851431 /* AppDelegate.swift */; };
 		DECA257025CC8D4200851431 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECA256F25CC8D4200851431 /* WelcomeViewController.swift */; };
 		DECA257525CC8D4300851431 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DECA257425CC8D4300851431 /* Assets.xcassets */; };
 		DECA257825CC8D4300851431 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DECA257625CC8D4300851431 /* LaunchScreen.storyboard */; };
-		DECA258325CC8D4300851431 /* CountersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECA258225CC8D4300851431 /* CountersTests.swift */; };
 		DECA258E25CC8D4300851431 /* CountersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECA258D25CC8D4300851431 /* CountersUITests.swift */; };
 		DEED7FCE25CC975D00BA0CDB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DEED7FD025CC975D00BA0CDB /* Localizable.strings */; };
 /* End PBXBuildFile section */
@@ -118,6 +119,8 @@
 		638497BF26368770002EB98F /* CounterJSONExample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CounterJSONExample.json; sourceTree = "<group>"; };
 		638497C026368770002EB98F /* CountersJSONExample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CountersJSONExample.json; sourceTree = "<group>"; };
 		638497C7263689CC002EB98F /* CounterModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterModelTests.swift; sourceTree = "<group>"; };
+		638497CF2636F9BB002EB98F /* NetworkingClientLoaderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingClientLoaderMock.swift; sourceTree = "<group>"; };
+		638497DA263714D4002EB98F /* CounterRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterRepositoryTests.swift; sourceTree = "<group>"; };
 		63A5A9C5262AB3DF004E5A6D /* SF-Pro-Rounded-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Semibold.otf"; sourceTree = "<group>"; };
 		DE3EBACB25E048CE00DA1E0D /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		DECA256825CC8D4200851431 /* Counters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Counters.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,7 +130,6 @@
 		DECA257725CC8D4300851431 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DECA257925CC8D4300851431 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DECA257E25CC8D4300851431 /* CountersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DECA258225CC8D4300851431 /* CountersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersTests.swift; sourceTree = "<group>"; };
 		DECA258425CC8D4300851431 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DECA258925CC8D4300851431 /* CountersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DECA258D25CC8D4300851431 /* CountersUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersUITests.swift; sourceTree = "<group>"; };
@@ -327,6 +329,7 @@
 		638497A0263639A4002EB98F /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				638497CF2636F9BB002EB98F /* NetworkingClientLoaderMock.swift */,
 				638497A126363B4A002EB98F /* NetworkingClientTests.swift */,
 			);
 			path = Networking;
@@ -345,6 +348,7 @@
 			isa = PBXGroup;
 			children = (
 				638497C7263689CC002EB98F /* CounterModelTests.swift */,
+				638497DA263714D4002EB98F /* CounterRepositoryTests.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -402,7 +406,6 @@
 			isa = PBXGroup;
 			children = (
 				6384979E26363991002EB98F /* Application */,
-				DECA258225CC8D4300851431 /* CountersTests.swift */,
 				DECA258425CC8D4300851431 /* Info.plist */,
 			);
 			path = CountersTests;
@@ -661,7 +664,8 @@
 			files = (
 				638497A226363B4A002EB98F /* NetworkingClientTests.swift in Sources */,
 				638497C8263689CD002EB98F /* CounterModelTests.swift in Sources */,
-				DECA258325CC8D4300851431 /* CountersTests.swift in Sources */,
+				638497DB263714D4002EB98F /* CounterRepositoryTests.swift in Sources */,
+				638497D02636F9BB002EB98F /* NetworkingClientLoaderMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
