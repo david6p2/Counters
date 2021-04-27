@@ -29,10 +29,14 @@ NSString * const JSONContentType = @"application/json";
 {
     return [self.client dataTaskWithRequest:urlRequest
                           completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
         if (error) {
             completion(data, error);
+        } else if (httpResponse.statusCode != 200) {
+            NSString * userInfoMessage = [NSString stringWithFormat:@"Server error (%ld)", (long)httpResponse.statusCode];
+            completion(nil, [self error: CountersErrorCodeServerInvalidStatusCode userInfo: @{@"message" : userInfoMessage}]);
         } else if (!data) {
-            completion(nil, [self error:CountersErrorCodeNoData]);
+            completion(nil, [self error: CountersErrorCodeNoData]);
         } else {
             completion(data, nil);
         }
@@ -64,11 +68,11 @@ NSString * const JSONContentType = @"application/json";
 }
 
 
-- (NSError *)error:(CountersErrorCode)code
+- (NSError *)error:(CountersErrorCode)code userInfo:(NSDictionary<NSErrorUserInfoKey, id> * _Nullable)dict
 {
     return [NSError errorWithDomain:CountersErrorDomain
                                code:code
-                           userInfo:nil];
+                           userInfo:dict];
 }
 
 @end

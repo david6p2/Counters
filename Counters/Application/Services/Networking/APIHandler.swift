@@ -39,9 +39,11 @@ extension ResponseHandler {
         let jsonDecoder = JSONDecoder()
         jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
 
-        if let body = try? jsonDecoder.decode([CounterModel].self, from: data) {
-            return body
-        } else {
+        do {
+            return try jsonDecoder.decode([CounterModel].self, from: data)
+        } catch let error as NSError {
+            throw error
+        } catch {
             throw UnknownParseError(message: "Error Parsing Data")
         }
     }

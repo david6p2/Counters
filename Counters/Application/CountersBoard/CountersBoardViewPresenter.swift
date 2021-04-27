@@ -110,6 +110,9 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                 }
             case .failure(let error):
                 print("The error is: \(error)")
+                if let error = error as? NSError, let message = error.userInfo["message"] {
+                    print(message)
+                }
             }
         }
     }
