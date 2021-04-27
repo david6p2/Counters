@@ -9,12 +9,19 @@ import UIKit
 
 class CounterCardView: UIView {
 
+    enum StepperChangeType {
+        case increase
+        case decrease
+    }
+
     // MARK: - Properties
 
     let separator = UIView(frame: .zero)
     let counter = UILabel()
     let title = UILabel()
     let stepper = UIStepper()
+
+    var valueDidChange: ((StepperChangeType) -> Void)?
 
     // MARK: - Initialization
 
@@ -34,6 +41,20 @@ class CounterCardView: UIView {
         self.counter.textColor =  counter.count ==  0 ? .background : .accentColor
         title.text = counter.title
         tintColor = .accentColor
+    }
+
+    // MARK: - Actions
+    
+    @objc func didPressStepper() {
+        switch stepper.value {
+        case 1:
+            valueDidChange?(.increase)
+        case -1:
+            valueDidChange?(.decrease)
+        default:
+            break
+        }
+        stepper.value = 0
     }
 }
 
@@ -90,6 +111,11 @@ private extension CounterCardView {
 
     func setupStepper() {
         stepper.translatesAutoresizingMaskIntoConstraints = false
+        stepper.autorepeat = false
+        stepper.maximumValue = 1
+        stepper.minimumValue = -1
+        stepper.value = 0
+        stepper.addTarget(self, action: #selector(self.didPressStepper), for: .valueChanged)
     }
 
     func setupHierarchy() {

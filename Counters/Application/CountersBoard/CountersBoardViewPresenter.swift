@@ -13,8 +13,8 @@ protocol CountersBoardPresenterProtocol {
     func viewDidLoad()
     
     func handleMainActionCTA()
-    func handelCounterIncrease()
-    func handelCounterDecrease()
+    func handelCounterIncrease(counterId: String)
+    func handelCounterDecrease(counterId: String)
 }
 
 protocol CountersBoardViewProtocol: class {
@@ -22,14 +22,15 @@ protocol CountersBoardViewProtocol: class {
 }
 
 internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol {
+
     weak var view: CountersBoardViewProtocol?
     var currentStateStrategy: CountersBoardState = CountersBoardStateLoading()
 
+    let api = NetworkingClient()
+    lazy var countersRepository = CounterRepository(apiTaskLoader: NetworkingClientLoader(apiRequest:api))
+
     func viewDidLoad() {
         view?.setup(viewModel: currentStateStrategy.viewModel)
-
-        let api = NetworkingClient()
-        let countersRepository = CounterRepository(apiTaskLoader: NetworkingClientLoader(apiRequest:api))
 
         countersRepository.getCounters { [weak self] (result) in
             guard let self = self else { return }
@@ -61,41 +62,9 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
 //                        }
 //                    }
 
-//                    countersRepository.increaseCounter(id: "kny33d74") { [weak self] (result) in
-//                        guard let self = self else { return }
-//                        switch result {
-//                        case .success(let counters):
-//                            guard let counters = counters else {
-//                                print("The error in Increase success is: there are no counters")
-//                                return
-//                            }
-//                            print("The counters when Increase are: \(counters)")
-//                            let state = CountersBoardStateHasContent(counters)
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                                self.view?.setup(viewModel: state.viewModel)
-//                            }
-//                        case .failure(let error):
-//                            print("The error is: \(error)")
-//                        }
-//                    }
 
-//                    countersRepository.decreaseCounter(id: "kny33d74") { [weak self] (result) in
-//                        guard let self = self else { return }
-//                        switch result {
-//                        case .success(let counters):
-//                            guard let counters = counters else {
-//                                print("The error in Decrease success is: there are no counters")
-//                                return
-//                            }
-//                            print("The counters when Decrease are: \(counters)")
-//                            let state = CountersBoardStateHasContent(counters)
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                                self.view?.setup(viewModel: state.viewModel)
-//                            }
-//                        case .failure(let error):
-//                            print("The error is: \(error)")
-//                        }
-//                    }
+
+//
 
 //                    countersRepository.deleteCounter(id: "kny33d74") { [weak self] (result) in
 //                        guard let self = self else { return }
@@ -125,12 +94,44 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
 
     }
 
-    func handelCounterIncrease() {
-
+    func handelCounterIncrease(counterId: String) {
+        countersRepository.increaseCounter(id: counterId) { [weak self] (result) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let counters):
+                guard let counters = counters else {
+                    print("The error in Increase success is: there are no counters")
+                    return
+                }
+                print("The counters when Increase are: \(counters)")
+                let state = CountersBoardStateHasContent(counters)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.view?.setup(viewModel: state.viewModel)
+                }
+            case .failure(let error):
+                print("The error is: \(error)")
+            }
+        }
     }
 
-    func handelCounterDecrease() {
-
+    func handelCounterDecrease(counterId: String) {
+        countersRepository.decreaseCounter(id: counterId) { [weak self] (result) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let counters):
+                guard let counters = counters else {
+                    print("The error in Decrease success is: there are no counters")
+                    return
+                }
+                print("The counters when Decrease are: \(counters)")
+                let state = CountersBoardStateHasContent(counters)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.view?.setup(viewModel: state.viewModel)
+                }
+            case .failure(let error):
+                print("The error is: \(error)")
+            }
+        }
     }
 }
 
