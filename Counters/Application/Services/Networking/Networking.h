@@ -26,7 +26,8 @@ typedef NS_ENUM(NSInteger, CountersErrorCode) {
                                  httpMethod:(NSString *)method
                                  parameters:(NSDictionary<NSString *, NSString *> * _Nullable)parameters;
 
-- (NSError *)error:(CountersErrorCode)code;
+- (NSError *)error:(CountersErrorCode)code
+          userInfo:(NSDictionary<NSErrorUserInfoKey, id> * _Nullable)dict;
 @end
 
 NS_ASSUME_NONNULL_END
