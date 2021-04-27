@@ -78,6 +78,10 @@ extension CountersBoardViewController: CountersBoardViewProtocol {
     func setup(viewModel: CountersBoardView.ViewModel) {
         innerView.configure(with: viewModel)
     }
+
+    func presentAddNewCounter() {
+        coordinator?.showAddCounterView()
+    }
 }
 
 // MARK: - View Delegate Implementation
