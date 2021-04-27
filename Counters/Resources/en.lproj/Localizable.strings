@@ -33,3 +33,9 @@
 "COUNTERSDASHBOARD_ERROR_TITLE" = "Couldn’t load the counters";
 "COUNTERSDASHBOARD_ERROR_SUBTITLE" = "The Internet connection appears to be offline.";
 "COUNTERSDASHBOARD_ERROR_BUTTONTITLE" = "Retry";
+
+// MARK: - AddCounter
+"ADDCOUNTER_TITLE" = "Create a counter";
+"ADDCOUNTER_EXAMPLES_LINK_WORD" = "examples";
+"ADDCOUNTER_EXAMPLE" = "Give it a name. Creative block? See examples.";
+"ADDCOUNTER_SEARCHPLACEHOLDER" = "Cups of coffee";

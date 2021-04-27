@@ -49,6 +49,9 @@
 		638497C8263689CD002EB98F /* CounterModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638497C7263689CC002EB98F /* CounterModelTests.swift */; };
 		638497D02636F9BB002EB98F /* NetworkingClientLoaderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638497CF2636F9BB002EB98F /* NetworkingClientLoaderMock.swift */; };
 		638497DB263714D4002EB98F /* CounterRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638497DA263714D4002EB98F /* CounterRepositoryTests.swift */; };
+		638497F12637D10C002EB98F /* AddCounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638497EF2637D10A002EB98F /* AddCounterViewController.swift */; };
+		638497F22637D10C002EB98F /* AddCounterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638497F02637D10A002EB98F /* AddCounterViewController.xib */; };
+		638497F72637DCEC002EB98F /* AddCounterViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638497F62637DCEC002EB98F /* AddCounterViewPresenter.swift */; };
 		63A5A9C6262AB3DF004E5A6D /* SF-Pro-Rounded-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 63A5A9C5262AB3DF004E5A6D /* SF-Pro-Rounded-Semibold.otf */; };
 		DE3EBACC25E048CE00DA1E0D /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3EBACB25E048CE00DA1E0D /* Button.swift */; };
 		DECA256C25CC8D4200851431 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECA256B25CC8D4200851431 /* AppDelegate.swift */; };
@@ -121,6 +124,9 @@
 		638497C7263689CC002EB98F /* CounterModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterModelTests.swift; sourceTree = "<group>"; };
 		638497CF2636F9BB002EB98F /* NetworkingClientLoaderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingClientLoaderMock.swift; sourceTree = "<group>"; };
 		638497DA263714D4002EB98F /* CounterRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterRepositoryTests.swift; sourceTree = "<group>"; };
+		638497EF2637D10A002EB98F /* AddCounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCounterViewController.swift; sourceTree = "<group>"; };
+		638497F02637D10A002EB98F /* AddCounterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddCounterViewController.xib; sourceTree = "<group>"; };
+		638497F62637DCEC002EB98F /* AddCounterViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCounterViewPresenter.swift; sourceTree = "<group>"; };
 		63A5A9C5262AB3DF004E5A6D /* SF-Pro-Rounded-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Semibold.otf"; sourceTree = "<group>"; };
 		DE3EBACB25E048CE00DA1E0D /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		DECA256825CC8D4200851431 /* Counters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Counters.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -353,6 +359,16 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		638497EE2637D036002EB98F /* AddCounter */ = {
+			isa = PBXGroup;
+			children = (
+				638497EF2637D10A002EB98F /* AddCounterViewController.swift */,
+				638497F02637D10A002EB98F /* AddCounterViewController.xib */,
+				638497F62637DCEC002EB98F /* AddCounterViewPresenter.swift */,
+			);
+			path = AddCounter;
+			sourceTree = "<group>";
+		};
 		63A5A9C4262AB17D004E5A6D /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -423,6 +439,7 @@
 		DECA25AA25CC8FD600851431 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				638497EE2637D036002EB98F /* AddCounter */,
 				638497212632917F002EB98F /* Model */,
 				DE3EBACA25E048C200DA1E0D /* UIComponents */,
 				6324CD5C2629362400F79036 /* Coordinators */,
@@ -587,6 +604,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				638497C126368771002EB98F /* CounterJSONExample.json in Resources */,
+				638497F22637D10C002EB98F /* AddCounterViewController.xib in Resources */,
 				DECA257825CC8D4300851431 /* LaunchScreen.storyboard in Resources */,
 				DEED7FCE25CC975D00BA0CDB /* Localizable.strings in Resources */,
 				DECA257525CC8D4300851431 /* Assets.xcassets in Resources */,
@@ -629,10 +647,12 @@
 				6384974726329CEB002EB98F /* KeyValueStorageProtocol.swift in Sources */,
 				638497B526367E3F002EB98F /* Repository.swift in Sources */,
 				6384976926339E1A002EB98F /* CountersBoardTableViewCell.swift in Sources */,
+				638497F72637DCEC002EB98F /* AddCounterViewPresenter.swift in Sources */,
 				638497712634F1D5002EB98F /* CountersBoardTableViewConfigureDelegate.swift in Sources */,
 				6324CD97262948EE00F79036 /* CountersBoardViewPresenter.swift in Sources */,
 				DECA256C25CC8D4200851431 /* AppDelegate.swift in Sources */,
 				6384979426363177002EB98F /* APIHandler.swift in Sources */,
+				638497F12637D10C002EB98F /* AddCounterViewController.swift in Sources */,
 				DE3EBACC25E048CE00DA1E0D /* Button.swift in Sources */,
 				6324CDCA262A9D3100F79036 /* CounterCardView.swift in Sources */,
 				638496D1262CF240002EB98F /* String+Extension.swift in Sources */,

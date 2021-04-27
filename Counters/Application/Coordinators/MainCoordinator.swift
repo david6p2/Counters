@@ -52,4 +52,17 @@ class MainCoordinator: CoordinatorProtocol {
         navigationController.isNavigationBarHidden = false
         navigationController.pushViewController(vc, animated: true)
     }
+
+    func showAddCounterView() {
+        guard let navigationController = navigationController else {
+            return
+        }
+
+        let presenter = AddCounterViewPresenter()
+        let vc = AddCounterViewController(presenter: presenter)
+        presenter.view = vc
+        vc.coordinator = self
+        navigationController.isNavigationBarHidden = false
+        navigationController.pushViewController(vc, animated: true)
+    }
 }
