@@ -85,6 +85,15 @@ extension CountersBoardViewController: CountersBoardViewProtocol {
 // MARK: - View Delegate Implementation
 
 extension CountersBoardViewController: CountersBoardViewDelegate {
+    func cellStepperDidChangeValue(_ counterID: String, stepperChangeType: CounterCardView.StepperChangeType) {
+        switch stepperChangeType {
+        case .increase:
+            presenter.handelCounterIncrease(counterId: counterID)
+        case .decrease:
+            presenter.handelCounterDecrease(counterId: counterID)
+        }
+    }
+
     func setupNavigationControllerWith(title: String, editBarButton: UIBarButtonItem, searchPlaceholder: String, toolbarItems: [UIBarButtonItem]) {
         setupNavigationBar(title)
         setupNavigationBarEditButton(editBarButton)

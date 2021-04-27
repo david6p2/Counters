@@ -209,13 +209,20 @@ extension CountersBoardView {
     }
 
     func configureDataSource() {
-        dataSource = UITableViewDiffableDataSource<Section, CounterModel>(tableView: countersTableView,
-                                                                          cellProvider: { (tableView, indexPath, counter) -> UITableViewCell? in
-            let cell = tableView.dequeueReusableCell(withIdentifier: CountersBoardTableViewCell.reuseIdentifier,
-                                                     for: indexPath) as! CountersBoardTableViewCell
-            cell.configure(with: .init(counterModel: counter))
-            return cell
-        })
+        dataSource = UITableViewDiffableDataSource<Section, CounterModel>(
+            tableView: countersTableView,
+            cellProvider: { (tableView, indexPath, counter) -> UITableViewCell? in
+                let cell = tableView.dequeueReusableCell(withIdentifier: CountersBoardTableViewCell.reuseIdentifier,
+                                                         for: indexPath) as! CountersBoardTableViewCell
+                cell.configure(with: .init(counterModel: counter))
+                cell.counterCardView.valueDidChange = { [weak self, counter] stepType in
+                    self?.delegate?.cellStepperDidChangeValue(counter.id,
+                                                             stepperChangeType: stepType)
+                }
+
+                return cell
+            }
+        )
     }
 
     func updateData(on results: [CounterModel]) {
