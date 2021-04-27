@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddCounterViewController" customModule="Counters" customModuleProvider="target">
+            <connections>
+                <outlet property="activityIndicator" destination="Wpl-rY-uSJ" id="J6k-nn-P3s"/>
+                <outlet property="examplesLabel" destination="M7R-7M-H0z" id="Nbj-CU-0hL"/>
+                <outlet property="nameTextField" destination="rac-RY-Znf" id="ZVZ-qB-6J7"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rac-RY-Znf">
+                    <rect key="frame" x="12" y="69" width="390" height="55"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="55" id="YK7-Ik-eYb"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M7R-7M-H0z">
+                    <rect key="frame" x="24" y="137" width="366" height="18"/>
+                    <attributedString key="attributedText">
+                        <fragment content="Give it a name. Creative block? See examples.">
+                            <attributes>
+                                <font key="NSFont" size="15" name="SFPro-Regular"/>
+                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                            </attributes>
+                        </fragment>
+                    </attributedString>
+                    <nil key="highlightedColor"/>
+                </label>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Wpl-rY-uSJ">
+                    <rect key="frame" x="366" y="86.5" width="21" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="21" id="4xS-r1-P8W"/>
+                        <constraint firstAttribute="height" constant="20" id="E7E-Br-vlf"/>
+                    </constraints>
+                </activityIndicatorView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="M7R-7M-H0z" secondAttribute="trailing" constant="24" id="4kA-cM-jze"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="rac-RY-Znf" secondAttribute="trailing" constant="12" id="4kb-aq-CZ9"/>
+                <constraint firstItem="rac-RY-Znf" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="25" id="F3V-KB-7Ae"/>
+                <constraint firstItem="M7R-7M-H0z" firstAttribute="top" secondItem="rac-RY-Znf" secondAttribute="bottom" constant="13" id="Fhi-79-bxf"/>
+                <constraint firstItem="Wpl-rY-uSJ" firstAttribute="centerY" secondItem="rac-RY-Znf" secondAttribute="centerY" id="QKd-4f-tyH"/>
+                <constraint firstItem="M7R-7M-H0z" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="24" id="T0g-sf-3EJ"/>
+                <constraint firstItem="Wpl-rY-uSJ" firstAttribute="trailing" secondItem="rac-RY-Znf" secondAttribute="trailing" constant="-15" id="Uyp-lb-nFZ"/>
+                <constraint firstItem="rac-RY-Znf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="12" id="iIh-eq-sB2"/>
+            </constraints>
+            <point key="canvasLocation" x="137.68115942028987" y="101.78571428571428"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

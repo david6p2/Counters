@@ -22,6 +22,7 @@ protocol CountersBoardPresenterProtocol {
 
 protocol CountersBoardViewProtocol: class {
     func setup(viewModel: CountersBoardView.ViewModel)
+    func presentAddNewCounter()
 }
 
 internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol {
@@ -102,6 +103,7 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
 
     func handleCreateCounter(withName name: String) {
         print("Calling create counter with name: \(name)")
+        view?.presentAddNewCounter()
     }
 
     func handleCounterIncrease(counterId: String) {
