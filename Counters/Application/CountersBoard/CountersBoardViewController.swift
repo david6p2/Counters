@@ -78,27 +78,33 @@ extension CountersBoardViewController: CountersBoardViewProtocol {
     func setup(viewModel: CountersBoardView.ViewModel) {
         innerView.configure(with: viewModel)
     }
-
-
 }
 
 // MARK: - View Delegate Implementation
 
 extension CountersBoardViewController: CountersBoardViewDelegate {
-    func cellStepperDidChangeValue(_ counterID: String, stepperChangeType: CounterCardView.StepperChangeType) {
-        switch stepperChangeType {
-        case .increase:
-            presenter.handelCounterIncrease(counterId: counterID)
-        case .decrease:
-            presenter.handelCounterDecrease(counterId: counterID)
-        }
-    }
-
     func setupNavigationControllerWith(title: String, editBarButton: UIBarButtonItem, searchPlaceholder: String, toolbarItems: [UIBarButtonItem]) {
         setupNavigationBar(title)
         setupNavigationBarEditButton(editBarButton)
         setupSearchController(searchPlaceholder)
         setupToolbar(toolbarItems)
+    }
+
+    func cellStepperDidChangeValue(_ counterID: String, stepperChangeType: CounterCardView.StepperChangeType) {
+        switch stepperChangeType {
+        case .increase:
+            presenter.handleCounterIncrease(counterId: counterID)
+        case .decrease:
+            presenter.handleCounterDecrease(counterId: counterID)
+        }
+    }
+
+    func editButtonWasPressed() {
+        presenter.handleEditCounters()
+    }
+
+    func addButtonWasPressed() {
+        presenter.handleCreateCounter(withName: "Bu")
     }
 }
 
