@@ -13,8 +13,11 @@ protocol CountersBoardPresenterProtocol {
     func viewDidLoad()
     
     func handleMainActionCTA()
-    func handelCounterIncrease(counterId: String)
-    func handelCounterDecrease(counterId: String)
+    func handleEditCounters()
+    func handleCreateCounter(withName  name: String)
+    func handleCounterIncrease(counterId: String)
+    func handleCounterDecrease(counterId: String)
+    func handleCounterDelete(counterId: String)
 }
 
 protocol CountersBoardViewProtocol: class {
@@ -22,7 +25,6 @@ protocol CountersBoardViewProtocol: class {
 }
 
 internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol {
-
     weak var view: CountersBoardViewProtocol?
     var currentStateStrategy: CountersBoardState = CountersBoardStateLoading()
 
@@ -94,7 +96,15 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
 
     }
 
-    func handelCounterIncrease(counterId: String) {
+    func handleEditCounters() {
+        print("Calling Edit counters")
+    }
+
+    func handleCreateCounter(withName name: String) {
+        print("Calling create counter with name: \(name)")
+    }
+
+    func handleCounterIncrease(counterId: String) {
         countersRepository.increaseCounter(id: counterId) { [weak self] (result) in
             guard let self = self else { return }
             switch result {
@@ -117,7 +127,7 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
         }
     }
 
-    func handelCounterDecrease(counterId: String) {
+    func handleCounterDecrease(counterId: String) {
         countersRepository.decreaseCounter(id: counterId) { [weak self] (result) in
             guard let self = self else { return }
             switch result {
@@ -135,6 +145,10 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                 print("The error is: \(error)")
             }
         }
+    }
+
+    func handleCounterDelete(counterId: String) {
+        print("Calling delete counter \(counterId)")
     }
 }
 

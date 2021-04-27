@@ -51,7 +51,8 @@ internal final class CountersBoardView: UIView {
     private let loadingView = CountersBoardLoadingView()
     private let countersTableView = CountersBoardTableView()
     private let itemsCountedLabel = UILabel()
-    private var editButton: UIBarButtonItem!
+    var editButton: UIBarButtonItem!
+    var addButton: UIBarButtonItem!
 
     var dataSource: UITableViewDiffableDataSource<Section, CounterModel>!
     weak var delegate: CountersBoardViewDelegate?
@@ -86,11 +87,14 @@ internal final class CountersBoardView: UIView {
                                      target: self,
                                      action: nil
         )
+        
         let add = UIBarButtonItem(barButtonSystemItem: .add,
                                   target: self,
                                   action: #selector(self.add(sender:))
         )
+
         let toolbarItems = [spacer, add]
+        addButton = add
 
         // Call View Delegate to configure Navigation Items
         delegate?.setupNavigationControllerWith(title: viewModel.parentVM.titleString, editBarButton: editButton, searchPlaceholder: viewModel.parentVM.searchPlaceholder, toolbarItems: toolbarItems)
@@ -114,10 +118,12 @@ internal final class CountersBoardView: UIView {
 private extension CountersBoardView {
     @objc private func edit(sender: UIBarButtonItem) {
         print("Edit button was pressed")
+        delegate?.editButtonWasPressed()
     }
 
     @objc private func add(sender: UIBarButtonItem) {
         print("Add button was pressed")
+        delegate?.addButtonWasPressed()
     }
 }
 
@@ -230,7 +236,7 @@ extension CountersBoardView {
         snapshot.appendSections([.main])
         snapshot.appendItems(results)
         DispatchQueue.main.async {
-            self.dataSource.apply(snapshot, animatingDifferences: true)
+            self.dataSource.apply(snapshot, animatingDifferences: false)
         }
     }
 }
