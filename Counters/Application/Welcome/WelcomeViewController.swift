@@ -6,23 +6,20 @@
 
 import UIKit
 
-protocol WelcomeViewControllerPresenter {
-    func viewDidLoad()
-}
-
-protocol WelcomeViewProtocol: class {
-    func setup(viewModel: WelcomeView.ViewModel)
-}
-
 class WelcomeViewController: UIViewController {
+
+    // MARK: - Properties
+    
     weak var coordinator: MainCoordinator?
     private lazy var innerView = WelcomeView()
     
-    private let presenter: WelcomeViewControllerPresenter
+    private let presenter: WelcomeViewPresenterProtocol
 
     let userDefaults: KeyValueStorageProtocol
-    
-    init(presenter: WelcomeViewControllerPresenter, userDefaults: KeyValueStorageProtocol = UserDefaults.standard) {
+
+    // MARK: - Initialization
+
+    init(presenter: WelcomeViewPresenterProtocol, userDefaults: KeyValueStorageProtocol = UserDefaults.standard) {
         self.presenter = presenter
         self.userDefaults = userDefaults
         super.init(nibName: nil, bundle: nil)
@@ -50,7 +47,11 @@ extension WelcomeViewController: WelcomeViewProtocol {
         innerView.configure(with: viewModel)
     }
 
-
+    func presentCounterBoard() {
+        let userDefaults: KeyValueStorageProtocol = UserDefaults.standard
+        userDefaults.set(true, forKey: OnboardingKey.welcomeWasShown.rawValue)
+        coordinator?.showCountersBoard()
+    }
 }
 
 private extension WelcomeViewController {
@@ -61,8 +62,6 @@ private extension WelcomeViewController {
 
 extension WelcomeViewController: WelcomeViewDelegate {
     func onContinuePressed() {
-        let userDefaults: KeyValueStorageProtocol = UserDefaults.standard
-        userDefaults.set(true, forKey: OnboardingKey.welcomeWasShown.rawValue)
-        coordinator?.showCountersBoard()
+        presenter.continuePressed()
     }
 }
