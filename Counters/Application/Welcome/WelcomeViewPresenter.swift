@@ -6,6 +6,16 @@
 
 import UIKit
 
+protocol WelcomeViewProtocol: class {
+    func setup(viewModel: WelcomeView.ViewModel)
+    func presentCounterBoard()
+}
+
+protocol WelcomeViewPresenterProtocol {
+    func viewDidLoad()
+    func continuePressed()
+}
+
 internal final class WelcomeViewPresenter {
 
     weak var view: WelcomeViewProtocol?
@@ -29,17 +39,18 @@ internal final class WelcomeViewPresenter {
             title: "WELCOME_COUNT_FEATURE_TITLE".localized(),
             subtitle: "WELCOME_COUNT_FEATURE_DESCRIPTION".localized()
         )]
+}
 
+extension WelcomeViewPresenter: WelcomeViewPresenterProtocol {
+    
     func viewDidLoad() {
         view?.setup(viewModel: viewModel)
     }
 
     func continuePressed() {
-        //view.presentCounterBoard()
+        view?.presentCounterBoard()
     }
-}
 
-extension WelcomeViewPresenter: WelcomeViewControllerPresenter {
     private var viewModel: WelcomeView.ViewModel {
         
         let welcome = NSMutableAttributedString(string: "WELCOME_TITLE".localized())

@@ -109,6 +109,7 @@ internal final class CountersBoardView: UIView {
 
         // Setup Table View
         countersTableView.configureDelegate = self
+        countersTableView.separatorStyle = .none
         countersTableView.configure(with: viewModel.counters)
     }
 }
