@@ -13,7 +13,8 @@ extern NSErrorDomain const CountersErrorDomain;
 
 typedef NS_ENUM(NSInteger, CountersErrorCode) {
     CountersErrorCodeNoData = -777,
-    CountersErrorCodeInvalidURL = -770
+    CountersErrorCodeInvalidURL = -770,
+    CountersErrorCodeServerInvalidStatusCode = -500
 };
 
 // MARK: - Networking
