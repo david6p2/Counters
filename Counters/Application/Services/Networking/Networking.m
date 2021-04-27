@@ -34,9 +34,11 @@ NSString * const JSONContentType = @"application/json";
             completion(data, error);
         } else if (httpResponse.statusCode != 200) {
             NSString * userInfoMessage = [NSString stringWithFormat:@"Server error (%ld)", (long)httpResponse.statusCode];
-            completion(nil, [self error: CountersErrorCodeServerInvalidStatusCode userInfo: @{@"message" : userInfoMessage}]);
+            completion(nil, [self error: CountersErrorCodeServerInvalidStatusCode
+                               userInfo: @{@"message" : userInfoMessage}]);
         } else if (!data) {
-            completion(nil, [self error: CountersErrorCodeNoData]);
+            completion(nil, [self error: CountersErrorCodeNoData
+                               userInfo: @{@"message": @"There is no Data"}]);
         } else {
             completion(data, nil);
         }
