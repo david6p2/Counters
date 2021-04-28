@@ -9,28 +9,26 @@ import UIKit
 
 protocol AddCounterViewProtocol: class {
     func setup(viewModel: AddCounterViewController.AddCounterViewModel)
-    //func presentCounterBoard()
+    func popViewController(isCountersRefreshNeeded: Bool)
+    func counterSuccessfullyCreated()
 }
 
 protocol AddCounterViewPresenterProtocol {
     func viewDidLoad()
-    //func continuePressed()
+    func cancelButtonPressed()
+    func saveButtonPressed(withCounterName name: String)
+    func addCounterIsLoading(withCounterName name: String)
 }
 
 internal final class AddCounterViewPresenter {
 
+    let api = NetworkingClient()
+    lazy var countersRepository = CounterRepository(apiTaskLoader: NetworkingClientLoader(apiRequest:api))
+
     weak var view: AddCounterViewProtocol?
 
     //VM
-}
-
-extension AddCounterViewPresenter: AddCounterViewPresenterProtocol {
-
-    func viewDidLoad() {
-        view?.setup(viewModel: viewModel)
-    }
-
-    private var viewModel: AddCounterViewController.AddCounterViewModel {
+    var viewModel: AddCounterViewController.AddCounterViewModel {
 
         let examplesAttributedString = NSMutableAttributedString(string: "ADDCOUNTER_EXAMPLE".localized())
         let range = (examplesAttributedString.string as NSString).range(of: "ADDCOUNTER_EXAMPLES_LINK_WORD".localized())
@@ -41,11 +39,40 @@ extension AddCounterViewPresenter: AddCounterViewPresenterProtocol {
         return .init(titleString: "ADDCOUNTER_TITLE".localized(),
                      namePlaceholder: "ADDCOUNTER_SEARCHPLACEHOLDER".localized(),
                      exampleString: examplesAttributedString,
-                     loading: false)
+                     isCreatingCounter: false)
+    }
+}
+
+extension AddCounterViewPresenter: AddCounterViewPresenterProtocol {
+
+    func viewDidLoad() {
+        view?.setup(viewModel: viewModel)
     }
 
-    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        UIApplication.shared.open(URL)
-        return false
+    func cancelButtonPressed() {
+        view?.popViewController(isCountersRefreshNeeded: false)
+    }
+
+    func saveButtonPressed(withCounterName: String) {
+        var viewModelLoading = self.viewModel
+        viewModelLoading.isCreatingCounter = true
+        view?.setup(viewModel: viewModelLoading)
+    }
+
+    func addCounterIsLoading(withCounterName name: String) {
+        print("Call service to create")
+        countersRepository.createCounter(name: name) { [weak self] (result) in
+            switch result {
+            case .success(let counters):
+                print("The counters when Create are: \(counters)")
+                guard counters != nil else {
+                    print("The error in Create success is: there are no counters")
+                    return
+                }
+                self?.view?.counterSuccessfullyCreated()
+            case .failure(let error):
+                print("The error is: \(error)")
+            }
+        }
     }
 }

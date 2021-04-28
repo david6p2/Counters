@@ -12,7 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddCounterViewController" customModule="Counters" customModuleProvider="target">
             <connections>
                 <outlet property="activityIndicator" destination="Wpl-rY-uSJ" id="J6k-nn-P3s"/>
-                <outlet property="examplesLabel" destination="M7R-7M-H0z" id="Nbj-CU-0hL"/>
+                <outlet property="examplesTextView" destination="VmU-84-vGF" id="NK4-Xz-Ncx"/>
                 <outlet property="nameTextField" destination="rac-RY-Znf" id="ZVZ-qB-6J7"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -27,21 +27,12 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="55" id="YK7-Ik-eYb"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <action selector="nameTextFieldChanged:" destination="-1" eventType="editingChanged" id="W0U-fk-mxj"/>
+                    </connections>
                 </textField>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M7R-7M-H0z">
-                    <rect key="frame" x="24" y="137" width="366" height="18"/>
-                    <attributedString key="attributedText">
-                        <fragment content="Give it a name. Creative block? See examples.">
-                            <attributes>
-                                <font key="NSFont" size="15" name="SFPro-Regular"/>
-                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                            </attributes>
-                        </fragment>
-                    </attributedString>
-                    <nil key="highlightedColor"/>
-                </label>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Wpl-rY-uSJ">
                     <rect key="frame" x="366" y="86.5" width="21" height="20"/>
                     <constraints>
@@ -49,18 +40,36 @@
                         <constraint firstAttribute="height" constant="20" id="E7E-Br-vlf"/>
                     </constraints>
                 </activityIndicatorView>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="TopLeft" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VmU-84-vGF">
+                    <rect key="frame" x="24" y="137" width="366" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="18" id="mKw-re-Piz"/>
+                    </constraints>
+                    <attributedString key="attributedText">
+                        <fragment content="Give it a name. Creative block? See examples.">
+                            <attributes>
+                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <font key="NSFont" size="15" name="SFPro-Regular"/>
+                                <font key="NSOriginalFont" size="15" name="SFPro-Regular"/>
+                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
+                            </attributes>
+                        </fragment>
+                    </attributedString>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                </textView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="M7R-7M-H0z" secondAttribute="trailing" constant="24" id="4kA-cM-jze"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="rac-RY-Znf" secondAttribute="trailing" constant="12" id="4kb-aq-CZ9"/>
                 <constraint firstItem="rac-RY-Znf" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="25" id="F3V-KB-7Ae"/>
-                <constraint firstItem="M7R-7M-H0z" firstAttribute="top" secondItem="rac-RY-Znf" secondAttribute="bottom" constant="13" id="Fhi-79-bxf"/>
                 <constraint firstItem="Wpl-rY-uSJ" firstAttribute="centerY" secondItem="rac-RY-Znf" secondAttribute="centerY" id="QKd-4f-tyH"/>
-                <constraint firstItem="M7R-7M-H0z" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="24" id="T0g-sf-3EJ"/>
                 <constraint firstItem="Wpl-rY-uSJ" firstAttribute="trailing" secondItem="rac-RY-Znf" secondAttribute="trailing" constant="-15" id="Uyp-lb-nFZ"/>
+                <constraint firstItem="VmU-84-vGF" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="24" id="WEQ-zB-Tp2"/>
+                <constraint firstItem="VmU-84-vGF" firstAttribute="top" secondItem="rac-RY-Znf" secondAttribute="bottom" constant="13" id="c8K-Ut-JYu"/>
                 <constraint firstItem="rac-RY-Znf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="12" id="iIh-eq-sB2"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="VmU-84-vGF" secondAttribute="trailing" constant="24" id="qjf-gp-Hfu"/>
             </constraints>
             <point key="canvasLocation" x="137.68115942028987" y="101.78571428571428"/>
         </view>
