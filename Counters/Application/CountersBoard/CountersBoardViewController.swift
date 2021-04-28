@@ -104,11 +104,11 @@ extension CountersBoardViewController: CountersBoardViewDelegate {
     }
 
     func editButtonWasPressed() {
-        presenter.handleEditCounters()
+        presenter.editButtonPressed()
     }
 
     func addButtonWasPressed() {
-        presenter.addCounterPressed()
+        presenter.addButtonPressed()
     }
 
     func pullToRefreshCalled() {
