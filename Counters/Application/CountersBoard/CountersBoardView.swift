@@ -50,6 +50,7 @@ internal final class CountersBoardView: UIView {
     private let noContentView = CountersBoardNoContentView()
     private let loadingView = CountersBoardLoadingView()
     private let countersTableView = CountersBoardTableView()
+    private let refreshControl = UIRefreshControl()
     private let itemsCountedLabel = UILabel()
     var editButton: UIBarButtonItem!
     var addButton: UIBarButtonItem!
@@ -112,6 +113,9 @@ internal final class CountersBoardView: UIView {
         countersTableView.configureDelegate = self
         countersTableView.separatorStyle = .none
         countersTableView.configure(with: viewModel.counters)
+        countersTableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+        refreshControl.endRefreshing()
     }
 }
 
@@ -126,6 +130,10 @@ private extension CountersBoardView {
     @objc private func add(sender: UIBarButtonItem) {
         print("Add button was pressed")
         delegate?.addButtonWasPressed()
+    }
+
+    @objc private func refresh(_ sender: Any) {
+        delegate?.pullToRefreshCalled()
     }
 }
 

@@ -13,4 +13,5 @@ protocol CountersBoardViewDelegate: class {
     func cellStepperDidChangeValue(_ counterID: String, stepperChangeType: CounterCardView.StepperChangeType)
     func editButtonWasPressed()
     func addButtonWasPressed()
+    func pullToRefreshCalled()
 }
