@@ -39,7 +39,7 @@ class CountersBoardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         innerView.delegate = self
-        presenter.viewDidLoad()
+        presenter.viewDidLoad(animated: false)
     }
 
     // MARK: - Configuration
@@ -75,8 +75,8 @@ class CountersBoardViewController: UIViewController {
 // MARK: - View Protocol Implementation
 
 extension CountersBoardViewController: CountersBoardViewProtocol {
-    func setup(viewModel: CountersBoardView.ViewModel) {
-        innerView.configure(with: viewModel)
+    func setup(viewModel: CountersBoardView.ViewModel, animated: Bool) {
+        innerView.configure(with: viewModel, animated: animated)
     }
 
     func presentAddNewCounter() {

@@ -10,7 +10,7 @@ import UIKit
 protocol CountersBoardPresenterProtocol {
     //var viewModel: CountersBoardView.ViewModel { get }
 
-    func viewDidLoad()
+    func viewDidLoad(animated: Bool)
     
     func handleMainActionCTA()
     func handleEditCounters()
@@ -22,7 +22,7 @@ protocol CountersBoardPresenterProtocol {
 }
 
 protocol CountersBoardViewProtocol: class {
-    func setup(viewModel: CountersBoardView.ViewModel)
+    func setup(viewModel: CountersBoardView.ViewModel, animated: Bool)
     func presentAddNewCounter()
 }
 
@@ -33,12 +33,12 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
     let api = NetworkingClient()
     lazy var countersRepository = CounterRepository(apiTaskLoader: NetworkingClientLoader(apiRequest:api))
 
-    func viewDidLoad() {
-        view?.setup(viewModel: currentStateStrategy.viewModel)
-        getCounters()
+    func viewDidLoad(animated: Bool) {
+        view?.setup(viewModel: currentStateStrategy.viewModel, animated: animated)
+        getCounters(animated: false)
     }
 
-    func getCounters() {
+    func getCounters(animated: Bool) {
         countersRepository.getCounters { [weak self] (result) in
             guard let self = self else { return }
             switch result {
@@ -50,7 +50,7 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                 print("The counters are: \(counters)")
                 let state = CountersBoardStateHasContent(counters)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.view?.setup(viewModel: state.viewModel)
+                    self.view?.setup(viewModel: state.viewModel, animated: animated)
 
 //                    countersRepository.deleteCounter(id: "kny33d74") { [weak self] (result) in
 //                        guard let self = self else { return }
@@ -106,7 +106,7 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                 print("The counters when Increase are: \(counters)")
                 let state = CountersBoardStateHasContent(counters)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.view?.setup(viewModel: state.viewModel)
+                    self.view?.setup(viewModel: state.viewModel, animated: false)
                 }
             case .failure(let error):
                 print("The error is: \(error)")
@@ -130,7 +130,7 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                 print("The counters when Decrease are: \(counters)")
                 let state = CountersBoardStateHasContent(counters)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.view?.setup(viewModel: state.viewModel)
+                    self.view?.setup(viewModel: state.viewModel, animated: false)
                 }
             case .failure(let error):
                 print("The error is: \(error)")

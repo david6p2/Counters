@@ -70,7 +70,7 @@ class MainCoordinator: CoordinatorProtocol {
     func counterWasCreated() {
         countersBoardPresenter.currentStateStrategy = CountersBoardStateLoading()
         DispatchQueue.main.async { [weak self] in
-            self?.countersBoardPresenter.viewDidLoad()
+            self?.countersBoardPresenter.viewDidLoad(animated: false)
         }
     }
 }
