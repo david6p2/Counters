@@ -72,7 +72,7 @@ internal final class CountersBoardView: UIView {
 
     // MARK: - Configuration
 
-    func configure(with viewModel: ViewModel) {
+    func configure(with viewModel: ViewModel, animated: Bool) {
         // Navigation Items
         editButton = UIBarButtonItem(
             title: viewModel.parentVM.editString,
@@ -112,10 +112,10 @@ internal final class CountersBoardView: UIView {
         // Setup Table View
         countersTableView.configureDelegate = self
         countersTableView.separatorStyle = .none
-        countersTableView.configure(with: viewModel.counters)
         countersTableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         refreshControl.endRefreshing()
+        countersTableView.configure(with: viewModel.counters, animated: true)
     }
 }
 
@@ -241,12 +241,12 @@ extension CountersBoardView {
         )
     }
 
-    func updateData(on results: [CounterModel]) {
+    func updateData(on results: [CounterModel], animated: Bool) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, CounterModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems(results)
         DispatchQueue.main.async {
-            self.dataSource.apply(snapshot, animatingDifferences: false)
+            self.dataSource.apply(snapshot, animatingDifferences: animated)
         }
     }
 }
@@ -262,13 +262,13 @@ extension CountersBoardView: CountersBoardNoContentViewDelegate {
 // MARK: - CountersBoardTableViewConfigureDelegate
 
 extension CountersBoardView: CountersBoardTableViewConfigureDelegate {
-    func isCallingConfigure(with counters: [CounterModelProtocol]) {
+    func isCallingConfigure(with counters: [CounterModelProtocol], animated: Bool) {
         guard let counters = counters as? [CounterModel] else {
-            updateData(on: [])
+            updateData(on: [], animated: animated)
             return
         }
 
-        updateData(on: counters)
+        updateData(on: counters, animated: animated)
     }
 }
 
@@ -291,7 +291,7 @@ struct CountersDashboard_Preview: PreviewProvider {
             view.configure(with: .init(parentVM: CountersBoardView.ParentViewModel.defaultVM,
                                        isLoading: false,
                                        noContent: noContentVM,
-                                       counters: CountersBoardTableView.ViewModel.empty.counters)
+                                       counters: CountersBoardTableView.ViewModel.empty.counters), animated: false
             )
             
             return view
