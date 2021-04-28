@@ -79,7 +79,8 @@ internal final class CountersBoardView: UIView {
             target: self,
             action: #selector(self.edit(sender:))
         )
-        editButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.orange], for: .normal)
+        editButton.setTitleTextAttributes([.foregroundColor : UIColor.accentColor], for: .normal)
+        editButton.setTitleTextAttributes([.foregroundColor: UIColor.disableText], for: .disabled)
         editButton.isEnabled = viewModel.parentVM.isEditEnabled
 
         // Toolbar Items

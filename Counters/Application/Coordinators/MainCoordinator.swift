@@ -10,6 +10,7 @@ import UIKit
 class MainCoordinator: CoordinatorProtocol {
     var childCoordinators = [CoordinatorProtocol]()
     private var window = UIWindow(frame: UIScreen.main.bounds)
+    private let countersBoardPresenter = CountersBoardViewPresenter()
     internal var userDefaults: KeyValueStorageProtocol
 
     weak var navigationController: UINavigationController?
@@ -45,9 +46,8 @@ class MainCoordinator: CoordinatorProtocol {
             return
         }
 
-        let presenter = CountersBoardViewPresenter()
-        let vc = CountersBoardViewController(presenter: presenter)
-        presenter.view = vc
+        let vc = CountersBoardViewController(presenter: countersBoardPresenter)
+        countersBoardPresenter.view = vc
         vc.coordinator = self
         navigationController.isNavigationBarHidden = false
         navigationController.pushViewController(vc, animated: true)
@@ -63,6 +63,14 @@ class MainCoordinator: CoordinatorProtocol {
         presenter.view = vc
         vc.coordinator = self
         navigationController.isNavigationBarHidden = false
+        navigationController.navigationBar.prefersLargeTitles = false
         navigationController.pushViewController(vc, animated: true)
+    }
+
+    func counterWasCreated() {
+        countersBoardPresenter.currentStateStrategy = CountersBoardStateLoading()
+        DispatchQueue.main.async { [weak self] in
+            self?.countersBoardPresenter.viewDidLoad()
+        }
     }
 }

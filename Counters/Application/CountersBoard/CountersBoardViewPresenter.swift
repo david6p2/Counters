@@ -14,7 +14,7 @@ protocol CountersBoardPresenterProtocol {
     
     func handleMainActionCTA()
     func handleEditCounters()
-    func handleCreateCounter(withName  name: String)
+    func addCounterPressed()
     func handleCounterIncrease(counterId: String)
     func handleCounterDecrease(counterId: String)
     func handleCounterDelete(counterId: String)
@@ -34,7 +34,10 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
 
     func viewDidLoad() {
         view?.setup(viewModel: currentStateStrategy.viewModel)
+        getCounters()
+    }
 
+    func getCounters() {
         countersRepository.getCounters { [weak self] (result) in
             guard let self = self else { return }
             switch result {
@@ -47,27 +50,6 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                 let state = CountersBoardStateHasContent(counters)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.view?.setup(viewModel: state.viewModel)
-
-//                    countersRepository.createCounter(name: "Test") { (result) in
-//                        switch result {
-//                        case .success(let counters):
-//                            print("The counters when Create are: \(counters)")
-//                            guard let counters = counters else {
-//                                print("The error in Create success is: there are no counters")
-//                                return
-//                            }
-//                            let state = CountersBoardStateHasContent(counters)
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                                self.view?.setup(viewModel: state.viewModel)
-//                            }
-//                        case .failure(let error):
-//                            print("The error is: \(error)")
-//                        }
-//                    }
-
-
-
-//
 
 //                    countersRepository.deleteCounter(id: "kny33d74") { [weak self] (result) in
 //                        guard let self = self else { return }
@@ -101,8 +83,8 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
         print("Calling Edit counters")
     }
 
-    func handleCreateCounter(withName name: String) {
-        print("Calling create counter with name: \(name)")
+    func addCounterPressed() {
+        print("Add Counter was pressed")
         view?.presentAddNewCounter()
     }
 
@@ -122,7 +104,8 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                 }
             case .failure(let error):
                 print("The error is: \(error)")
-                if let error = error as? NSError, let message = error.userInfo["message"] {
+                let error = error as NSError
+                if let message = error.userInfo["message"] {
                     print(message)
                 }
             }
