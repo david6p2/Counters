@@ -12,9 +12,9 @@ protocol CountersBoardPresenterProtocol {
 
     func viewDidLoad(animated: Bool)
     
-    func handleMainActionCTA()
-    func handleEditCounters()
-    func addCounterPressed()
+    func noContentViewButtonPressed()
+    func editButtonPressed()
+    func addButtonPressed()
     func pullToRefreshCalled()
     func handleCounterIncrease(counterId: String)
     func handleCounterDecrease(counterId: String)
@@ -76,15 +76,15 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
         }
     }
 
-    func handleMainActionCTA() {
+    func noContentViewButtonPressed() {
 
     }
 
-    func handleEditCounters() {
+    func editButtonPressed() {
         print("Calling Edit counters")
     }
 
-    func addCounterPressed() {
+    func addButtonPressed() {
         print("Add Counter was pressed")
         view?.presentAddNewCounter()
     }
