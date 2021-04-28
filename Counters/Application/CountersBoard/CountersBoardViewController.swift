@@ -110,6 +110,10 @@ extension CountersBoardViewController: CountersBoardViewDelegate {
     func addButtonWasPressed() {
         presenter.addCounterPressed()
     }
+
+    func pullToRefreshCalled() {
+        presenter.pullToRefreshCalled()
+    }
 }
 
 // MARK: - UISearchResultsUpdating Protocol Implementation

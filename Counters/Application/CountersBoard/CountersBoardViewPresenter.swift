@@ -15,6 +15,7 @@ protocol CountersBoardPresenterProtocol {
     func handleMainActionCTA()
     func handleEditCounters()
     func addCounterPressed()
+    func pullToRefreshCalled()
     func handleCounterIncrease(counterId: String)
     func handleCounterDecrease(counterId: String)
     func handleCounterDelete(counterId: String)
@@ -86,6 +87,11 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
     func addCounterPressed() {
         print("Add Counter was pressed")
         view?.presentAddNewCounter()
+    }
+
+    func pullToRefreshCalled() {
+        print("Pull to refresh called")
+        getCounters(animated: true)
     }
 
     func handleCounterIncrease(counterId: String) {
