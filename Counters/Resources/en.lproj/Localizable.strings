@@ -36,6 +36,8 @@
 
 // MARK: - AddCounter
 "ADDCOUNTER_TITLE" = "Create a counter";
+"ADDCOUNTER_CANCEL" = "Cancel";
+"ADDCOUNTER_SAVE" = "Save";
 "ADDCOUNTER_EXAMPLES_LINK_WORD" = "examples";
 "ADDCOUNTER_EXAMPLE" = "Give it a name. Creative block? See examples.";
 "ADDCOUNTER_SEARCHPLACEHOLDER" = "Cups of coffee";

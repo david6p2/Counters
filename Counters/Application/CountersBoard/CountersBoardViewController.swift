@@ -108,7 +108,7 @@ extension CountersBoardViewController: CountersBoardViewDelegate {
     }
 
     func addButtonWasPressed() {
-        presenter.handleCreateCounter(withName: "Bu")
+        presenter.addCounterPressed()
     }
 }
 
