@@ -49,10 +49,10 @@ class CountersBoardTableView: UITableView {
 
     // MARK: - Configuration
 
-    func configure(with counters: [CounterModelProtocol]) {
+    func configure(with counters: [CounterModelProtocol], animated: Bool) {
         self.register(CountersBoardTableViewCell.self, forCellReuseIdentifier: CountersBoardTableViewCell.reuseIdentifier)
         isHidden = counters.isEmpty
-        configureDelegate?.isCallingConfigure(with: counters)
+        configureDelegate?.isCallingConfigure(with: counters, animated: animated)
     }
 }
 

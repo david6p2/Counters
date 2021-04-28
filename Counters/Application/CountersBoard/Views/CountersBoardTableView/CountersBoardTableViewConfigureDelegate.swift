@@ -12,5 +12,5 @@ protocol CountersBoardTableViewConfigureDelegate: class {
 
     /// Method to call when the table needs to be configured
     /// - Parameter counters: The Counters Model Array that is going to be used to build the table
-    func isCallingConfigure(with counters: [CounterModelProtocol])
+    func isCallingConfigure(with counters: [CounterModelProtocol], animated: Bool)
 }
