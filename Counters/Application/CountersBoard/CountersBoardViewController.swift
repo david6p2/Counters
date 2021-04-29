@@ -46,12 +46,7 @@ class CountersBoardViewController: UIViewController {
     // MARK: - Configuration
 
     func setupNavigationBar(_ title: String) {
-        guard let navigationController = navigationController else {
-            return
-        }
-
         self.title = title
-        navigationController.navigationBar.prefersLargeTitles = true
     }
 
     func setupNavigationBarEditButton(_ editBarButton: UIBarButtonItem) {
