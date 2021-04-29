@@ -125,6 +125,7 @@ private extension AddCounterViewController {
 
 private extension AddCounterViewController {
     func setupView() {
+        navigationItem.largeTitleDisplayMode = .never
         view.backgroundColor = .background
         setupEditButton()
         setupSaveButton()

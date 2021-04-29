@@ -63,7 +63,6 @@ class MainCoordinator: CoordinatorProtocol {
         presenter.view = vc
         vc.coordinator = self
         navigationController.isNavigationBarHidden = false
-        navigationController.navigationBar.prefersLargeTitles = false
         navigationController.pushViewController(vc, animated: true)
     }
 
