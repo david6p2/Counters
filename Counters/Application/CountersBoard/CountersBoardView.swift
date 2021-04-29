@@ -16,6 +16,7 @@ internal final class CountersBoardView: UIView {
     struct ParentViewModel {
         static let defaultVM: ParentViewModel = .init(titleString: "COUNTERSDASHBOARD_TITLE".localized(),
                                                       editString: "COUNTERSDASHBOARD_EDIT".localized(),
+                                                      doneString: "COUNTERSDASHBOARD_DONE".localized(),
                                                       selectAllString: "COUNTERSDASHBOARD_SELECT_ALL".localized(),
                                                       isEditEnabled: false,
                                                       searchPlaceholder: "COUNTERSDASHBOARD_SEARCHPLACEHOLDER".localized()
@@ -23,6 +24,7 @@ internal final class CountersBoardView: UIView {
 
         let titleString: String
         let editString: String
+        let doneString: String
         let selectAllString: String
         var isEditEnabled: Bool
         let searchPlaceholder: String
@@ -33,6 +35,7 @@ internal final class CountersBoardView: UIView {
             parentVM: .init(
                 titleString: "",
                 editString: "",
+                doneString: "",
                 selectAllString: "",
                 isEditEnabled: false,
                 searchPlaceholder: ""
@@ -57,6 +60,7 @@ internal final class CountersBoardView: UIView {
     private let refreshControl = UIRefreshControl()
     private let itemsCountedLabel = UILabel()
     var editButton: UIBarButtonItem!
+    var doneButton: UIBarButtonItem!
     var selectAllButton: UIBarButtonItem!
     var addButton: UIBarButtonItem!
     var trashButton: UIBarButtonItem!
@@ -83,60 +87,52 @@ internal final class CountersBoardView: UIView {
 
     // MARK: - Configuration
 
-    func configure(with viewModel: ViewModel, animated: Bool) {
-        self.viewModel = viewModel
+    func configure(withParent parentVM: ParentViewModel) {
         // Navigation Items
         editButton = UIBarButtonItem(
-            title: viewModel.parentVM.editString,
+            title: parentVM.editString,
             style: .plain,
             target: self,
             action: #selector(self.edit(sender:))
         )
-        editButton.setTitleTextAttributes([.foregroundColor : UIColor.accentColor], for: .normal)
-        editButton.setTitleTextAttributes([.foregroundColor: UIColor.disableText], for: .disabled)
-        editButton.isEnabled = viewModel.parentVM.isEditEnabled
+        editButton.setTitleTextAttributes([.foregroundColor : UIColor.accentColor, .font: Font.edit], for: .normal)
+        editButton.setTitleTextAttributes([.foregroundColor: UIColor.disableText, .font: Font.edit], for: .disabled)
+        editButton.isEnabled = parentVM.isEditEnabled
+
+        doneButton = UIBarButtonItem(
+            title: parentVM.doneString,
+            style: .plain,
+            target: self,
+            action: #selector(self.edit(sender:))
+        )
+        doneButton.setTitleTextAttributes([.foregroundColor : UIColor.accentColor, .font: Font.done], for: .normal)
+        doneButton.setTitleTextAttributes([.foregroundColor: UIColor.disableText, .font: Font.done], for: .disabled)
+        doneButton.isEnabled = parentVM.isEditEnabled
 
         selectAllButton = UIBarButtonItem(
-            title: viewModel.parentVM.selectAllString,
+            title: parentVM.selectAllString,
             style: .plain,
             target: self,
             action: #selector(self.selectAll(sender:))
         )
         selectAllButton.setTitleTextAttributes([.foregroundColor : UIColor.accentColor], for: .normal)
         selectAllButton.setTitleTextAttributes([.foregroundColor: UIColor.disableText], for: .disabled)
-        selectAllButton.isEnabled = viewModel.parentVM.isEditEnabled
-
-        // Toolbar Items
-        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
-                                     target: self,
-                                     action: nil
-        )
-        
-        addButton = UIBarButtonItem(barButtonSystemItem: .add,
-                                  target: self,
-                                  action: #selector(self.add(sender:))
-        )
-
-        trashButton = UIBarButtonItem(barButtonSystemItem: .trash,
-                                  target: self,
-                                  action: #selector(self.trash(sender:))
-        )
-
-        shareButton = UIBarButtonItem(barButtonSystemItem: .action,
-                                    target: self,
-                                    action: #selector(self.share(sender:))
-        )
-
-        addToolbarItems = [spacer, addButton]
-        editToolbarItems = [trashButton, spacer, shareButton]
+        selectAllButton.isEnabled = parentVM.isEditEnabled
 
         // Call View Delegate to configure Navigation Items
-        delegate?.setupNavigationControllerWith(title: viewModel.parentVM.titleString,
-                                                editBarButton: editButton,
+        delegate?.setupNavigationControllerWith(title: parentVM.titleString,
+                                                editBarButton: isEditingModeActive ? doneButton : editButton,
                                                 selectAllBarButton: isEditingModeActive ? selectAllButton : nil,
-                                                searchPlaceholder: viewModel.parentVM.searchPlaceholder,
-                                                toolbarItems: addToolbarItems)
+                                                searchPlaceholder: parentVM.searchPlaceholder,
+                                                toolbarItems: isEditingModeActive ? editToolbarItems : addToolbarItems)
+    }
 
+    func configure(with viewModel: ViewModel, animated: Bool) {
+        self.viewModel = viewModel
+
+        // Configure Parent ViewModel Properties
+        configure(withParent: viewModel.parentVM)
+        
         // Setup No Content View
         noContentView.configure(with: viewModel.noContent)
         noContentView.delegate = self
@@ -157,30 +153,7 @@ internal final class CountersBoardView: UIView {
     func toggleEditing() {
         isEditingModeActive = !isEditingModeActive
         countersTableView.setEditing(isEditingModeActive, animated: true)
-
-        var leftBarButtonItemTextAttributes: [NSAttributedString.Key : Any]
-        var toolBarItems: [UIBarButtonItem]!
-
-        if isEditingModeActive {
-            editButton.title = "COUNTERSDASHBOARD_DONE".localized()
-            leftBarButtonItemTextAttributes = [.foregroundColor : UIColor.accentColor,
-                                               .font: Font.done]
-            toolBarItems = editToolbarItems
-        } else {
-            editButton.title = "COUNTERSDASHBOARD_EDIT".localized()
-            leftBarButtonItemTextAttributes = [.foregroundColor : UIColor.accentColor,
-                                               .font: Font.edit]
-            toolBarItems = addToolbarItems
-        }
-
-        editButton.setTitleTextAttributes(leftBarButtonItemTextAttributes, for: .normal)
-
-        // Call View Delegate to configure Navigation Items
-        self.delegate?.setupNavigationControllerWith(title: viewModel.parentVM.titleString,
-                                                     editBarButton: editButton,
-                                                     selectAllBarButton: isEditingModeActive ? selectAllButton: nil,
-                                                     searchPlaceholder: viewModel.parentVM.searchPlaceholder,
-                                                     toolbarItems: toolBarItems)
+        configure(withParent: viewModel.parentVM)
     }
 }
 
@@ -239,8 +212,34 @@ private extension CountersBoardView {
     func setup() {
         backgroundColor = .systemBackground
         configureDataSource()
+        setupToolbars()
         setupViewHierarchy()
         setupConstraints()
+    }
+
+    func setupToolbars() {
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                     target: self,
+                                     action: nil
+        )
+
+        addButton = UIBarButtonItem(barButtonSystemItem: .add,
+                                    target: self,
+                                    action: #selector(self.add(sender:))
+        )
+
+        trashButton = UIBarButtonItem(barButtonSystemItem: .trash,
+                                      target: self,
+                                      action: #selector(self.trash(sender:))
+        )
+
+        shareButton = UIBarButtonItem(barButtonSystemItem: .action,
+                                      target: self,
+                                      action: #selector(self.share(sender:))
+        )
+
+        addToolbarItems = [spacer, addButton]
+        editToolbarItems = [trashButton, spacer, shareButton]
     }
 
     func setupViewHierarchy() {
