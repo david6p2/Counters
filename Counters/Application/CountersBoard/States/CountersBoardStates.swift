@@ -20,14 +20,7 @@ protocol CountersBoardState { //El VM Usa esto comoo un state para delegarle al 
 
 class CountersBoardStateLoading: CountersBoardState {
     var viewModel: CountersBoardView.ViewModel {
-        let parentVM: CountersBoardView.ParentViewModel = .init(titleString: "Loading".localized(),
-                                                                editString: "COUNTERSDASHBOARD_EDIT".localized(),
-                                                                selectAllString: "COUNTERSDASHBOARD_SELECT_ALL".localized(),
-                                                                isEditEnabled: false,
-                                                                searchPlaceholder: "COUNTERSDASHBOARD_SEARCHPLACEHOLDER".localized()
-        )
-
-        return CountersBoardView.ViewModel(parentVM: parentVM,
+        return CountersBoardView.ViewModel(parentVM: CountersBoardView.ParentViewModel.defaultVM,
                                            isLoading: true,
                                            noContent: .empty,
                                            counters: CountersBoardTableView.ViewModel.empty.counters
