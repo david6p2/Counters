@@ -14,7 +14,9 @@ protocol CountersBoardPresenterProtocol {
     
     func noContentViewButtonPressed()
     func editButtonPressed()
+    func selectAllPressed()
     func addButtonPressed()
+    func shareButtonWasPressed()
     func pullToRefreshCalled()
     func handleCounterIncrease(counterId: String)
     func handleCounterDecrease(counterId: String)
@@ -24,6 +26,7 @@ protocol CountersBoardPresenterProtocol {
 protocol CountersBoardViewProtocol: class {
     func setup(viewModel: CountersBoardView.ViewModel, animated: Bool)
     func presentAddNewCounter()
+    func toggleEditing()
 }
 
 internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol {
@@ -82,11 +85,21 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
 
     func editButtonPressed() {
         print("Calling Edit counters")
+        view?.toggleEditing()
+    }
+
+    func selectAllPressed() {
+        print("Calling selectAll counters")
+        view?.toggleEditing()
     }
 
     func addButtonPressed() {
         print("Add Counter was pressed")
         view?.presentAddNewCounter()
+    }
+
+    func shareButtonWasPressed() {
+        print("Share was pressed")
     }
 
     func pullToRefreshCalled() {

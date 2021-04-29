@@ -15,13 +15,15 @@ internal final class CountersBoardView: UIView {
 
     struct ParentViewModel {
         static let defaultVM: ParentViewModel = .init(titleString: "COUNTERSDASHBOARD_TITLE".localized(),
-                                                            editString: "COUNTERSDASHBOARD_EDIT".localized(),
-                                                            isEditEnabled: false,
-                                                            searchPlaceholder: "COUNTERSDASHBOARD_SEARCHPLACEHOLDER".localized()
+                                                      editString: "COUNTERSDASHBOARD_EDIT".localized(),
+                                                      selectAllString: "COUNTERSDASHBOARD_SELECT_ALL".localized(),
+                                                      isEditEnabled: false,
+                                                      searchPlaceholder: "COUNTERSDASHBOARD_SEARCHPLACEHOLDER".localized()
         )
 
         let titleString: String
         let editString: String
+        let selectAllString: String
         var isEditEnabled: Bool
         let searchPlaceholder: String
     }
@@ -31,6 +33,7 @@ internal final class CountersBoardView: UIView {
             parentVM: .init(
                 titleString: "",
                 editString: "",
+                selectAllString: "",
                 isEditEnabled: false,
                 searchPlaceholder: ""
             ),
@@ -47,15 +50,23 @@ internal final class CountersBoardView: UIView {
 
     // MARK: - Properties
 
+    private var viewModel: ViewModel!
     private let noContentView = CountersBoardNoContentView()
     private let loadingView = CountersBoardLoadingView()
     private let countersTableView = CountersBoardTableView()
     private let refreshControl = UIRefreshControl()
     private let itemsCountedLabel = UILabel()
     var editButton: UIBarButtonItem!
+    var selectAllButton: UIBarButtonItem!
     var addButton: UIBarButtonItem!
+    var trashButton: UIBarButtonItem!
+    var shareButton: UIBarButtonItem!
+    var addToolbarItems: [UIBarButtonItem]!
+    var editToolbarItems: [UIBarButtonItem]!
 
-    var dataSource: UITableViewDiffableDataSource<Section, CounterModel>!
+    private var isEditingModeActive = false
+
+    var dataSource: DataSource!
     weak var delegate: CountersBoardViewDelegate?
 
     // MARK: - Initialization
@@ -73,6 +84,7 @@ internal final class CountersBoardView: UIView {
     // MARK: - Configuration
 
     func configure(with viewModel: ViewModel, animated: Bool) {
+        self.viewModel = viewModel
         // Navigation Items
         editButton = UIBarButtonItem(
             title: viewModel.parentVM.editString,
@@ -84,22 +96,46 @@ internal final class CountersBoardView: UIView {
         editButton.setTitleTextAttributes([.foregroundColor: UIColor.disableText], for: .disabled)
         editButton.isEnabled = viewModel.parentVM.isEditEnabled
 
+        selectAllButton = UIBarButtonItem(
+            title: viewModel.parentVM.selectAllString,
+            style: .plain,
+            target: self,
+            action: #selector(self.selectAll(sender:))
+        )
+        selectAllButton.setTitleTextAttributes([.foregroundColor : UIColor.accentColor], for: .normal)
+        selectAllButton.setTitleTextAttributes([.foregroundColor: UIColor.disableText], for: .disabled)
+        selectAllButton.isEnabled = viewModel.parentVM.isEditEnabled
+
         // Toolbar Items
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
                                      target: self,
                                      action: nil
         )
         
-        let add = UIBarButtonItem(barButtonSystemItem: .add,
+        addButton = UIBarButtonItem(barButtonSystemItem: .add,
                                   target: self,
                                   action: #selector(self.add(sender:))
         )
 
-        let toolbarItems = [spacer, add]
-        addButton = add
+        trashButton = UIBarButtonItem(barButtonSystemItem: .trash,
+                                  target: self,
+                                  action: #selector(self.trash(sender:))
+        )
+
+        shareButton = UIBarButtonItem(barButtonSystemItem: .action,
+                                    target: self,
+                                    action: #selector(self.share(sender:))
+        )
+
+        addToolbarItems = [spacer, addButton]
+        editToolbarItems = [trashButton, spacer, shareButton]
 
         // Call View Delegate to configure Navigation Items
-        delegate?.setupNavigationControllerWith(title: viewModel.parentVM.titleString, editBarButton: editButton, searchPlaceholder: viewModel.parentVM.searchPlaceholder, toolbarItems: toolbarItems)
+        delegate?.setupNavigationControllerWith(title: viewModel.parentVM.titleString,
+                                                editBarButton: editButton,
+                                                selectAllBarButton: isEditingModeActive ? selectAllButton : nil,
+                                                searchPlaceholder: viewModel.parentVM.searchPlaceholder,
+                                                toolbarItems: addToolbarItems)
 
         // Setup No Content View
         noContentView.configure(with: viewModel.noContent)
@@ -117,6 +153,35 @@ internal final class CountersBoardView: UIView {
         refreshControl.endRefreshing()
         countersTableView.configure(with: viewModel.counters, animated: true)
     }
+
+    func toggleEditing() {
+        isEditingModeActive = !isEditingModeActive
+        countersTableView.setEditing(isEditingModeActive, animated: true)
+
+        var leftBarButtonItemTextAttributes: [NSAttributedString.Key : Any]
+        var toolBarItems: [UIBarButtonItem]!
+
+        if isEditingModeActive {
+            editButton.title = "COUNTERSDASHBOARD_DONE".localized()
+            leftBarButtonItemTextAttributes = [.foregroundColor : UIColor.accentColor,
+                                               .font: Font.done]
+            toolBarItems = editToolbarItems
+        } else {
+            editButton.title = "COUNTERSDASHBOARD_EDIT".localized()
+            leftBarButtonItemTextAttributes = [.foregroundColor : UIColor.accentColor,
+                                               .font: Font.edit]
+            toolBarItems = addToolbarItems
+        }
+
+        editButton.setTitleTextAttributes(leftBarButtonItemTextAttributes, for: .normal)
+
+        // Call View Delegate to configure Navigation Items
+        self.delegate?.setupNavigationControllerWith(title: viewModel.parentVM.titleString,
+                                                     editBarButton: editButton,
+                                                     selectAllBarButton: isEditingModeActive ? selectAllButton: nil,
+                                                     searchPlaceholder: viewModel.parentVM.searchPlaceholder,
+                                                     toolbarItems: toolBarItems)
+    }
 }
 
 // MARK: - Actions
@@ -127,9 +192,24 @@ private extension CountersBoardView {
         delegate?.editButtonWasPressed()
     }
 
+    @objc private func selectAll(sender: UIBarButtonItem) {
+        print("selectAll button was pressed")
+        delegate?.selectAllButtonWasPressed()
+    }
+
     @objc private func add(sender: UIBarButtonItem) {
         print("Add button was pressed")
         delegate?.addButtonWasPressed()
+    }
+
+    @objc private func trash(sender: UIBarButtonItem) {
+        print("trash button was pressed")
+        delegate?.trashButtonWasPressed()
+    }
+
+    @objc private func share(sender: UIBarButtonItem) {
+        print("share button was pressed")
+        delegate?.shareButtonWasPressed()
     }
 
     @objc private func refresh(_ sender: Any) {
@@ -148,7 +228,8 @@ private extension CountersBoardView {
     enum Font {
         static let kern: CGFloat = 0.34
         static let title = UIFont.systemFont(ofSize: 33, weight: .heavy)
-        static let description = UIFont.systemFont(ofSize: 17, weight: .regular)
+        static let done = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        static let edit = UIFont.systemFont(ofSize: 17, weight: .regular)
     }
 }
 
@@ -220,29 +301,28 @@ private extension CountersBoardView {
 // MARK: - UITableViewDiffableDataSource
 extension CountersBoardView {
 
-    enum Section {
+    enum CounterBoardSection {
         case main
     }
 
     func configureDataSource() {
-        dataSource = UITableViewDiffableDataSource<Section, CounterModel>(
-            tableView: countersTableView,
-            cellProvider: { (tableView, indexPath, counter) -> UITableViewCell? in
-                let cell = tableView.dequeueReusableCell(withIdentifier: CountersBoardTableViewCell.reuseIdentifier,
-                                                         for: indexPath) as! CountersBoardTableViewCell
-                cell.configure(with: .init(counterModel: counter))
-                cell.counterCardView.valueDidChange = { [weak self, counter] stepType in
-                    self?.delegate?.cellStepperDidChangeValue(counter.id,
-                                                             stepperChangeType: stepType)
-                }
+        dataSource = DataSource(tableView: countersTableView,
+                                cellProvider: { (tableView, indexPath, counter) -> UITableViewCell? in
+                                    let cell = tableView.dequeueReusableCell(withIdentifier: CountersBoardTableViewCell.reuseIdentifier,
+                                                                             for: indexPath) as! CountersBoardTableViewCell
+                                    cell.configure(with: .init(counterModel: counter))
+                                    cell.counterCardView.valueDidChange = { [weak self, counter] stepType in
+                                        self?.delegate?.cellStepperDidChangeValue(counter.id,
+                                                                                  stepperChangeType: stepType)
+                                    }
 
-                return cell
-            }
+                                    return cell
+                                }
         )
     }
 
     func updateData(on results: [CounterModel], animated: Bool) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, CounterModel>()
+        var snapshot = NSDiffableDataSourceSnapshot<CounterBoardSection, CounterModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems(results)
         DispatchQueue.main.async {
@@ -269,6 +349,27 @@ extension CountersBoardView: CountersBoardTableViewConfigureDelegate {
         }
 
         updateData(on: counters, animated: animated)
+    }
+}
+
+// Subclassing our data source to supply various UITableViewDataSource methods
+
+class DataSource: UITableViewDiffableDataSource<CountersBoardView.CounterBoardSection, CounterModel> {
+
+    // MARK: editing support
+
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if let identifierToDelete = itemIdentifier(for: indexPath) {
+                var snapshot = self.snapshot()
+                snapshot.deleteItems([identifierToDelete])
+                apply(snapshot)
+            }
+        }
     }
 }
 
