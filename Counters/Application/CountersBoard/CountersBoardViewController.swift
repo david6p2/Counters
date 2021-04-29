@@ -14,6 +14,7 @@ class CountersBoardViewController: UIViewController {
     weak var coordinator: MainCoordinator?
     private lazy var innerView = CountersBoardView() // closures de interaccion
     private var editButton: UIBarButtonItem!
+    private var selectAllButton: UIBarButtonItem?
     var searchController = UISearchController()
 
     private let presenter: CountersBoardPresenterProtocol
@@ -55,7 +56,12 @@ class CountersBoardViewController: UIViewController {
 
     func setupNavigationBarEditButton(_ editBarButton: UIBarButtonItem) {
         editButton = editBarButton
-        navigationItem.leftBarButtonItem = editBarButton
+        navigationItem.leftBarButtonItem = editButton
+    }
+
+    func setupNavigationBarSelectAllButton(_ selectAllBarButon: UIBarButtonItem?) {
+        selectAllButton = selectAllBarButon
+        navigationItem.rightBarButtonItem = selectAllButton
     }
 
     func setupSearchController(_ placeholder: String) {
@@ -82,14 +88,19 @@ extension CountersBoardViewController: CountersBoardViewProtocol {
     func presentAddNewCounter() {
         coordinator?.showAddCounterView()
     }
+
+    func toggleEditing() {
+        innerView.toggleEditing()
+    }
 }
 
 // MARK: - View Delegate Implementation
 
 extension CountersBoardViewController: CountersBoardViewDelegate {
-    func setupNavigationControllerWith(title: String, editBarButton: UIBarButtonItem, searchPlaceholder: String, toolbarItems: [UIBarButtonItem]) {
+    func setupNavigationControllerWith(title: String, editBarButton: UIBarButtonItem, selectAllBarButton: UIBarButtonItem?, searchPlaceholder: String, toolbarItems: [UIBarButtonItem]) {
         setupNavigationBar(title)
         setupNavigationBarEditButton(editBarButton)
+        setupNavigationBarSelectAllButton(selectAllBarButton)
         setupSearchController(searchPlaceholder)
         setupToolbar(toolbarItems)
     }
@@ -107,8 +118,20 @@ extension CountersBoardViewController: CountersBoardViewDelegate {
         presenter.editButtonPressed()
     }
 
+    func selectAllButtonWasPressed() {
+        presenter.selectAllPressed()
+    }
+
     func addButtonWasPressed() {
         presenter.addButtonPressed()
+    }
+
+    func trashButtonWasPressed() {
+        presenter.handleCounterDelete(counterId: "")
+    }
+
+    func shareButtonWasPressed() {
+        presenter.shareButtonWasPressed()
     }
 
     func pullToRefreshCalled() {
