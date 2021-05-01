@@ -27,6 +27,8 @@ protocol CountersBoardViewProtocol: class {
     func setup(viewModel: CountersBoardView.ViewModel, animated: Bool)
     func presentAddNewCounter()
     func toggleEditing()
+    func selectAllCounters()
+    func shareSelectedCounters()
     func presentDeleteItemsConfirmationAlert(_ items: [String])
 }
 
@@ -75,7 +77,7 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
 
     func selectAllPressed() {
         print("Calling selectAll counters")
-        view?.toggleEditing()
+        view?.selectAllCounters()
     }
 
     func addButtonPressed() {
@@ -85,6 +87,7 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
 
     func shareButtonWasPressed() {
         print("Share was pressed")
+        view?.shareSelectedCounters()
     }
 
     func trashButtonWasPressed(withSelectedItemsIds ids: [String]) {
