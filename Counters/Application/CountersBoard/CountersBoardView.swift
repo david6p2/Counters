@@ -68,9 +68,9 @@ internal final class CountersBoardView: UIView {
     var addToolbarItems: [UIBarButtonItem]!
     var editToolbarItems: [UIBarButtonItem]!
 
-    private var isEditingModeActive = false
+    var isEditingModeActive = false
 
-    var dataSource: DataSource!
+    private var dataSource: DataSource!
     weak var delegate: CountersBoardViewDelegate?
 
     // MARK: - Initialization
@@ -143,17 +143,19 @@ internal final class CountersBoardView: UIView {
 
         // Setup Table View
         countersTableView.configureDelegate = self
-        countersTableView.separatorStyle = .none
+        countersTableView.delegate = self
         countersTableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         refreshControl.endRefreshing()
-        countersTableView.configure(with: viewModel.counters, animated: true)
+        countersTableView.configure(with: viewModel.counters, animated: animated)
     }
 
     func toggleEditing() {
         isEditingModeActive = !isEditingModeActive
         countersTableView.setEditing(isEditingModeActive, animated: true)
-        configure(withParent: viewModel.parentVM)
+        configure(with: viewModel, animated: false)
+    }
+
     }
 }
 
@@ -177,7 +179,11 @@ private extension CountersBoardView {
 
     @objc private func trash(sender: UIBarButtonItem) {
         print("trash button was pressed")
-        delegate?.trashButtonWasPressed()
+        guard let indexes = self.countersTableView.indexPathsForSelectedRows else {
+            return
+        }
+        let ids = indexes.map({ self.viewModel.counters[$0.row].id})
+        delegate?.trashButtonWasPressed(withSelectedItemsIds: ids)
     }
 
     @objc private func share(sender: UIBarButtonItem) {
@@ -297,7 +303,23 @@ private extension CountersBoardView {
     }
 }
 
+// MARK: - DiffableDatasource Subclass
+
+private extension CountersBoardView {
+    // Subclassing our data source to supply various UITableViewDataSource methods
+
+    class DataSource: UITableViewDiffableDataSource<CountersBoardView.CounterBoardSection, CounterModel> {
+
+        // MARK: editing support
+
+        override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+            return true
+        }
+    }
+}
+
 // MARK: - UITableViewDiffableDataSource
+
 extension CountersBoardView {
 
     enum CounterBoardSection {
@@ -311,7 +333,7 @@ extension CountersBoardView {
                                                                              for: indexPath) as! CountersBoardTableViewCell
                                     cell.configure(with: .init(counterModel: counter))
                                     cell.counterCardView.valueDidChange = { [weak self, counter] stepType in
-                                        self?.delegate?.cellStepperDidChangeValue(counter.id,
+                                        self?.delegate?.cellStepperDidChangeValue(counter,
                                                                                   stepperChangeType: stepType)
                                     }
 
@@ -327,6 +349,18 @@ extension CountersBoardView {
         DispatchQueue.main.async {
             self.dataSource.apply(snapshot, animatingDifferences: animated)
         }
+    }
+}
+
+// MARK: - UITableViewDelegate
+
+extension CountersBoardView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        if tableView.isEditing {
+            return .delete
+        }
+
+        return .none
     }
 }
 
@@ -348,27 +382,6 @@ extension CountersBoardView: CountersBoardTableViewConfigureDelegate {
         }
 
         updateData(on: counters, animated: animated)
-    }
-}
-
-// Subclassing our data source to supply various UITableViewDataSource methods
-
-class DataSource: UITableViewDiffableDataSource<CountersBoardView.CounterBoardSection, CounterModel> {
-
-    // MARK: editing support
-
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            if let identifierToDelete = itemIdentifier(for: indexPath) {
-                var snapshot = self.snapshot()
-                snapshot.deleteItems([identifierToDelete])
-                apply(snapshot)
-            }
-        }
     }
 }
 

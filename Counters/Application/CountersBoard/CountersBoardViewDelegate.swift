@@ -14,11 +14,11 @@ protocol CountersBoardViewDelegate: class {
                                        selectAllBarButton: UIBarButtonItem?,
                                        searchPlaceholder: String,
                                        toolbarItems: [UIBarButtonItem])
-    func cellStepperDidChangeValue(_ counterID: String, stepperChangeType: CounterCardView.StepperChangeType)
+    func cellStepperDidChangeValue(_ counter: CounterModelProtocol, stepperChangeType: CounterCardView.StepperChangeType)
     func editButtonWasPressed()
     func selectAllButtonWasPressed()
     func addButtonWasPressed()
-    func trashButtonWasPressed()
+    func trashButtonWasPressed(withSelectedItemsIds ids: [String])
     func shareButtonWasPressed()
     func pullToRefreshCalled()
 }

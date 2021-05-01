@@ -51,6 +51,9 @@ class CountersBoardTableView: UITableView {
 
     func configure(with counters: [CounterModelProtocol], animated: Bool) {
         self.register(CountersBoardTableViewCell.self, forCellReuseIdentifier: CountersBoardTableViewCell.reuseIdentifier)
+        self.allowsMultipleSelectionDuringEditing = true
+        self.allowsSelection = false
+        self.separatorStyle = .none
         isHidden = counters.isEmpty
         configureDelegate?.isCallingConfigure(with: counters, animated: animated)
     }
