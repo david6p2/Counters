@@ -12,7 +12,7 @@ public struct UIViewControllerPreviewContainer: UIViewControllerRepresentable {
 
     public init(
         makeUIViewControllerHandler: @escaping (Context) -> UIViewControllerType,
-        updateUIViewControllerHandler: ((UIViewController, Context) -> Void)?
+        updateUIViewControllerHandler: ((UIViewController, Context) -> Void)? = nil
     ) {
         self.makeUIViewControllerHandler = makeUIViewControllerHandler
         self.updateUIViewControllerHandler = updateUIViewControllerHandler
