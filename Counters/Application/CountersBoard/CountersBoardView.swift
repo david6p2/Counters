@@ -158,6 +158,29 @@ internal final class CountersBoardView: UIView {
         configure(with: viewModel, animated: false)
     }
 
+    func selectAllCounters() {
+        let allRows = countersTableView.numberOfRows(inSection: 0)
+
+        for row in 0..<allRows {
+            countersTableView.selectRow(
+                at: NSIndexPath(row: row, section: 0) as IndexPath,
+                animated: false,
+                scrollPosition: UITableView.ScrollPosition.none
+            )
+        }
+    }
+
+    func shareSelectedCounters() -> UIActivityViewController? {
+        guard let indexPaths = countersTableView.indexPathsForSelectedRows else {
+            return nil
+        }
+        
+        let counterItems: [String] = indexPaths.map({ String(format: "COUNTERSDASHBOARD_EDIT_SHARE_TITLE".localized(),
+                                                             viewModel.counters[$0.row].count,
+                                                             viewModel.counters[$0.row].title)}
+        )
+
+        return UIActivityViewController(activityItems: counterItems, applicationActivities: nil)
     }
 }
 
