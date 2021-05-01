@@ -118,8 +118,10 @@ extension CountersBoardViewController: CountersBoardViewProtocol {
             message: nil,
             preferredStyle: UIAlertController.Style.actionSheet
         )
+
+        let alertTitleString = items.count > 1 ? "COUNTERSDASHBOARD_EDIT_DELETE_ALERT_TITLE".localized() : "COUNTERSDASHBOARD_EDIT_DELETE_ALERT_TITLE_SINGULAR" .localized()
         
-        let deleteAction = UIAlertAction(title: String(format: "COUNTERSDASHBOARD_EDIT_DELETE_ALERT_TITLE".localized(), items.count) ,
+        let deleteAction = UIAlertAction(title: String(format: alertTitleString, items.count) ,
                                          style: .destructive) { (action: UIAlertAction) in
             self.presenter.handleCountersDelete(countersIds: items)
         }
