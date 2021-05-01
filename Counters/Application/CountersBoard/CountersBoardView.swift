@@ -119,6 +119,8 @@ internal final class CountersBoardView: UIView {
         selectAllButton.setTitleTextAttributes([.foregroundColor: UIColor.disableText], for: .disabled)
         selectAllButton.isEnabled = parentVM.isEditEnabled
 
+        addButton.isEnabled = !viewModel.isLoading
+
         // Call View Delegate to configure Navigation Items
         delegate?.setupNavigationControllerWith(title: parentVM.titleString,
                                                 editBarButton: isEditingModeActive ? doneButton : editButton,
