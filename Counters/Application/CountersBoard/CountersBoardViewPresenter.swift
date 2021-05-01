@@ -8,30 +8,33 @@
 import UIKit
 
 protocol CountersBoardPresenterProtocol {
-    //var viewModel: CountersBoardView.ViewModel { get }
+    var editModeDisableAction: (() -> Void)? { get set }
 
     func viewDidLoad(animated: Bool)
-    
     func noContentViewButtonPressed()
     func editButtonPressed()
     func selectAllPressed()
     func addButtonPressed()
     func shareButtonWasPressed()
+    func trashButtonWasPressed(withSelectedItemsIds ids: [String])
     func pullToRefreshCalled()
-    func handleCounterIncrease(counterId: String)
-    func handleCounterDecrease(counterId: String)
-    func handleCounterDelete(counterId: String)
+    func handleCounterIncrease(counter: CounterModelProtocol)
+    func handleCounterDecrease(counter: CounterModelProtocol)
+    func handleCountersDelete(countersIds: [String])
 }
 
 protocol CountersBoardViewProtocol: class {
     func setup(viewModel: CountersBoardView.ViewModel, animated: Bool)
     func presentAddNewCounter()
     func toggleEditing()
+    func presentDeleteItemsConfirmationAlert(_ items: [String])
 }
 
 internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol {
     weak var view: CountersBoardViewProtocol?
     var currentStateStrategy: CountersBoardState = CountersBoardStateLoading()
+
+    var editModeDisableAction: (() -> Void)?
 
     let api = NetworkingClient()
     lazy var countersRepository = CounterRepository(apiTaskLoader: NetworkingClientLoader(apiRequest:api))
@@ -54,24 +57,6 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                 let state = CountersBoardStateHasContent(counters)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.view?.setup(viewModel: state.viewModel, animated: animated)
-
-//                    countersRepository.deleteCounter(id: "kny33d74") { [weak self] (result) in
-//                        guard let self = self else { return }
-//                        switch result {
-//                        case .success(let counters):
-//                            guard let counters = counters else {
-//                                print("The error in Delete success is: there are no counters")
-//                                return
-//                            }
-//                            print("The counters when Delete are: \(counters)")
-//                            let state = CountersBoardStateHasContent(counters)
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                                self.view?.setup(viewModel: state.viewModel)
-//                            }
-//                        case .failure(let error):
-//                            print("The error is: \(error)")
-//                        }
-//                    }
                 }
             case .failure(let error):
                 print("The error is: \(error)")
@@ -102,13 +87,18 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
         print("Share was pressed")
     }
 
+    func trashButtonWasPressed(withSelectedItemsIds ids: [String]) {
+        print("Trash was pressed with Items \(ids)")
+        view?.presentDeleteItemsConfirmationAlert(ids)
+    }
+
     func pullToRefreshCalled() {
         print("Pull to refresh called")
         getCounters(animated: true)
     }
 
-    func handleCounterIncrease(counterId: String) {
-        countersRepository.increaseCounter(id: counterId) { [weak self] (result) in
+    func handleCounterIncrease(counter: CounterModelProtocol) {
+        countersRepository.increaseCounter(id: counter.id) { [weak self] (result) in
             guard let self = self else { return }
             switch result {
             case .success(let counters):
@@ -131,28 +121,54 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
         }
     }
 
-    func handleCounterDecrease(counterId: String) {
-        countersRepository.decreaseCounter(id: counterId) { [weak self] (result) in
-            guard let self = self else { return }
-            switch result {
-            case .success(let counters):
-                guard let counters = counters else {
-                    print("The error in Decrease success is: there are no counters")
-                    return
+    func handleCounterDecrease(counter: CounterModelProtocol) {
+        if counter.count > 0 {
+            countersRepository.decreaseCounter(id: counter.id) { [weak self] (result) in
+                guard let self = self else { return }
+                switch result {
+                case .success(let counters):
+                    guard let counters = counters else {
+                        print("The error in Decrease success is: there are no counters")
+                        return
+                    }
+                    print("The counters when Decrease are: \(counters)")
+                    let state = CountersBoardStateHasContent(counters)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        self.view?.setup(viewModel: state.viewModel, animated: false)
+                    }
+                case .failure(let error):
+                    print("The error is: \(error)")
                 }
-                print("The counters when Decrease are: \(counters)")
-                let state = CountersBoardStateHasContent(counters)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.view?.setup(viewModel: state.viewModel, animated: false)
-                }
-            case .failure(let error):
-                print("The error is: \(error)")
             }
+        } else {
+            handleCountersDelete(countersIds: [counter.id])
         }
     }
 
-    func handleCounterDelete(counterId: String) {
-        print("Calling delete counter \(counterId)")
+    func handleCountersDelete(countersIds: [String]) {
+        for id in countersIds {
+            countersRepository.deleteCounter(id: id) { [weak self] (result) in
+                guard let self = self else { return }
+                switch result {
+                case .success(let counters):
+                    guard let counters = counters else {
+                        print("The error in Delete success is: there are no counters")
+                        return
+                    }
+                    print("The counters when Delete are: \(counters)")
+                    let state: CountersBoardState = counters.isEmpty ? CountersBoardStateNoContent() : CountersBoardStateHasContent(counters)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        if let editModeDisableAction = self.editModeDisableAction {
+                            editModeDisableAction()
+                        }
+
+                        self.view?.setup(viewModel: state.viewModel, animated: true)
+                    }
+                case .failure(let error):
+                    print("The error is: \(error)")
+                }
+            }
+        }
     }
 }
 
