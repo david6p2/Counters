@@ -81,9 +81,9 @@ private extension CountersBoardTableViewCell {
                 equalTo: contentView.topAnchor,
                 constant: 8
             ),
-            contentView.bottomAnchor.constraint(
-                equalTo: counterCardView.bottomAnchor,
-                constant: 8
+            counterCardView.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor,
+                constant: -8
             ),
             counterCardView.heightAnchor.constraint(greaterThanOrEqualToConstant: 96)
         ])
