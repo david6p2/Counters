@@ -17,13 +17,14 @@ class CountersBoardViewController: UIViewController {
     private var selectAllButton: UIBarButtonItem?
     var searchController = UISearchController()
 
-    private let presenter: CountersBoardPresenterProtocol
+    private var presenter: CountersBoardPresenterProtocol
 
     // MARK: - Initialization
     
     init(presenter: CountersBoardPresenterProtocol) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
+        setPresenterClosures()
     }
 
     @available(*, unavailable)
@@ -44,6 +45,18 @@ class CountersBoardViewController: UIViewController {
     }
 
     // MARK: - Configuration
+
+    func setPresenterClosures() {
+        presenter.editModeDisableAction = { [weak self] in
+            guard let self = self else {
+                return
+            }
+
+            if self.innerView.isEditingModeActive {
+                self.innerView.toggleEditing()
+            }
+        }
+    }
 
     func setupNavigationBar(_ title: String) {
         self.title = title
@@ -87,6 +100,27 @@ extension CountersBoardViewController: CountersBoardViewProtocol {
     func toggleEditing() {
         innerView.toggleEditing()
     }
+
+    func presentDeleteItemsConfirmationAlert(_ items: [String]) {
+        let deleteAlert = UIAlertController(
+            title: nil,
+            message: nil,
+            preferredStyle: UIAlertController.Style.actionSheet
+        )
+        
+        let deleteAction = UIAlertAction(title: String(format: "COUNTERSDASHBOARD_EDIT_DELETE_ALERT_TITLE".localized(), items.count) ,
+                                         style: .destructive) { (action: UIAlertAction) in
+            self.presenter.handleCountersDelete(countersIds: items)
+        }
+
+        let cancelAction = UIAlertAction(title: "COUNTERSDASHBOARD_EDIT_DELETE_ALERT_CANCEL".localized(),
+                                         style: .cancel,
+                                         handler: nil)
+
+        deleteAlert.addAction(deleteAction)
+        deleteAlert.addAction(cancelAction)
+        self.present(deleteAlert, animated: true, completion: nil)
+    }
 }
 
 // MARK: - View Delegate Implementation
@@ -100,12 +134,12 @@ extension CountersBoardViewController: CountersBoardViewDelegate {
         setupToolbar(toolbarItems)
     }
 
-    func cellStepperDidChangeValue(_ counterID: String, stepperChangeType: CounterCardView.StepperChangeType) {
+    func cellStepperDidChangeValue(_ counter: CounterModelProtocol, stepperChangeType: CounterCardView.StepperChangeType) {
         switch stepperChangeType {
         case .increase:
-            presenter.handleCounterIncrease(counterId: counterID)
+            presenter.handleCounterIncrease(counter: counter)
         case .decrease:
-            presenter.handleCounterDecrease(counterId: counterID)
+            presenter.handleCounterDecrease(counter: counter)
         }
     }
 
@@ -121,8 +155,8 @@ extension CountersBoardViewController: CountersBoardViewDelegate {
         presenter.addButtonPressed()
     }
 
-    func trashButtonWasPressed() {
-        presenter.handleCounterDelete(counterId: "")
+    func trashButtonWasPressed(withSelectedItemsIds ids: [String]) {
+        presenter.trashButtonWasPressed(withSelectedItemsIds: ids)
     }
 
     func shareButtonWasPressed() {
