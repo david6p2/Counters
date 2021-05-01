@@ -213,22 +213,21 @@ extension AddCounterViewController: AddCounterViewProtocol {
     }
 }
 
-//// MARK: - Preview
-//
-//#if canImport(SwiftUI) && DEBUG
-//import SwiftUI
-//
-//struct AddCounter_Preview: PreviewProvider {
-//    static var previews: some View {
-//        UIViewControllerPreviewContainer { _ in
-//            let presenter = AddCounterViewPresenter()
-//            let viewController = AddCounterViewController(presenter: presenter)
-//
-//            viewController.configure(with: presenter.viewModel)
-//
-//            return viewController
-//        }
-//
-//    }
-//}
-//#endif
+// MARK: - Preview
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+struct AddCounter_Preview: PreviewProvider {
+    static var previews: some View {
+        UIViewControllerPreviewContainer { _ in
+            let presenter = AddCounterViewPresenter()
+            let viewController = AddCounterViewController(presenter: presenter)
+
+            viewController.configure(with: presenter.viewModel)
+
+            return viewController
+        }
+    }
+}
+#endif
