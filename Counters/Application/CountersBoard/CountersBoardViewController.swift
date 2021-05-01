@@ -101,6 +101,17 @@ extension CountersBoardViewController: CountersBoardViewProtocol {
         innerView.toggleEditing()
     }
 
+    func selectAllCounters() {
+        innerView.selectAllCounters()
+    }
+
+    func shareSelectedCounters() {
+        guard let shareViewController = innerView.shareSelectedCounters() else {
+            return
+        }
+        present(shareViewController, animated: true)
+    }
+
     func presentDeleteItemsConfirmationAlert(_ items: [String]) {
         let deleteAlert = UIAlertController(
             title: nil,
