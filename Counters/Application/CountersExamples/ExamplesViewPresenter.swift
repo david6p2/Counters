@@ -9,11 +9,12 @@ import UIKit
 
 protocol ExamplesViewProtocol: class {
     func setup(viewModel: ExamplesViewModel)
+    func setSelectedExample(with name: String)
 }
 
 protocol ExamplesViewPresenterProtocol {
     func viewDidLoad()
-    func cellPressed(withName name:String)
+    func cellPressed(with name:String)
     func examplesViewDismissed()
 }
 
@@ -74,8 +75,8 @@ extension ExamplesViewPresenter: ExamplesViewPresenterProtocol {
         view?.setup(viewModel: viewModel)
     }
 
-    func cellPressed(withName name: String) {
-
+    func cellPressed(with name: String) {
+        view?.setSelectedExample(with: name)
     }
 
     func examplesViewDismissed() {
