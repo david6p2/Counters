@@ -17,6 +17,8 @@ internal final class ExamplesView: UIView {
     private var examplesColectionView: UICollectionView! = nil
     private var dataSource: UICollectionViewDiffableDataSource<String, String>! = nil
 
+    weak var delegate: ExamplesViewDelegate?
+
     // MARK: - Initialization
 
     init() {
@@ -152,8 +154,9 @@ extension ExamplesView {
 
 extension ExamplesView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Selected Cell is \(viewModel.examplesViewModel[indexPath.section].sectionExamples[indexPath.row])")
-        
+        let exampleName = viewModel.examplesViewModel[indexPath.section].sectionExamples[indexPath.row]
+        print("Selected Cell is \(exampleName)")
+        delegate?.oneOfTheExamplesWasTapped(with: exampleName)
         collectionView.deselectItem(at: indexPath, animated: true)
     }
 }

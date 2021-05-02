@@ -217,6 +217,12 @@ extension AddCounterViewController: AddCounterViewProtocol {
     func presentExamplesView() {
         coordinator?.showExamplesView()
     }
+
+    func setNameTextField(with name: String) {
+        nameTextField.text = name
+        nameTextField.becomeFirstResponder()
+        nameTextFieldChanged(nameTextField)
+    }
 }
 
 // MARK: - Preview

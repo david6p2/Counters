@@ -11,14 +11,14 @@ class ExamplesViewController: UIViewController {
 
     // MARK: - Properties
 
-    private let presenter: ExamplesViewPresenterProtocol
+    private let examplesViewPresenter: ExamplesViewPresenterProtocol
     weak var coordinator: MainCoordinator?
     private lazy var innerView = ExamplesView()
 
     // MARK: - Initialization
 
     init(presenter: ExamplesViewPresenterProtocol) {
-        self.presenter = presenter
+        self.examplesViewPresenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -36,7 +36,8 @@ class ExamplesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        presenter.viewDidLoad()
+        innerView.delegate = self
+        examplesViewPresenter.viewDidLoad()
     }
 }
 
@@ -55,5 +56,20 @@ private extension ExamplesViewController {
 extension ExamplesViewController: ExamplesViewProtocol {
     func setup(viewModel: ExamplesViewModel) {
         innerView.configure(with: viewModel)
+    }
+
+    func setSelectedExample(with name: String) {
+        coordinator?.exampleWasSelected(with: name)
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
+    }
+}
+
+// MARK: - View Delegate Implementation
+
+extension ExamplesViewController: ExamplesViewDelegate {
+    func oneOfTheExamplesWasTapped(with name: String) {
+        examplesViewPresenter.cellPressed(with: name)
     }
 }
