@@ -32,10 +32,12 @@
 "COUNTERSDASHBOARD_SELECT_ALL" = "Select All";
 "COUNTERSDASHBOARD_SEARCHPLACEHOLDER" = "Search";
 
+// MARK: - CountersDashboard No Content
 "COUNTERSDASHBOARD_NO_CONTENT_TITLE" = "No counters yet";
 "COUNTERSDASHBOARD_NO_CONTENT_SUBTITLE" = "“When I started counting my blessings, my whole life turned around.” \n—Willie Nelson";
 "COUNTERSDASHBOARD_NO_CONTENT_BUTTONTITLE" = "Create a counter";
 
+// MARK: - CountersDashboard Error
 "COUNTERSDASHBOARD_ERROR_TITLE" = "Couldn’t load the counters";
 "COUNTERSDASHBOARD_ERROR_SUBTITLE" = "The Internet connection appears to be offline.";
 "COUNTERSDASHBOARD_ERROR_BUTTONTITLE" = "Retry";
@@ -47,3 +49,30 @@
 "ADDCOUNTER_EXAMPLES_LINK_WORD" = "examples";
 "ADDCOUNTER_EXAMPLE" = "Give it a name. Creative block? See examples.";
 "ADDCOUNTER_SEARCHPLACEHOLDER" = "Cups of coffee";
+
+// MARK: - ExamplesView
+"EXAMPLES_TITLE" = "Examples";
+"EXAMPLES_BACK" = "Create";
+"EXAMPLES_HEADER_TITLE" = "Select an example to add it to your counters.";
+
+// MARK: - ExamplesView Drinks category
+"EXAMPLES_SECTION_DRINKS_HEADER_TITLE" = "DRINKS";
+"EXAMPLES_SECTION_DRINKS_ITEM1" = "☕️ Cups of coffee";
+"EXAMPLES_SECTION_DRINKS_ITEM2" = "🥛 Glasses of milk";
+"EXAMPLES_SECTION_DRINKS_ITEM3" = "🥃 Whiskys";
+"EXAMPLES_SECTION_DRINKS_ITEM4" = "🍻 Beers";
+// MARK: - ExamplesView Food category
+"EXAMPLES_SECTION_FOOD_HEADER_TITLE" = "FOOD";
+"EXAMPLES_SECTION_FOOD_ITEM1" = "🌭 Hot dogs";
+"EXAMPLES_SECTION_FOOD_ITEM2" = "🧁 Cupcakes eaten";
+"EXAMPLES_SECTION_FOOD_ITEM3" = "🍗 Chicken";
+"EXAMPLES_SECTION_FOOD_ITEM4" = "🍌 Bannanas";
+"EXAMPLES_SECTION_FOOD_ITEM5" = "🍬 Candies";
+// MARK: - ExamplesView MISC
+"EXAMPLES_SECTION_MISC_HEADER_TITLE" = "MISC";
+"EXAMPLES_SECTION_MISC_ITEM1" = "⏰ Times sneezed";
+"EXAMPLES_SECTION_MISC_ITEM2" = "😴 Naps";
+"EXAMPLES_SECTION_MISC_ITEM3" = "💭 Day dreaming";
+"EXAMPLES_SECTION_MISC_ITEM4" = "🏃‍♂️ Calories Burned";
+"EXAMPLES_SECTION_MISC_ITEM5" = "👟 Steps";
+

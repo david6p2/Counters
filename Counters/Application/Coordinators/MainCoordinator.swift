@@ -66,6 +66,19 @@ class MainCoordinator: CoordinatorProtocol {
         navigationController.pushViewController(vc, animated: true)
     }
 
+    func showExamplesView() {
+        guard let navigationController = navigationController else {
+            return
+        }
+
+        let presenter = ExamplesViewPresenter()
+        let vc = ExamplesViewController(presenter: presenter)
+        presenter.view = vc
+        vc.coordinator = self
+        navigationController.isNavigationBarHidden = false
+        navigationController.pushViewController(vc, animated: true)
+    }
+
     func counterWasCreated() {
         countersBoardPresenter.currentStateStrategy = CountersBoardStateLoading()
         DispatchQueue.main.async { [weak self] in
