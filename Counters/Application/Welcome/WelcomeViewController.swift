@@ -33,7 +33,9 @@ class WelcomeViewController: UIViewController {
     override func loadView() {
         view = innerView
     }
-    
+
+    // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         additionalSafeAreaInsets = Constants.additionalInsets

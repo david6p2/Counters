@@ -97,8 +97,9 @@ private extension AddCounterViewController {
         saveButton.isEnabled = sender.text?.isEmpty ?? true ? false : true
     }
 
-    @objc private func examplesTapped(_ sender: UITapGestureRecognizer) {
-        print("Examples tapped")
+    private func examplesLinkWasTapped(withURL url: URL) {
+        print("Examples link was tapped")
+        presenter.examplesLinkPressed()
     }
 }
 
@@ -190,6 +191,7 @@ private extension AddCounterViewController {
 extension AddCounterViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         print("Examples TextView tapped with URL: \(URL)")
+        examplesLinkWasTapped(withURL: URL)
         return false
     }
 }
@@ -210,6 +212,10 @@ extension AddCounterViewController: AddCounterViewProtocol {
         DispatchQueue.main.async { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }
+    }
+
+    func presentExamplesView() {
+        coordinator?.showExamplesView()
     }
 }
 
