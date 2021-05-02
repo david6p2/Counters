@@ -13,6 +13,7 @@ extension UIColor {
     static let accentColor = UIColor(named: "AccentColor")!
     static let background = UIColor(named: "Background")!
     static let buttonText = UIColor(named: "ButtonText")!
+    static let cellBackground = UIColor(named: "CellBackground")!
     static let descriptionText = UIColor(named: "DescriptionText")!
     static let disableText = UIColor(named: "DisabledText")!
     static let countersGreen = UIColor(named: "Green")!

@@ -11,6 +11,7 @@ protocol AddCounterViewProtocol: class {
     func setup(viewModel: AddCounterViewController.AddCounterViewModel)
     func popViewController(isCountersRefreshNeeded: Bool)
     func counterSuccessfullyCreated()
+    func presentExamplesView()
 }
 
 protocol AddCounterViewPresenterProtocol {
@@ -18,6 +19,7 @@ protocol AddCounterViewPresenterProtocol {
     func cancelButtonPressed()
     func saveButtonPressed(withCounterName name: String)
     func addCounterIsLoading(withCounterName name: String)
+    func examplesLinkPressed()
 }
 
 internal final class AddCounterViewPresenter {
@@ -74,5 +76,10 @@ extension AddCounterViewPresenter: AddCounterViewPresenterProtocol {
                 print("The error is: \(error)")
             }
         }
+    }
+
+    func examplesLinkPressed() {
+        print("examples Link was Pressed")
+        view?.presentExamplesView()
     }
 }
