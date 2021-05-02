@@ -68,7 +68,7 @@ extension AddCounterViewPresenter: AddCounterViewPresenterProtocol {
         countersRepository.createCounter(name: name) { [weak self] (result) in
             switch result {
             case .success(let counters):
-                print("The counters when Create are: \(counters)")
+                print("The counters when Create are: \(String(describing: counters))")
                 guard counters != nil else {
                     print("The error in Create success is: there are no counters")
                     return
