@@ -17,4 +17,5 @@ protocol CoordinatorProtocol {
     func showCountersBoard()
     func showAddCounterView()
     func counterWasCreated()
+    func exampleWasSelected(with name: String)
 }
