@@ -162,6 +162,30 @@ extension CountersBoardViewController: CountersBoardViewProtocol {
         
         self.presentAlert(with: countersError)
     }
+
+    func presentDeleteErrorAlert(with error: CountersError) {
+        var counterId: String? = nil
+        var counterName: String
+        if case .delete(let id) = error.type {
+            counterId = id
+        }
+
+        if let counterId = counterId {
+            counterName = innerView.viewModel.getCounter(for: counterId)?.title ?? ""
+        } else {
+            counterName = ""
+        }
+
+        let title = String(format: "COUNTERSDASHBOARD_ERROR_DELETE_TITLE".localized(), counterName)
+        let deleteError = CountersError(error: error.error as NSError,
+                                          type: error.type,
+                                          title: title,
+                                          message: "COUNTERSDASHBOARD_ERROR_DELETE_SUBTITLE".localized(),
+                                          actionTitle: "COUNTERSDASHBOARD_ERROR_DELETE_FACTION".localized(),
+                                          retryTitle: nil,
+                                          handler: nil)
+        self.presentAlert(with: deleteError)
+    }
 }
 
 // MARK: - View Delegate Implementation
