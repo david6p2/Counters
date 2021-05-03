@@ -12,7 +12,7 @@ class CountersBoardViewController: UIViewController {
     // MARK: - Properties
     
     weak var coordinator: MainCoordinator?
-    private lazy var innerView = CountersBoardView() // closures de interaccion
+    private lazy var innerView = CountersBoardView()
     private var editButton: UIBarButtonItem!
     private var selectAllButton: UIBarButtonItem?
     var searchController = UISearchController()
@@ -133,6 +133,34 @@ extension CountersBoardViewController: CountersBoardViewProtocol {
         deleteAlert.addAction(deleteAction)
         deleteAlert.addAction(cancelAction)
         self.present(deleteAlert, animated: true, completion: nil)
+    }
+
+    func presentIncreaseDecreaseErrorAlert(with error: CountersError) {
+
+        let title = innerView.viewModel.getErrorAlertTitle(for: error.type)
+        let countersError = CountersError(error: error.error,
+                                  type: error.type,
+                                  title: title,
+                                  message: "COUNTERSDASHBOARD_ERROR_INCREASEDECREASE_SUBTITLE".localized(),
+                                  actionTitle: "COUNTERSDASHBOARD_ERROR_INCREASEDECREASE_BUTTON_TITLE_DISMISS".localized(),
+                                  retryTitle: "COUNTERSDASHBOARD_ERROR_INCREASEDECREASE_BUTTON_TITLE_RETRY".localized()) { [weak self] (_) in
+            switch error.type {
+            case .increase(let id):
+                guard let counter = self?.innerView.viewModel.getCounter(for: id) else {
+                    return
+                }
+                self?.presenter.handleCounterIncrease(counter: counter)
+            case .decrease(let id):
+                guard let counter = self?.innerView.viewModel.getCounter(for: id) else {
+                    return
+                }
+                self?.presenter.handleCounterDecrease(counter: counter)
+            default:
+                break;
+            }
+        }
+        
+        self.presentAlert(with: countersError)
     }
 }
 

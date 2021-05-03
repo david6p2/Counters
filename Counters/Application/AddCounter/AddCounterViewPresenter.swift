@@ -11,7 +11,7 @@ protocol AddCounterViewProtocol: class {
     func setup(viewModel: AddCounterViewController.AddCounterViewModel)
     func popViewController(isCountersRefreshNeeded: Bool)
     func counterSuccessfullyCreated()
-    func presentErrorAlert(with error: NSError)
+    func presentErrorAlert(with error: CountersError)
     func presentExamplesView()
     func setNameTextField(with name: String)
 }
@@ -77,8 +77,15 @@ extension AddCounterViewPresenter: AddCounterViewPresenterProtocol {
                 self?.view?.counterSuccessfullyCreated()
             case .failure(let error):
                 print("The error for addCounterIsLoading is: \(error)")
+                let addError = CountersError(error: error as NSError,
+                                             type: .add(name: name),
+                                             title: nil,
+                                             message: nil,
+                                             actionTitle: nil,
+                                             retryTitle: nil,
+                                             handler: nil)
                 DispatchQueue.main.async {
-                    self?.view?.presentErrorAlert(with: error as NSError)
+                    self?.view?.presentErrorAlert(with: addError)
                 }
             }
         }

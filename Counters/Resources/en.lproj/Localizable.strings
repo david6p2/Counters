@@ -43,6 +43,12 @@
 "COUNTERSDASHBOARD_ERROR_SUBTITLE" = "The Internet connection appears to be offline.";
 "COUNTERSDASHBOARD_ERROR_BUTTONTITLE" = "Retry";
 
+// MARK: - CountersDashboard Increase Decrease Error
+"COUNTERSDASHBOARD_ERROR_INCREASEDECREASE_TITLE" = "Couldn’t update the “%@” counter to %d";
+"COUNTERSDASHBOARD_ERROR_INCREASEDECREASE_SUBTITLE" = "The Internet connection appears to be offline.";
+"COUNTERSDASHBOARD_ERROR_INCREASEDECREASE_BUTTON_TITLE_RETRY" = "Retry";
+"COUNTERSDASHBOARD_ERROR_INCREASEDECREASE_BUTTON_TITLE_DISMISS" = "Dismiss";
+
 // MARK: - AddCounter
 "ADDCOUNTER_TITLE" = "Create a counter";
 "ADDCOUNTER_CANCEL" = "Cancel";
