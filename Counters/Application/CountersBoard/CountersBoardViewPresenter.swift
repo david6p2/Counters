@@ -30,6 +30,7 @@ protocol CountersBoardViewProtocol: class {
     func selectAllCounters()
     func shareSelectedCounters()
     func presentDeleteItemsConfirmationAlert(_ items: [String])
+    func presentIncreaseDecreaseErrorAlert(with error: CountersError)
 }
 
 internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol {
@@ -56,15 +57,15 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                     return
                 }
                 print("The counters are: \(counters)")
-                let state = CountersBoardStateHasContent(counters)
+                self.currentStateStrategy = CountersBoardStateHasContent(counters)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.view?.setup(viewModel: state.viewModel, animated: animated)
+                    self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: animated)
                 }
             case .failure(let error):
                 print("The error for getCounters is: \(error)")
-                let state = CountersBoardStateError()
+                self.currentStateStrategy = CountersBoardStateError()
                 DispatchQueue.main.async {
-                    self.view?.setup(viewModel: state.viewModel, animated: animated)
+                    self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: animated)
                 }
             }
         }
@@ -121,15 +122,22 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                     return
                 }
                 print("The counters when Increase are: \(counters)")
-                let state = CountersBoardStateHasContent(counters)
+                self.currentStateStrategy = CountersBoardStateHasContent(counters)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.view?.setup(viewModel: state.viewModel, animated: false)
+                    self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: false)
                 }
             case .failure(let error):
                 print("The error for handleCounterIncrease is: \(error)")
-                let error = error as NSError
-                if let message = error.userInfo["message"] {
-                    print(message)
+                let increaseError = CountersError(error: error as NSError,
+                                                  type: .increase(id: counter.id),
+                                                  title: nil,
+                                                  message: nil,
+                                                  actionTitle: nil,
+                                                  retryTitle: nil,
+                                                  handler: nil
+                )
+                DispatchQueue.main.async {
+                    self.view?.presentIncreaseDecreaseErrorAlert(with: increaseError)
                 }
             }
         }
@@ -146,12 +154,23 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                         return
                     }
                     print("The counters when Decrease are: \(counters)")
-                    let state = CountersBoardStateHasContent(counters)
+                    self.currentStateStrategy = CountersBoardStateHasContent(counters)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        self.view?.setup(viewModel: state.viewModel, animated: false)
+                        self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: false)
                     }
                 case .failure(let error):
                     print("The error for handleCounterDecrease is: \(error)")
+                    let decreaseError = CountersError(error: error as NSError,
+                                                      type: .decrease(id: counter.id),
+                                                      title: nil,
+                                                      message: nil,
+                                                      actionTitle: nil,
+                                                      retryTitle: nil,
+                                                      handler: nil
+                    )
+                    DispatchQueue.main.async {
+                        self.view?.presentIncreaseDecreaseErrorAlert(with: decreaseError)
+                    }
                 }
             }
         } else {
@@ -160,6 +179,7 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
     }
 
     func handleCountersDelete(countersIds: [String]) {
+        // TODO Use Operations to dispatch this request in order
         for id in countersIds {
             countersRepository.deleteCounter(id: id) { [weak self] (result) in
                 guard let self = self else { return }
@@ -170,13 +190,13 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                         return
                     }
                     print("The counters when Delete are: \(counters)")
-                    let state: CountersBoardState = counters.isEmpty ? CountersBoardStateNoContent() : CountersBoardStateHasContent(counters)
+                    self.currentStateStrategy = counters.isEmpty ? CountersBoardStateNoContent() : CountersBoardStateHasContent(counters)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         if let editModeDisableAction = self.editModeDisableAction {
                             editModeDisableAction()
                         }
 
-                        self.view?.setup(viewModel: state.viewModel, animated: true)
+                        self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: true)
                     }
                 case .failure(let error):
                     print("The error for handleCountersDelete is: \(error)")

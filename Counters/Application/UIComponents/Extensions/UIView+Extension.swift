@@ -107,6 +107,29 @@ public extension UIView {
     }
 }
 
+public extension UIViewController {
+    internal func presentAlert(with countersError: CountersError) {
+        var errorMessage = ""
+        if let userInfoMessage = countersError.error.userInfo["message"] as? String {
+            errorMessage = userInfoMessage
+        } else if let localizedDescription = countersError.error.userInfo[NSLocalizedDescriptionKey] as? String {
+            errorMessage = localizedDescription
+        }
+
+        let alert = UIAlertController(
+            title: countersError.title,
+            message: (countersError.message ?? "") + " {" + errorMessage + "}.",
+            preferredStyle: .alert
+        )
+        alert.view.tintColor = UIColor.accentColor
+        alert.addAction(UIAlertAction(title: countersError.actionTitle, style: .default, handler: nil))
+        if let retryTitle = countersError.retryTitle {
+            alert.addAction(UIAlertAction(title: retryTitle, style: .cancel, handler: countersError.handler))
+        }
+        self.present(alert, animated: true)
+    }
+}
+
 public extension UIStackView {
     @discardableResult
     func addArrangedSubviews(_ views: UIView...) -> Self {

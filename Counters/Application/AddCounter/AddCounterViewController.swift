@@ -219,24 +219,18 @@ extension AddCounterViewController: AddCounterViewProtocol {
         }
     }
 
-    func presentErrorAlert(with error: NSError) {
+    func presentErrorAlert(with error: CountersError) {
         changeStateWhenCreatingCounter(false)
 
-        var message = ""
-        if let userInfoMessage = error.userInfo["message"] as? String {
-            message = userInfoMessage
-        } else if let localizedDescription = error.userInfo[NSLocalizedDescriptionKey] as? String {
-            message = localizedDescription
-        }
+        let addError = CountersError(error: error.error as NSError,
+                                     type: error.type,
+                                     title: "ADDCOUNTER_ERROR_TITLE".localized(),
+                                     message: "ADDCOUNTER_ERROR_SUBTITLE".localized(),
+                                     actionTitle: "ADDCOUNTER_ERROR_ACTION".localized(),
+                                     retryTitle: nil,
+                                     handler: nil)
 
-        let alert = UIAlertController(
-            title: "ADDCOUNTER_ERROR_TITLE".localized(),
-            message: "ADDCOUNTER_ERROR_SUBTITLE".localized() + " {" + message + "}.",
-            preferredStyle: .alert
-        )
-        alert.view.tintColor = UIColor.accentColor
-        alert.addAction(UIAlertAction(title: "ADDCOUNTER_ERROR_ACTION".localized(), style: .default, handler: nil))
-        self.present(alert, animated: true)
+        self.presentAlert(with: addError)
     }
 
     func presentExamplesView() {
