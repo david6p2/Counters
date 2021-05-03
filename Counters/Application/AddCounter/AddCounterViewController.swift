@@ -60,11 +60,16 @@ class AddCounterViewController: UIViewController {
         examplesTextView.textColor = .secondaryText
         examplesTextView.linkTextAttributes = [.underlineColor: UIColor.secondaryText]
 
-        if viewModel.isCreatingCounter {
+        changeStateWhenCreatingCounter(viewModel.isCreatingCounter)
+    }
+
+    func changeStateWhenCreatingCounter(_ isCreatingCounter: Bool) {
+        nameTextField.isEnabled = !isCreatingCounter
+        saveButton.isEnabled = !isCreatingCounter
+
+        if isCreatingCounter {
             activityIndicator.startAnimating()
             nameTextField.resignFirstResponder()
-            nameTextField.isEnabled = false
-            saveButton.isEnabled = false
             guard let name = nameTextField.text else {
                 return
             }
@@ -212,6 +217,26 @@ extension AddCounterViewController: AddCounterViewProtocol {
         DispatchQueue.main.async { [weak self] in
             self?.navigationController?.popViewController(animated: true)
         }
+    }
+
+    func presentErrorAlert(with error: NSError) {
+        changeStateWhenCreatingCounter(false)
+
+        var message = ""
+        if let userInfoMessage = error.userInfo["message"] as? String {
+            message = userInfoMessage
+        } else if let localizedDescription = error.userInfo[NSLocalizedDescriptionKey] as? String {
+            message = localizedDescription
+        }
+
+        let alert = UIAlertController(
+            title: "ADDCOUNTER_ERROR_TITLE".localized(),
+            message: "ADDCOUNTER_ERROR_SUBTITLE".localized() + " {" + message + "}.",
+            preferredStyle: .alert
+        )
+        alert.view.tintColor = UIColor.accentColor
+        alert.addAction(UIAlertAction(title: "ADDCOUNTER_ERROR_ACTION".localized(), style: .default, handler: nil))
+        self.present(alert, animated: true)
     }
 
     func presentExamplesView() {

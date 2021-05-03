@@ -50,6 +50,9 @@
 "ADDCOUNTER_EXAMPLES_LINK_WORD" = "examples";
 "ADDCOUNTER_EXAMPLE" = "Give it a name. Creative block? See examples.";
 "ADDCOUNTER_SEARCHPLACEHOLDER" = "Cups of coffee";
+"ADDCOUNTER_ERROR_TITLE" = "Couldn’t create the counter";
+"ADDCOUNTER_ERROR_SUBTITLE" = "The Internet connection appears to be offline.";
+"ADDCOUNTER_ERROR_ACTION" = "Dismiss";
 
 // MARK: - ExamplesView
 "EXAMPLES_TITLE" = "Examples";
