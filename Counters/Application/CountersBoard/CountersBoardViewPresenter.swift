@@ -31,6 +31,7 @@ protocol CountersBoardViewProtocol: class {
     func shareSelectedCounters()
     func presentDeleteItemsConfirmationAlert(_ items: [String])
     func presentIncreaseDecreaseErrorAlert(with error: CountersError)
+    func presentDeleteErrorAlert(with error: CountersError)
 }
 
 internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol {
@@ -200,6 +201,17 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                     }
                 case .failure(let error):
                     print("The error for handleCountersDelete is: \(error)")
+                    let deleteError = CountersError(error: error as NSError,
+                                                    type: .delete(id: id),
+                                                    title: nil,
+                                                    message: nil,
+                                                    actionTitle: nil,
+                                                    retryTitle: nil,
+                                                    handler: nil
+                    )
+                    DispatchQueue.main.async {
+                        self.view?.presentDeleteErrorAlert(with: deleteError)
+                    }
                 }
             }
         }
