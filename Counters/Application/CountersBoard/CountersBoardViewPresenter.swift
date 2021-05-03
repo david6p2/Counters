@@ -61,7 +61,7 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                     self.view?.setup(viewModel: state.viewModel, animated: animated)
                 }
             case .failure(let error):
-                print("The error is: \(error)")
+                print("The error for getCounters is: \(error)")
             }
         }
     }
@@ -115,7 +115,7 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                     self.view?.setup(viewModel: state.viewModel, animated: false)
                 }
             case .failure(let error):
-                print("The error is: \(error)")
+                print("The error for handleCounterIncrease is: \(error)")
                 let error = error as NSError
                 if let message = error.userInfo["message"] {
                     print(message)
@@ -140,7 +140,7 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                         self.view?.setup(viewModel: state.viewModel, animated: false)
                     }
                 case .failure(let error):
-                    print("The error is: \(error)")
+                    print("The error for handleCounterDecrease is: \(error)")
                 }
             }
         } else {
@@ -168,7 +168,7 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                         self.view?.setup(viewModel: state.viewModel, animated: true)
                     }
                 case .failure(let error):
-                    print("The error is: \(error)")
+                    print("The error for handleCountersDelete is: \(error)")
                 }
             }
         }

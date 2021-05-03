@@ -75,7 +75,7 @@ extension AddCounterViewPresenter: AddCounterViewPresenterProtocol {
                 }
                 self?.view?.counterSuccessfullyCreated()
             case .failure(let error):
-                print("The error is: \(error)")
+                print("The error for addCounterIsLoading is: \(error)")
             }
         }
     }
