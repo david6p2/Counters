@@ -60,6 +60,7 @@
 		63B1E258263E61C20095BB5B /* ExampleCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B1E256263E61C20095BB5B /* ExampleCellView.swift */; };
 		63B1E259263E61C20095BB5B /* ExampleHeaderCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B1E257263E61C20095BB5B /* ExampleHeaderCellView.swift */; };
 		63E4DC99263F400600867F88 /* ExamplesViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E4DC98263F400600867F88 /* ExamplesViewDelegate.swift */; };
+		63E4DCB3263FBDDC00867F88 /* CountersError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E4DCB2263FBDDC00867F88 /* CountersError.swift */; };
 		DE3EBACC25E048CE00DA1E0D /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3EBACB25E048CE00DA1E0D /* Button.swift */; };
 		DECA256C25CC8D4200851431 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECA256B25CC8D4200851431 /* AppDelegate.swift */; };
 		DECA257025CC8D4200851431 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECA256F25CC8D4200851431 /* WelcomeViewController.swift */; };
@@ -142,6 +143,7 @@
 		63B1E256263E61C20095BB5B /* ExampleCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleCellView.swift; sourceTree = "<group>"; };
 		63B1E257263E61C20095BB5B /* ExampleHeaderCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleHeaderCellView.swift; sourceTree = "<group>"; };
 		63E4DC98263F400600867F88 /* ExamplesViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamplesViewDelegate.swift; sourceTree = "<group>"; };
+		63E4DCB2263FBDDC00867F88 /* CountersError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersError.swift; sourceTree = "<group>"; };
 		DE3EBACB25E048CE00DA1E0D /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		DECA256825CC8D4200851431 /* Counters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Counters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DECA256B25CC8D4200851431 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 			children = (
 				6384978626361F70002EB98F /* Reachability.swift */,
 				638497B9263682A9002EB98F /* JSONLoaderHelper.swift */,
+				63E4DCB2263FBDDC00867F88 /* CountersError.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -694,6 +697,7 @@
 				6384979426363177002EB98F /* APIHandler.swift in Sources */,
 				638497F12637D10C002EB98F /* AddCounterViewController.swift in Sources */,
 				DE3EBACC25E048CE00DA1E0D /* Button.swift in Sources */,
+				63E4DCB3263FBDDC00867F88 /* CountersError.swift in Sources */,
 				6324CDCA262A9D3100F79036 /* CounterCardView.swift in Sources */,
 				638496D1262CF240002EB98F /* String+Extension.swift in Sources */,
 				63B1E259263E61C20095BB5B /* ExampleHeaderCellView.swift in Sources */,

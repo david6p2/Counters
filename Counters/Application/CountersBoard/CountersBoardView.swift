@@ -61,11 +61,28 @@ internal final class CountersBoardView: UIView {
                    })
             )
         }
+
+        func getErrorAlertTitle(for errorType: CountersError.ErrorType) -> String {
+            switch errorType {
+            case .increase(let id):
+                let counter = getCounter(for: id)
+                return String(format: "COUNTERSDASHBOARD_ERROR_INCREASEDECREASE_TITLE".localized(), counter?.title ?? "", (counter?.count ?? 0) + 1)
+            case .decrease(let id):
+                let counter = getCounter(for: id)
+                return String(format: "COUNTERSDASHBOARD_ERROR_INCREASEDECREASE_TITLE".localized(), counter?.title ?? "", (counter?.count ?? 0) - 1)
+            default:
+                return ""
+            }
+        }
+
+        func getCounter(for id: String) -> CounterModelProtocol? {
+            return self.counters.first{ $0.id == id }
+        }
     }
 
     // MARK: - Properties
 
-    private var viewModel: ViewModel!
+    private(set) var viewModel: ViewModel!
     private let noContentView = CountersBoardNoContentView()
     private let loadingView = CountersBoardLoadingView()
     private let countersTableView = CountersBoardTableView()
