@@ -20,5 +20,6 @@ protocol CountersBoardViewDelegate: class {
     func addButtonWasPressed()
     func trashButtonWasPressed(withSelectedItemsIds ids: [String])
     func shareButtonWasPressed()
-    func pullToRefreshCalled()
+    func pullToRefreshWasCalled()
+    func noContentButtonWasPressed(with type: CountersBoardNoContentView.NoContentViewType)
 }

@@ -9,5 +9,5 @@ import Foundation
 
 /// NoContentView actions
 protocol CountersBoardNoContentViewDelegate: class {
-    func noContentButtonsPressed()
+    func noContentButtonPressed(with type: CountersBoardNoContentView.NoContentViewType)
 }

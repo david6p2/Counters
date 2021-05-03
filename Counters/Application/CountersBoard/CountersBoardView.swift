@@ -241,7 +241,7 @@ private extension CountersBoardView {
     }
 
     @objc private func refresh(_ sender: Any) {
-        delegate?.pullToRefreshCalled()
+        delegate?.pullToRefreshWasCalled()
     }
 }
 
@@ -419,8 +419,8 @@ extension CountersBoardView: UITableViewDelegate {
 // MARK: - CountersBoardNoContentViewDelegate
 
 extension CountersBoardView: CountersBoardNoContentViewDelegate {
-    func noContentButtonsPressed() {
-        print("Button Pressed to notify presenter")
+    func noContentButtonPressed(with type: CountersBoardNoContentView.NoContentViewType) {
+        delegate?.noContentButtonWasPressed(with: type)
     }
 }
 

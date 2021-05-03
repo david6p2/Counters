@@ -11,7 +11,7 @@ protocol CountersBoardPresenterProtocol {
     var editModeDisableAction: (() -> Void)? { get set }
 
     func viewDidLoad(animated: Bool)
-    func noContentViewButtonPressed()
+    func noContentViewButtonPressed(with type: CountersBoardNoContentView.NoContentViewType)
     func editButtonPressed()
     func selectAllPressed()
     func addButtonPressed()
@@ -62,12 +62,23 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                 }
             case .failure(let error):
                 print("The error for getCounters is: \(error)")
+                let state = CountersBoardStateError()
+                DispatchQueue.main.async {
+                    self.view?.setup(viewModel: state.viewModel, animated: animated)
+                }
             }
         }
     }
 
-    func noContentViewButtonPressed() {
-
+    func noContentViewButtonPressed(with type: CountersBoardNoContentView.NoContentViewType) {
+        switch type {
+        case .error:
+            getCounters(animated: true)
+        case .noContent:
+            addButtonPressed()
+        default:
+            break
+        }
     }
 
     func editButtonPressed() {

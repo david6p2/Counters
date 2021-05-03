@@ -27,6 +27,13 @@ class CountersBoardNoContentView: UIView {
 
     // MARK: - Properties
 
+    enum NoContentViewType {
+        case error
+        case noContent
+        case unidentified
+    }
+
+    private var noContentViewModel: ViewModel!
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
     private let actionButton = Button()
@@ -49,6 +56,7 @@ class CountersBoardNoContentView: UIView {
     // MARK: - Configuration
 
     func configure(with viewModel: ViewModel) {
+        self.noContentViewModel = viewModel
         titleLabel.attributedText = .init(string: viewModel.title, attributes: [.kern: Font.titleKern])
         subtitleLabel.attributedText = .init(string: viewModel.subtitle, attributes: [.kern: Font.subtitleKern])
         actionButton.setTitle(viewModel.buttonTitle, for: .normal)
@@ -154,7 +162,16 @@ private extension CountersBoardNoContentView {
 
 private extension CountersBoardNoContentView {
     @objc func didPressActionButton() {
-        delegate?.noContentButtonsPressed()
+        let type: NoContentViewType
+        if noContentViewModel.buttonTitle == "COUNTERSDASHBOARD_ERROR_BUTTONTITLE".localized() {
+            type = .error
+        } else
+        if noContentViewModel.buttonTitle == "COUNTERSDASHBOARD_NO_CONTENT_BUTTONTITLE".localized() {
+            type = .noContent
+        } else {
+            type = .unidentified
+        }
+        delegate?.noContentButtonPressed(with: type)
     }
 }
 
