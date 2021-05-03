@@ -219,7 +219,7 @@ extension AddCounterViewController: AddCounterViewProtocol {
         }
     }
 
-    func presentErrorAlert(with error: CountersError) {
+    func presentAddCounterErrorAlert(with error: CountersError) {
         changeStateWhenCreatingCounter(false)
 
         let addError = CountersError(error: error.error as NSError,
