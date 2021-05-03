@@ -139,7 +139,11 @@ extension CountersBoardViewController: CountersBoardViewProtocol {
 // MARK: - View Delegate Implementation
 
 extension CountersBoardViewController: CountersBoardViewDelegate {
-    func setupNavigationControllerWith(title: String, editBarButton: UIBarButtonItem, selectAllBarButton: UIBarButtonItem?, searchPlaceholder: String, toolbarItems: [UIBarButtonItem]) {
+    func setupNavigationControllerWith(title: String,
+                                       editBarButton: UIBarButtonItem,
+                                       selectAllBarButton: UIBarButtonItem?,
+                                       searchPlaceholder: String,
+                                       toolbarItems: [UIBarButtonItem]) {
         setupNavigationBar(title)
         setupNavigationBarEditButton(editBarButton)
         setupNavigationBarSelectAllButton(selectAllBarButton)

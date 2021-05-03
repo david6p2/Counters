@@ -49,6 +49,18 @@ internal final class CountersBoardView: UIView {
         let isLoading: Bool
         let noContent: CountersBoardNoContentView.ViewModel
         let counters: [CounterModelProtocol]
+
+        func countersSum() -> String {
+            guard counters.count > 0 else {
+                return ""
+            }
+            return String(format: "COUNTERSDASHBOARD_COUNTED_ITEMS".localized(),
+                   counters.count,
+                   counters.reduce(0, { (result, counter) -> Int in
+                    return result + counter.count
+                   })
+            )
+        }
     }
 
     // MARK: - Properties
@@ -58,10 +70,11 @@ internal final class CountersBoardView: UIView {
     private let loadingView = CountersBoardLoadingView()
     private let countersTableView = CountersBoardTableView()
     private let refreshControl = UIRefreshControl()
-    private let itemsCountedLabel = UILabel()
+    private var itemsCountedLabel = UILabel()
     var editButton: UIBarButtonItem!
     var doneButton: UIBarButtonItem!
     var selectAllButton: UIBarButtonItem!
+    var countedItemsBarButtonLabel: UIBarButtonItem!
     var addButton: UIBarButtonItem!
     var trashButton: UIBarButtonItem!
     var shareButton: UIBarButtonItem!
@@ -119,6 +132,17 @@ internal final class CountersBoardView: UIView {
         selectAllButton.setTitleTextAttributes([.foregroundColor: UIColor.disableText], for: .disabled)
         selectAllButton.isEnabled = parentVM.isEditEnabled
 
+        // Setup Items Counted Label
+        itemsCountedLabel.isHidden = viewModel.counters.isEmpty
+        itemsCountedLabel.textAlignment = .center
+        itemsCountedLabel.attributedText = .init(string: viewModel.countersSum(),
+                                                 attributes: [.kern: Font.itemsCountedKern,
+                                                              .font: Font.itemsCounted,
+                                                              .foregroundColor : UIColor.secondaryText
+                                                 ])
+        setupToolbars()
+
+        // ToolBar Items
         addButton.isEnabled = !viewModel.isLoading
 
         // Call View Delegate to configure Navigation Items
@@ -231,6 +255,8 @@ private extension CountersBoardView {
 
     enum Font {
         static let kern: CGFloat = 0.34
+        static let itemsCountedKern: CGFloat = 0.3
+        static let itemsCounted = UIFont.systemFont(ofSize: 15, weight: .medium)
         static let title = UIFont.systemFont(ofSize: 33, weight: .heavy)
         static let done = UIFont.systemFont(ofSize: 17, weight: .semibold)
         static let edit = UIFont.systemFont(ofSize: 17, weight: .regular)
@@ -243,7 +269,6 @@ private extension CountersBoardView {
     func setup() {
         backgroundColor = .systemBackground
         configureDataSource()
-        setupToolbars()
         setupViewHierarchy()
         setupConstraints()
     }
@@ -253,6 +278,8 @@ private extension CountersBoardView {
                                      target: self,
                                      action: nil
         )
+
+        countedItemsBarButtonLabel = UIBarButtonItem(customView: itemsCountedLabel)
 
         addButton = UIBarButtonItem(barButtonSystemItem: .add,
                                     target: self,
@@ -269,7 +296,7 @@ private extension CountersBoardView {
                                       action: #selector(self.share(sender:))
         )
 
-        addToolbarItems = [spacer, addButton]
+        addToolbarItems = [spacer, countedItemsBarButtonLabel, spacer, addButton]
         editToolbarItems = [trashButton, spacer, shareButton]
     }
 
