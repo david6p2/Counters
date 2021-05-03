@@ -180,8 +180,12 @@ extension CountersBoardViewController: CountersBoardViewDelegate {
         presenter.shareButtonWasPressed()
     }
 
-    func pullToRefreshCalled() {
+    func pullToRefreshWasCalled() {
         presenter.pullToRefreshCalled()
+    }
+
+    func noContentButtonWasPressed(with type: CountersBoardNoContentView.NoContentViewType) {
+        presenter.noContentViewButtonPressed(with: type)
     }
 }
 
