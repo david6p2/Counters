@@ -49,6 +49,11 @@ class AddCounterViewController: UIViewController {
         presenter.viewDidLoad()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        nameTextFieldChanged(nameTextField)
+    }
+
     func configure(with viewModel: AddCounterViewModel) {
         self.title = viewModel.titleString
         nameTextField.placeholder = viewModel.namePlaceholder
