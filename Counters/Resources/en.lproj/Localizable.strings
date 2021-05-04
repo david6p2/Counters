@@ -54,6 +54,9 @@
 "COUNTERSDASHBOARD_ERROR_DELETE_SUBTITLE" = "The Internet connection appears to be offline.";
 "COUNTERSDASHBOARD_ERROR_DELETE_ACTION" = "Dismiss";
 
+// MARK: - CountersDashboard No Results Message
+"COUNTERSDASHBOARD_NO_RESULTS_MESSAGE" = "No results";
+
 // MARK: - AddCounter
 "ADDCOUNTER_TITLE" = "Create a counter";
 "ADDCOUNTER_CANCEL" = "Cancel";

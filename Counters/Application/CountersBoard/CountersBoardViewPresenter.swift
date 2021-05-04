@@ -33,7 +33,7 @@ protocol CountersBoardViewProtocol: class {
     func presentDeleteItemsConfirmationAlert(_ items: [String])
     func presentIncreaseDecreaseErrorAlert(with error: CountersError)
     func presentDeleteErrorAlert(with error: CountersError)
-    func updateTableData(with counters: [CounterModelProtocol])
+    func updateTableData(with counters: [CounterModelProtocol], whileSearching isSearching: Bool)
 }
 
 internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol {
@@ -248,14 +248,14 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
         self.filter = filter
         if filter.isEmpty {
             filteredCounters.removeAll()
-            view?.updateTableData(with: counters)
             isSearching = false
+            view?.updateTableData(with: counters, whileSearching: isSearching)
             return
         }
 
         isSearching = true
         filteredCounters = updateFiltered(counters: counters, with: filter)
-        view?.updateTableData(with: filteredCounters)
+        view?.updateTableData(with: filteredCounters, whileSearching: isSearching)
     }
 
     func updateFiltered(counters: [CounterModelProtocol], with filter: String) -> [CounterModelProtocol] {

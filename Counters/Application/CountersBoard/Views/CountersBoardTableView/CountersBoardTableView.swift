@@ -7,13 +7,15 @@
 
 import UIKit
 
-class CountersBoardTableView: UITableView {
+class CountersBoardTableView: UIView {
 
     // MARK: - View Model
     /// The CountersBoard TableView ViewModel
     struct ViewModel {
         /// Counters Array for the Table
         let counters: [CounterModelProtocol]
+
+        let noResultsString: String
 
         var isSearching: Bool
 
@@ -27,22 +29,24 @@ class CountersBoardTableView: UITableView {
                              title: "Number of times I’ve forgotten my mother’s name because I was high on Frugelés.",
                              count: 10)
             ],
+            noResultsString: "COUNTERSDASHBOARD_NO_RESULTS_MESSAGE".localized(),
             isSearching: false
         )
 
         /// Empty Counters ViewModel to test the case when there are no counters
-        static var empty: ViewModel = .init(counters: [], isSearching: false)
+        static var empty: ViewModel = .init(counters: [], noResultsString: "", isSearching: false)
     }
 
     // MARK: - Properties
 
+    let tableView = UITableView(frame: .zero, style: .plain)
     let noResultsLabel = UILabel()
     weak var configureDelegate: CountersBoardTableViewConfigureDelegate?
 
     // MARK: - Initialization
 
     init() {
-        super.init(frame: .zero, style: .plain    )
+        super.init(frame: .zero)
         setup()
     }
 
@@ -54,14 +58,28 @@ class CountersBoardTableView: UITableView {
     // MARK: - Configuration
 
     func configure(with tableViewModel: ViewModel, animated: Bool) {
-        self.register(CountersBoardTableViewCell.self, forCellReuseIdentifier: CountersBoardTableViewCell.reuseIdentifier)
-        self.allowsMultipleSelectionDuringEditing = true
-        self.allowsSelection = false
-        self.separatorStyle = .none
-        isHidden = tableViewModel.counters.isEmpty && tableViewModel.isSearching
-        noResultsLabel.isHidden = !isHidden && tableViewModel.counters.isEmpty
-        configureDelegate?.isCallingConfigureTable(with: tableViewModel, animated: animated)
+        tableView.register(CountersBoardTableViewCell.self, forCellReuseIdentifier: CountersBoardTableViewCell.reuseIdentifier)
+        tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.allowsSelection = false
+        tableView.separatorStyle = .none
+        // Whe need to hide the complete view when there are no counters and we are not searching
+        self.isHidden = tableViewModel.counters.isEmpty && !tableViewModel.isSearching
+
+        noResultsLabelShouldBeShown(countersIsEmpty: tableViewModel.counters.isEmpty, isSearching: tableViewModel.isSearching)
+        noResultsLabel.attributedText = .init(string: tableViewModel.noResultsString,
+                                              attributes: [.kern: Font.titleKern])
+        configureDelegate?.isCallingConfigureTable(with: tableViewModel, whileSearching: tableViewModel.isSearching, animated: animated)
     }
+
+
+    /// No results label should be shown just when there are no counters and we are searching
+    /// - Parameters:
+    ///   - countersIsEmpty: Are there counters to show?
+    ///   - isSearching: is the search bar active
+    func noResultsLabelShouldBeShown(countersIsEmpty: Bool, isSearching: Bool) {
+        noResultsLabel.isHidden = !(countersIsEmpty && isSearching)
+    }
+
 }
 
 // MARK: - Constants
@@ -78,11 +96,17 @@ private extension CountersBoardTableView {
 private extension CountersBoardTableView {
     func setup() {
         self.backgroundColor = .background
-        self.frame = self.bounds
         self.translatesAutoresizingMaskIntoConstraints = false
+        setupTableView()
         setupNoResultsLabel()
         setupHierarchy()
         setupConstraints()
+    }
+
+    func setupTableView() {
+        tableView.backgroundColor = .background
+        tableView.frame = self.bounds
+        tableView.translatesAutoresizingMaskIntoConstraints = false
     }
 
     func setupNoResultsLabel() {
@@ -94,29 +118,37 @@ private extension CountersBoardTableView {
     }
 
     func setupHierarchy() {
-        insertSubview(noResultsLabel, aboveSubview: self)
+        addSubview(tableView)
+        addSubview(noResultsLabel)
     }
 
     func setupConstraints() {
+        let guide = safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             // No Results Label
             noResultsLabel.leadingAnchor.constraint(
-                equalTo: leadingAnchor
+                equalTo: guide.leadingAnchor
             ),
             noResultsLabel.trailingAnchor.constraint(
-                equalTo: trailingAnchor
+                equalTo: guide.trailingAnchor
             ),
             noResultsLabel.centerYAnchor.constraint(
-                equalTo: centerYAnchor
+                equalTo: guide.centerYAnchor
             ),
 
             // TableView
-            self.centerXAnchor.constraint(
-                equalTo: centerXAnchor
+            tableView.leadingAnchor.constraint(
+                equalTo: guide.leadingAnchor
             ),
-            self.centerYAnchor.constraint(
-                equalTo: centerYAnchor
+            tableView.trailingAnchor.constraint(
+                equalTo: guide.trailingAnchor
             ),
+            tableView.topAnchor.constraint(
+                equalTo: guide.topAnchor
+            ),
+            tableView.bottomAnchor.constraint(
+                equalTo: guide.bottomAnchor
+            )
         ])
     }
 }
