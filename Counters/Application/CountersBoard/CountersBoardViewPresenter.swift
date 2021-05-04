@@ -218,7 +218,7 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                     } else {
                         self.currentStateStrategy = CountersBoardStateHasContent(usingCounters, isSearching: self.isSearching)
                     }
-                    //self.currentStateStrategy = counters.isEmpty && !self.isSearching ? CountersBoardStateNoContent() : CountersBoardStateHasContent(usingCounters)
+                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         if let editModeDisableAction = self.editModeDisableAction {
                             editModeDisableAction()
