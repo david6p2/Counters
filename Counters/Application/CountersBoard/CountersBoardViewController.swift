@@ -187,12 +187,12 @@ extension CountersBoardViewController: CountersBoardViewProtocol {
         self.presentAlert(with: deleteError)
     }
 
-    func updateTableData(with counters: [CounterModelProtocol]) {
+    func updateTableData(with counters: [CounterModelProtocol], whileSearching isSearching: Bool) {
         guard let counters = counters as? [CounterModel] else {
             return
         }
 
-        innerView.updateData(on: counters, animated: true)
+        innerView.updateData(on: counters, whileSearching: isSearching, animated: true)
     }
 }
 
