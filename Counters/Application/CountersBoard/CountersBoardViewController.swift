@@ -76,7 +76,7 @@ class CountersBoardViewController: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = placeholder
         searchController.searchBar.tintColor = .accentColor
-        searchController.obscuresBackgroundDuringPresentation = true
+        searchController.obscuresBackgroundDuringPresentation = false
         navigationItem.searchController = searchController
     }
 
@@ -186,6 +186,14 @@ extension CountersBoardViewController: CountersBoardViewProtocol {
                                           handler: nil)
         self.presentAlert(with: deleteError)
     }
+
+    func updateTableData(with counters: [CounterModelProtocol]) {
+        guard let counters = counters as? [CounterModel] else {
+            return
+        }
+
+        innerView.updateData(on: counters, animated: true)
+    }
 }
 
 // MARK: - View Delegate Implementation
@@ -244,8 +252,14 @@ extension CountersBoardViewController: CountersBoardViewDelegate {
 // MARK: - UISearchResultsUpdating Protocol Implementation
 
 extension CountersBoardViewController: UISearchResultsUpdating {
+
     func updateSearchResults(for searchController: UISearchController) {
-        print(searchController.searchBar.text ?? "No Value")
+        guard let filter = searchController.searchBar.text, !filter.isEmpty else {
+            presenter.updateSearchResultsCalled(with: "")
+            return
+        }
+
+        presenter.updateSearchResultsCalled(with: filter)
     }
 }
 

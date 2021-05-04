@@ -41,24 +41,24 @@ internal final class CountersBoardView: UIView {
                 searchPlaceholder: ""
             ),
             isLoading: false,
-            noContent: .empty,
-            counters: CountersBoardTableView.ViewModel.empty.counters
+            noContentVM: .empty,
+            countersVM: CountersBoardTableView.ViewModel.empty
         )
 
         let parentVM: ParentViewModel
         let isLoading: Bool
-        let noContent: CountersBoardNoContentView.ViewModel
-        let counters: [CounterModelProtocol]
+        let noContentVM: CountersBoardNoContentView.ViewModel
+        let countersVM: CountersBoardTableView.ViewModel
 
         func countersSum() -> String {
-            guard counters.count > 0 else {
+            guard countersVM.counters.count > 0 else {
                 return ""
             }
             return String(format: "COUNTERSDASHBOARD_COUNTED_ITEMS".localized(),
-                   counters.count,
-                   counters.reduce(0, { (result, counter) -> Int in
-                    return result + counter.count
-                   })
+                          countersVM.counters.count,
+                          countersVM.counters.reduce(0, { (result, counter) -> Int in
+                            return result + counter.count
+                          })
             )
         }
 
@@ -76,13 +76,14 @@ internal final class CountersBoardView: UIView {
         }
 
         func getCounter(for id: String) -> CounterModelProtocol? {
-            return self.counters.first{ $0.id == id }
+            return self.countersVM.counters.first{ $0.id == id }
         }
     }
 
     // MARK: - Properties
 
     private(set) var viewModel: ViewModel!
+    var filteredCounters: [CounterModelProtocol] = []
     private let noContentView = CountersBoardNoContentView()
     private let loadingView = CountersBoardLoadingView()
     private let countersTableView = CountersBoardTableView()
@@ -150,7 +151,7 @@ internal final class CountersBoardView: UIView {
         selectAllButton.isEnabled = parentVM.isEditEnabled
 
         // Setup Items Counted Label
-        itemsCountedLabel.isHidden = viewModel.counters.isEmpty
+        itemsCountedLabel.isHidden = viewModel.countersVM.counters.isEmpty
         itemsCountedLabel.textAlignment = .center
         itemsCountedLabel.attributedText = .init(string: viewModel.countersSum(),
                                                  attributes: [.kern: Font.itemsCountedKern,
@@ -177,7 +178,7 @@ internal final class CountersBoardView: UIView {
         configure(withParent: viewModel.parentVM)
         
         // Setup No Content View
-        noContentView.configure(with: viewModel.noContent)
+        noContentView.configure(with: viewModel.noContentVM)
         noContentView.delegate = self
 
         // Setup Loading View
@@ -190,7 +191,8 @@ internal final class CountersBoardView: UIView {
         countersTableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         refreshControl.endRefreshing()
-        countersTableView.configure(with: viewModel.counters, animated: animated)
+        countersTableView.configure(with: viewModel.countersVM, animated: animated)
+        countersTableView.isHidden = viewModel.isLoading
     }
 
     func toggleEditing() {
@@ -217,8 +219,8 @@ internal final class CountersBoardView: UIView {
         }
         
         let counterItems: [String] = indexPaths.map({ String(format: "COUNTERSDASHBOARD_EDIT_SHARE_TITLE".localized(),
-                                                             viewModel.counters[$0.row].count,
-                                                             viewModel.counters[$0.row].title)}
+                                                             viewModel.countersVM.counters[$0.row].count,
+                                                             viewModel.countersVM.counters[$0.row].title)}
         )
 
         return UIActivityViewController(activityItems: counterItems, applicationActivities: nil)
@@ -248,7 +250,7 @@ private extension CountersBoardView {
         guard let indexes = self.countersTableView.indexPathsForSelectedRows else {
             return
         }
-        let ids = indexes.map({ self.viewModel.counters[$0.row].id})
+        let ids = indexes.map({ self.viewModel.countersVM.counters[$0.row].id})
         delegate?.trashButtonWasPressed(withSelectedItemsIds: ids)
     }
 
@@ -444,8 +446,8 @@ extension CountersBoardView: CountersBoardNoContentViewDelegate {
 // MARK: - CountersBoardTableViewConfigureDelegate
 
 extension CountersBoardView: CountersBoardTableViewConfigureDelegate {
-    func isCallingConfigure(with counters: [CounterModelProtocol], animated: Bool) {
-        guard let counters = counters as? [CounterModel] else {
+    func isCallingConfigureTable(with viewModel: CountersBoardTableView.ViewModel, animated: Bool) {
+        guard let counters = viewModel.counters as? [CounterModel] else {
             updateData(on: [], animated: animated)
             return
         }
@@ -472,8 +474,8 @@ struct CountersDashboard_Preview: PreviewProvider {
 
             view.configure(with: .init(parentVM: CountersBoardView.ParentViewModel.defaultVM,
                                        isLoading: false,
-                                       noContent: noContentVM,
-                                       counters: CountersBoardTableView.ViewModel.empty.counters), animated: false
+                                       noContentVM: noContentVM,
+                                       countersVM: CountersBoardTableView.ViewModel.empty), animated: false
             )
             
             return view
