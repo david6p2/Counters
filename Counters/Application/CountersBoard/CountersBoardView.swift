@@ -191,7 +191,7 @@ internal final class CountersBoardView: UIView {
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         refreshControl.endRefreshing()
         countersTableView.configure(with: viewModel.countersVM, animated: animated)
-        countersTableView.isHidden = viewModel.isLoading
+        countersTableView.isHidden = viewModel.isLoading || !viewModel.noContentVM.isHidden
     }
 
     func toggleEditing() {
