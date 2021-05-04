@@ -73,7 +73,8 @@ class CountersBoardStateHasContent: CountersBoardState {
         var parentVM = CountersBoardView.ParentViewModel.defaultVM
         parentVM.isEditEnabled = noContentVM.isHidden
 
-        var countersVM = CountersBoardTableView.ViewModel(counters: counters,
+        let countersVM = CountersBoardTableView.ViewModel(counters: counters,
+                                                          noResultsString: "COUNTERSDASHBOARD_NO_RESULTS_MESSAGE".localized(),
                                                           isSearching: isSearching)
 
         return CountersBoardView.ViewModel(parentVM: parentVM,

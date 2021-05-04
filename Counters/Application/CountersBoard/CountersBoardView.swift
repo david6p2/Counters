@@ -187,8 +187,8 @@ internal final class CountersBoardView: UIView {
 
         // Setup Table View
         countersTableView.configureDelegate = self
-        countersTableView.delegate = self
-        countersTableView.refreshControl = refreshControl
+        countersTableView.tableView.delegate = self
+        countersTableView.tableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         refreshControl.endRefreshing()
         countersTableView.configure(with: viewModel.countersVM, animated: animated)
@@ -197,15 +197,15 @@ internal final class CountersBoardView: UIView {
 
     func toggleEditing() {
         isEditingModeActive = !isEditingModeActive
-        countersTableView.setEditing(isEditingModeActive, animated: true)
+        countersTableView.tableView.setEditing(isEditingModeActive, animated: true)
         configure(with: viewModel, animated: false)
     }
 
     func selectAllCounters() {
-        let allRows = countersTableView.numberOfRows(inSection: 0)
+        let allRows = countersTableView.tableView.numberOfRows(inSection: 0)
 
         for row in 0..<allRows {
-            countersTableView.selectRow(
+            countersTableView.tableView.selectRow(
                 at: NSIndexPath(row: row, section: 0) as IndexPath,
                 animated: false,
                 scrollPosition: UITableView.ScrollPosition.none
@@ -214,7 +214,7 @@ internal final class CountersBoardView: UIView {
     }
 
     func shareSelectedCounters() -> UIActivityViewController? {
-        guard let indexPaths = countersTableView.indexPathsForSelectedRows else {
+        guard let indexPaths = countersTableView.tableView.indexPathsForSelectedRows else {
             return nil
         }
         
@@ -247,7 +247,7 @@ private extension CountersBoardView {
 
     @objc private func trash(sender: UIBarButtonItem) {
         print("trash button was pressed")
-        guard let indexes = self.countersTableView.indexPathsForSelectedRows else {
+        guard let indexes = self.countersTableView.tableView.indexPathsForSelectedRows else {
             return
         }
         let ids = indexes.map({ self.viewModel.countersVM.counters[$0.row].id})
@@ -398,7 +398,7 @@ extension CountersBoardView {
     }
 
     func configureDataSource() {
-        dataSource = DataSource(tableView: countersTableView,
+        dataSource = DataSource(tableView: countersTableView.tableView,
                                 cellProvider: { (tableView, indexPath, counter) -> UITableViewCell? in
                                     let cell = tableView.dequeueReusableCell(withIdentifier: CountersBoardTableViewCell.reuseIdentifier,
                                                                              for: indexPath) as! CountersBoardTableViewCell
@@ -413,12 +413,13 @@ extension CountersBoardView {
         )
     }
 
-    func updateData(on results: [CounterModel], animated: Bool) {
+    func updateData(on results: [CounterModel], whileSearching isSearching: Bool, animated: Bool) {
         var snapshot = NSDiffableDataSourceSnapshot<CounterBoardSection, CounterModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems(results)
         DispatchQueue.main.async {
             self.dataSource.apply(snapshot, animatingDifferences: animated)
+            self.countersTableView.noResultsLabelShouldBeShown(countersIsEmpty: results.isEmpty, isSearching: isSearching)
         }
     }
 }
@@ -446,13 +447,15 @@ extension CountersBoardView: CountersBoardNoContentViewDelegate {
 // MARK: - CountersBoardTableViewConfigureDelegate
 
 extension CountersBoardView: CountersBoardTableViewConfigureDelegate {
-    func isCallingConfigureTable(with viewModel: CountersBoardTableView.ViewModel, animated: Bool) {
+    func isCallingConfigureTable(with viewModel: CountersBoardTableView.ViewModel,
+                                 whileSearching isSearching: Bool,
+                                 animated: Bool) {
         guard let counters = viewModel.counters as? [CounterModel] else {
-            updateData(on: [], animated: animated)
+            updateData(on: [], whileSearching: isSearching, animated: animated)
             return
         }
 
-        updateData(on: counters, animated: animated)
+        updateData(on: counters, whileSearching: isSearching, animated: animated)
     }
 }
 
