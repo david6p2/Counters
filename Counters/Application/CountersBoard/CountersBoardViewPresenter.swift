@@ -21,6 +21,7 @@ protocol CountersBoardPresenterProtocol {
     func handleCounterIncrease(counter: CounterModelProtocol)
     func handleCounterDecrease(counter: CounterModelProtocol)
     func handleCountersDelete(countersIds: [String])
+    func updateSearchResultsCalled(with filter: String)
 }
 
 protocol CountersBoardViewProtocol: class {
@@ -32,11 +33,16 @@ protocol CountersBoardViewProtocol: class {
     func presentDeleteItemsConfirmationAlert(_ items: [String])
     func presentIncreaseDecreaseErrorAlert(with error: CountersError)
     func presentDeleteErrorAlert(with error: CountersError)
+    func updateTableData(with counters: [CounterModelProtocol])
 }
 
 internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol {
     weak var view: CountersBoardViewProtocol?
     var currentStateStrategy: CountersBoardState = CountersBoardStateLoading()
+    private(set) var counters: [CounterModelProtocol] = []
+    private(set) var filteredCounters: [CounterModelProtocol] = []
+    var filter: String = ""
+    var isSearching = false
 
     var editModeDisableAction: (() -> Void)?
 
@@ -58,7 +64,8 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                     return
                 }
                 print("The counters are: \(counters)")
-                self.currentStateStrategy = CountersBoardStateHasContent(counters)
+                self.counters = counters
+                self.currentStateStrategy = CountersBoardStateHasContent(counters, isSearching: self.isSearching)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: animated)
                 }
@@ -123,7 +130,12 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                     return
                 }
                 print("The counters when Increase are: \(counters)")
-                self.currentStateStrategy = CountersBoardStateHasContent(counters)
+                self.counters = counters
+                if self.isSearching {
+                    self.filteredCounters = self.updateFiltered(counters: counters, with: self.filter)
+                }
+                let usingCounters: [CounterModelProtocol] = self.isSearching ? self.filteredCounters : self.counters
+                self.currentStateStrategy = CountersBoardStateHasContent(usingCounters, isSearching: self.isSearching)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: false)
                 }
@@ -155,7 +167,12 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                         return
                     }
                     print("The counters when Decrease are: \(counters)")
-                    self.currentStateStrategy = CountersBoardStateHasContent(counters)
+                    self.counters = counters
+                    if self.isSearching {
+                        self.filteredCounters = self.updateFiltered(counters: counters, with: self.filter)
+                    }
+                    let usingCounters: [CounterModelProtocol] = self.isSearching ? self.filteredCounters : self.counters
+                    self.currentStateStrategy = CountersBoardStateHasContent(usingCounters, isSearching: self.isSearching)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: false)
                     }
@@ -191,7 +208,17 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                         return
                     }
                     print("The counters when Delete are: \(counters)")
-                    self.currentStateStrategy = counters.isEmpty ? CountersBoardStateNoContent() : CountersBoardStateHasContent(counters)
+                    self.counters = counters
+                    if self.isSearching {
+                        self.filteredCounters = self.updateFiltered(counters: counters, with: self.filter)
+                    }
+                    let usingCounters: [CounterModelProtocol] = self.isSearching ? self.filteredCounters : self.counters
+                    if counters.isEmpty && !self.isSearching {
+                        self.currentStateStrategy = CountersBoardStateNoContent()
+                    } else {
+                        self.currentStateStrategy = CountersBoardStateHasContent(usingCounters, isSearching: self.isSearching)
+                    }
+                    //self.currentStateStrategy = counters.isEmpty && !self.isSearching ? CountersBoardStateNoContent() : CountersBoardStateHasContent(usingCounters)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         if let editModeDisableAction = self.editModeDisableAction {
                             editModeDisableAction()
@@ -215,6 +242,24 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                 }
             }
         }
+    }
+
+    func updateSearchResultsCalled(with filter: String) {
+        self.filter = filter
+        if filter.isEmpty {
+            filteredCounters.removeAll()
+            view?.updateTableData(with: counters)
+            isSearching = false
+            return
+        }
+
+        isSearching = true
+        filteredCounters = updateFiltered(counters: counters, with: filter)
+        view?.updateTableData(with: filteredCounters)
+    }
+
+    func updateFiltered(counters: [CounterModelProtocol], with filter: String) -> [CounterModelProtocol] {
+        return counters.filter { $0.title.lowercased().contains(filter.lowercased()) }
     }
 }
 

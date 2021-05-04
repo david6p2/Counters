@@ -22,8 +22,8 @@ class CountersBoardStateLoading: CountersBoardState {
     var viewModel: CountersBoardView.ViewModel {
         return CountersBoardView.ViewModel(parentVM: CountersBoardView.ParentViewModel.defaultVM,
                                            isLoading: true,
-                                           noContent: .empty,
-                                           counters: CountersBoardTableView.ViewModel.empty.counters
+                                           noContentVM: .empty,
+                                           countersVM: CountersBoardTableView.ViewModel.empty
         )
     }
 }
@@ -38,9 +38,8 @@ class CountersBoardStateNoContent: CountersBoardState {
 
         return CountersBoardView.ViewModel(parentVM: CountersBoardView.ParentViewModel.defaultVM,
                                            isLoading: false,
-                                           noContent: noContentVM,
-                                           counters: CountersBoardTableView.ViewModel.empty.counters
-
+                                           noContentVM: noContentVM,
+                                           countersVM: CountersBoardTableView.ViewModel.empty
         )
     }
 }
@@ -55,32 +54,37 @@ class CountersBoardStateError: CountersBoardState {
 
         return CountersBoardView.ViewModel(parentVM: CountersBoardView.ParentViewModel.defaultVM,
                                            isLoading: false,
-                                           noContent: errorVM,
-                                           counters: CountersBoardTableView.ViewModel.empty.counters
+                                           noContentVM: errorVM,
+                                           countersVM: CountersBoardTableView.ViewModel.empty
         )
     }
 }
 
 class CountersBoardStateHasContent: CountersBoardState {
+    var isSearching: Bool = false
     var counters: [CounterModelProtocol]
     var viewModel: CountersBoardView.ViewModel {
         let noContentVM: CountersBoardNoContentView.ViewModel = .init(title: "COUNTERSDASHBOARD_NO_CONTENT_TITLE".localized(),
                                                                       subtitle: "COUNTERSDASHBOARD_NO_CONTENT_SUBTITLE".localized(),
                                                                       buttonTitle: "COUNTERSDASHBOARD_NO_CONTENT_BUTTONTITLE".localized(),
-                                                                      isHidden: !counters.isEmpty
+                                                                      isHidden: !counters.isEmpty || isSearching
         )
 
         var parentVM = CountersBoardView.ParentViewModel.defaultVM
         parentVM.isEditEnabled = noContentVM.isHidden
 
+        var countersVM = CountersBoardTableView.ViewModel(counters: counters,
+                                                          isSearching: isSearching)
+
         return CountersBoardView.ViewModel(parentVM: parentVM,
                                            isLoading: false,
-                                           noContent: noContentVM,
-                                           counters: counters
+                                           noContentVM: noContentVM,
+                                           countersVM: countersVM
         )
     }
 
-    init(_ counters: [CounterModelProtocol]) {
+    init(_ counters: [CounterModelProtocol], isSearching: Bool) {
         self.counters = counters
+        self.isSearching = isSearching
     }
 }

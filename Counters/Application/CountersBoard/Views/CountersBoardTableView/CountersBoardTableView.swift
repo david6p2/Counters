@@ -15,6 +15,8 @@ class CountersBoardTableView: UITableView {
         /// Counters Array for the Table
         let counters: [CounterModelProtocol]
 
+        var isSearching: Bool
+
         /// Mock Counter ViewModel to test when there's no data from the server
         static var mockCounters: ViewModel = .init(
             counters: [
@@ -24,15 +26,17 @@ class CountersBoardTableView: UITableView {
                 CounterModel(id: "Title2",
                              title: "Number of times I’ve forgotten my mother’s name because I was high on Frugelés.",
                              count: 10)
-            ]
+            ],
+            isSearching: false
         )
 
         /// Empty Counters ViewModel to test the case when there are no counters
-        static var empty: ViewModel = .init(counters: [])
+        static var empty: ViewModel = .init(counters: [], isSearching: false)
     }
 
     // MARK: - Properties
 
+    let noResultsLabel = UILabel()
     weak var configureDelegate: CountersBoardTableViewConfigureDelegate?
 
     // MARK: - Initialization
@@ -49,13 +53,23 @@ class CountersBoardTableView: UITableView {
 
     // MARK: - Configuration
 
-    func configure(with counters: [CounterModelProtocol], animated: Bool) {
+    func configure(with tableViewModel: ViewModel, animated: Bool) {
         self.register(CountersBoardTableViewCell.self, forCellReuseIdentifier: CountersBoardTableViewCell.reuseIdentifier)
         self.allowsMultipleSelectionDuringEditing = true
         self.allowsSelection = false
         self.separatorStyle = .none
-        isHidden = counters.isEmpty
-        configureDelegate?.isCallingConfigure(with: counters, animated: animated)
+        isHidden = tableViewModel.counters.isEmpty && tableViewModel.isSearching
+        noResultsLabel.isHidden = !isHidden && tableViewModel.counters.isEmpty
+        configureDelegate?.isCallingConfigureTable(with: tableViewModel, animated: animated)
+    }
+}
+
+// MARK: - Constants
+
+private extension CountersBoardTableView {
+    enum Font {
+        static let titleKern: CGFloat = 0.6
+        static let title = UIFont.systemFont(ofSize: 20, weight: .regular)
     }
 }
 
@@ -66,11 +80,37 @@ private extension CountersBoardTableView {
         self.backgroundColor = .background
         self.frame = self.bounds
         self.translatesAutoresizingMaskIntoConstraints = false
+        setupNoResultsLabel()
+        setupHierarchy()
         setupConstraints()
+    }
+
+    func setupNoResultsLabel() {
+        noResultsLabel.font = Font.title
+        noResultsLabel.textAlignment = .center
+        noResultsLabel.textColor = .secondaryText
+        noResultsLabel.translatesAutoresizingMaskIntoConstraints = false
+        noResultsLabel.isHidden = true
+    }
+
+    func setupHierarchy() {
+        insertSubview(noResultsLabel, aboveSubview: self)
     }
 
     func setupConstraints() {
         NSLayoutConstraint.activate([
+            // No Results Label
+            noResultsLabel.leadingAnchor.constraint(
+                equalTo: leadingAnchor
+            ),
+            noResultsLabel.trailingAnchor.constraint(
+                equalTo: trailingAnchor
+            ),
+            noResultsLabel.centerYAnchor.constraint(
+                equalTo: centerYAnchor
+            ),
+
+            // TableView
             self.centerXAnchor.constraint(
                 equalTo: centerXAnchor
             ),
@@ -80,31 +120,3 @@ private extension CountersBoardTableView {
         ])
     }
 }
-
-#if canImport(SwiftUI) && DEBUG
-import SwiftUI
-
-struct CountersBoardTableView_Preview: PreviewProvider {
-    static var previews: some View {
-        TablePreviewContainer()
-            .frame(width: UIScreen.main.bounds.width,
-                   height: 108,
-                   alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            .padding()
-            .previewLayout(.sizeThatFits)
-    }
-
-    struct TablePreviewContainer: UIViewRepresentable {
-        typealias UIViewType = UITableView
-
-        func makeUIView(context: UIViewRepresentableContext<CountersBoardTableView_Preview.TablePreviewContainer>) -> UITableView {
-            return CountersBoardTableView()
-        }
-
-        func updateUIView(_ uiView: UITableView,
-                          context: UIViewRepresentableContext<CountersBoardTableView_Preview.TablePreviewContainer>) {
-
-        }
-    }
-}
-#endif
