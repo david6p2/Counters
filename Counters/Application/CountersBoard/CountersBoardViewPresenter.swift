@@ -249,7 +249,17 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
         if filter.isEmpty {
             filteredCounters.removeAll()
             isSearching = false
-            view?.updateTableData(with: counters, whileSearching: isSearching)
+            // If Counters are empty, we should refresh with NoContent Strategy
+            if counters.isEmpty {
+                self.currentStateStrategy = CountersBoardStateNoContent()
+                if let editModeDisableAction = self.editModeDisableAction {
+                    editModeDisableAction()
+                }
+
+                self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: true)
+            } else {
+                view?.updateTableData(with: counters, whileSearching: isSearching)
+            }
             return
         }
 
