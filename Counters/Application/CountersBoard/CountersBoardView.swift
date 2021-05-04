@@ -83,7 +83,6 @@ internal final class CountersBoardView: UIView {
     // MARK: - Properties
 
     private(set) var viewModel: ViewModel!
-    var filteredCounters: [CounterModelProtocol] = []
     private let noContentView = CountersBoardNoContentView()
     private let loadingView = CountersBoardLoadingView()
     private let countersTableView = CountersBoardTableView()
