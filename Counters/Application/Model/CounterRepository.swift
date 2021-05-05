@@ -29,9 +29,9 @@ class CounterRepository: Repository {
         }
     }
 
-    func createCounter(name: String,
+    func createCounter(_ counter: CounterModelProtocol,
                        completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> Void) {
-        apiTaskLoader.loadAPIRequest(requestData: .createCounter(name: name)) { (result) in
+        apiTaskLoader.loadAPIRequest(requestData: .createCounter(name: counter.title)) { (result) in
             completionHandler(result)
         }
     }
