@@ -99,30 +99,31 @@ class CounterRepositoryTests: XCTestCase {
         let repository = CounterRepository(apiTaskLoader: apiLoader)
         let expectation = XCTestExpectation(description: "response")
         let jsonData: Data = Constants.createCounterJSON.data(using: .utf8)!
-        guard let expectedCounters = try NetworkingClient().parseResponse(data: jsonData) as? [CounterModel] else {
-            XCTFail("Could not parse expected Counters")
-            return
-        }
+        do {
+            let expectedCounters = try NetworkingClient().parseResponse(data: jsonData)
+            let sutCounter = CounterModel(id: "-1", title: "Coffe", count: 0)
 
-        // When
-        repository.createCounter(name: "Coffe") { (result) in
-            switch result {
-            case .success(let counters):
-                // Then
-                guard let counters = counters else {
-                    XCTFail("No Counters")
-                    return
+            // When
+            repository.createCounter(sutCounter) { (result) in
+                switch result {
+                case .success(let counters):
+                    // Then
+                    guard let counters = counters else {
+                        XCTFail("No Counters")
+                        return
+                    }
+                    XCTAssertNotNil(counters)
+                    XCTAssertEqual(counters.count, expectedCounters.count)
+                    XCTAssertEqual(counters.first!.id, expectedCounters.first!.id)
+                    XCTAssertEqual(counters.first!.title, expectedCounters.first!.title)
+                    XCTAssertEqual(counters.first!.title, "Coffe")
+                case .failure(let error):
+                    XCTFail("Failed with error: \(error)")
                 }
-                XCTAssertNotNil(counters)
-                XCTAssertEqual(counters.count, expectedCounters.count)
-                XCTAssertEqual(counters.first!.id, expectedCounters.first!.id)
-                XCTAssertEqual(counters.first!.title, expectedCounters.first!.title)
-                XCTAssertEqual(counters.first!.title, "Coffe")
-            case .failure(let error):
-                print("The error is: \(error)")
-                XCTFail("Failed with error: \(error)")
+                expectation.fulfill()
             }
-            expectation.fulfill()
+        } catch {
+            XCTFail("Failed with error: \(error)")
         }
     }
 
