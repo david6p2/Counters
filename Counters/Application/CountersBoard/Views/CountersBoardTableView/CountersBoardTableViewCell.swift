@@ -9,24 +9,6 @@ import UIKit
 
 class CountersBoardTableViewCell: UITableViewCell {
 
-    struct ViewModel {
-        private let counterModel: CounterModelProtocol
-        let id: String
-        let name: String
-        let count: Int
-
-        init(counterModel: CounterModelProtocol) {
-            self.counterModel = counterModel
-            self.id = counterModel.id
-            self.name = counterModel.title
-            self.count = counterModel.count
-        }
-
-        func getModel() -> CounterModelProtocol {
-            return counterModel
-        }
-    }
-
     static var reuseIdentifier: String {
         return String(describing: self)
     }
@@ -49,8 +31,8 @@ class CountersBoardTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with viewModel: ViewModel) {
-        counterCardView.configure(with: viewModel.getModel())
+    func configure(with viewModel: CounterCellViewModel) {
+        counterCardView.configure(with: viewModel)
     }
 }
 
@@ -109,8 +91,11 @@ struct CountersBoardTableViewCell_Preview: PreviewProvider {
 
         func makeUIView(context: UIViewRepresentableContext<CountersBoardTableViewCell_Preview.CellPreviewContainer>) -> UITableViewCell {
             let view = CountersBoardTableViewCell()
-            view.configure(with: CountersBoardTableViewCell.ViewModel(counterModel: CountersBoardTableView.ViewModel.mockCounters.counters.first!)
-            )
+
+            if let counterCellVM = CountersBoardTableView.ViewModel.mockCounters.counterCellsVMs.first {
+                view.configure(with: counterCellVM)
+            }
+
             return view
         }
 

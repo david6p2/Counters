@@ -11,7 +11,7 @@ class CounterRepository: Repository {
 
     // MARK: - Properties
 
-    typealias Entity = CounterModelProtocol
+    typealias Entity = CounterModel
     
     private let apiTaskLoader: APILoader
 
@@ -23,35 +23,35 @@ class CounterRepository: Repository {
 
     // MARK: - Public Methods
 
-    func getCounters(completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> Void) {
+    func getCounters(completionHandler: @escaping (Result<[CounterModel]?, Error>) -> Void) {
         apiTaskLoader.loadAPIRequest(requestData: .getCounters) { (result) in
             completionHandler(result)
         }
     }
 
-    func createCounter(_ counter: CounterModelProtocol,
-                       completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> Void) {
+    func createCounter(_ counter: CounterModel,
+                       completionHandler: @escaping (Result<[CounterModel]?, Error>) -> Void) {
         apiTaskLoader.loadAPIRequest(requestData: .createCounter(name: counter.title)) { (result) in
             completionHandler(result)
         }
     }
 
     func increaseCounter(id: String,
-                       completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> Void) {
+                       completionHandler: @escaping (Result<[CounterModel]?, Error>) -> Void) {
         apiTaskLoader.loadAPIRequest(requestData: .increaseCounter(id: id)) { (result) in
             completionHandler(result)
         }
     }
 
     func decreaseCounter(id: String,
-                         completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> Void) {
+                         completionHandler: @escaping (Result<[CounterModel]?, Error>) -> Void) {
         apiTaskLoader.loadAPIRequest(requestData: .decreaseCounter(id: id)) { (result) in
             completionHandler(result)
         }
     }
 
     func deleteCounter(id: String,
-                         completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> Void) {
+                         completionHandler: @escaping (Result<[CounterModel]?, Error>) -> Void) {
         apiTaskLoader.loadAPIRequest(requestData: .deleteCounter(id: id)) { (result) in
             completionHandler(result)
         }

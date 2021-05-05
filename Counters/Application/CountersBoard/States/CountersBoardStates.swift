@@ -62,7 +62,7 @@ class CountersBoardStateError: CountersBoardState {
 
 class CountersBoardStateHasContent: CountersBoardState {
     var isSearching: Bool = false
-    var counters: [CounterModelProtocol]
+    var counters: [CounterModel]
     var viewModel: CountersBoardView.ViewModel {
         let noContentVM: CountersBoardNoContentView.ViewModel = .init(title: "COUNTERSDASHBOARD_NO_CONTENT_TITLE".localized(),
                                                                       subtitle: "COUNTERSDASHBOARD_NO_CONTENT_SUBTITLE".localized(),
@@ -73,7 +73,9 @@ class CountersBoardStateHasContent: CountersBoardState {
         var parentVM = CountersBoardView.ParentViewModel.defaultVM
         parentVM.isEditEnabled = noContentVM.isHidden
 
-        let countersVM = CountersBoardTableView.ViewModel(counters: counters,
+        let countersCellsVMs = counters.map{ CounterCellViewModel(counterModel: $0) }
+
+        let countersVM = CountersBoardTableView.ViewModel(counterCellsVMs: countersCellsVMs,
                                                           noResultsString: "COUNTERSDASHBOARD_NO_RESULTS_MESSAGE".localized(),
                                                           isSearching: isSearching)
 
@@ -84,7 +86,7 @@ class CountersBoardStateHasContent: CountersBoardState {
         )
     }
 
-    init(_ counters: [CounterModelProtocol], isSearching: Bool) {
+    init(_ counters: [CounterModel], isSearching: Bool) {
         self.counters = counters
         self.isSearching = isSearching
     }

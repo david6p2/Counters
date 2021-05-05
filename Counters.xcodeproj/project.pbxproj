@@ -29,7 +29,6 @@
 		638496D1262CF240002EB98F /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638496D0262CF240002EB98F /* String+Extension.swift */; };
 		638496E3262E7485002EB98F /* CountersBoardStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638496E2262E7485002EB98F /* CountersBoardStates.swift */; };
 		63849709263137BB002EB98F /* CountersBoardLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63849708263137BB002EB98F /* CountersBoardLoadingView.swift */; };
-		63849723263291BC002EB98F /* CounterModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63849722263291BC002EB98F /* CounterModelProtocol.swift */; };
 		63849739263296C4002EB98F /* CounterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63849738263296C4002EB98F /* CounterModel.swift */; };
 		6384974726329CEB002EB98F /* KeyValueStorageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384974626329CEB002EB98F /* KeyValueStorageProtocol.swift */; };
 		63849761263398EB002EB98F /* CountersBoardTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63849760263398EB002EB98F /* CountersBoardTableView.swift */; };
@@ -61,6 +60,9 @@
 		63B1E259263E61C20095BB5B /* ExampleHeaderCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B1E257263E61C20095BB5B /* ExampleHeaderCellView.swift */; };
 		63E4DC99263F400600867F88 /* ExamplesViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E4DC98263F400600867F88 /* ExamplesViewDelegate.swift */; };
 		63E4DCB3263FBDDC00867F88 /* CountersError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E4DCB2263FBDDC00867F88 /* CountersError.swift */; };
+		63E4DCC82642693C00867F88 /* CounterDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 63E4DCC62642693B00867F88 /* CounterDataModel.xcdatamodeld */; };
+		63E4DCCD26426C6F00867F88 /* CoreDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E4DCCC26426C6F00867F88 /* CoreDataRepository.swift */; };
+		63E4DCE926431D4600867F88 /* CounterCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E4DCE826431D4500867F88 /* CounterCellViewModel.swift */; };
 		DE3EBACC25E048CE00DA1E0D /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3EBACB25E048CE00DA1E0D /* Button.swift */; };
 		DECA256C25CC8D4200851431 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECA256B25CC8D4200851431 /* AppDelegate.swift */; };
 		DECA257025CC8D4200851431 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECA256F25CC8D4200851431 /* WelcomeViewController.swift */; };
@@ -112,7 +114,6 @@
 		638496D0262CF240002EB98F /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		638496E2262E7485002EB98F /* CountersBoardStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersBoardStates.swift; sourceTree = "<group>"; };
 		63849708263137BB002EB98F /* CountersBoardLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersBoardLoadingView.swift; sourceTree = "<group>"; };
-		63849722263291BC002EB98F /* CounterModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterModelProtocol.swift; sourceTree = "<group>"; };
 		63849738263296C4002EB98F /* CounterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterModel.swift; sourceTree = "<group>"; };
 		6384974626329CEB002EB98F /* KeyValueStorageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueStorageProtocol.swift; sourceTree = "<group>"; };
 		63849760263398EB002EB98F /* CountersBoardTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersBoardTableView.swift; sourceTree = "<group>"; };
@@ -144,6 +145,9 @@
 		63B1E257263E61C20095BB5B /* ExampleHeaderCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleHeaderCellView.swift; sourceTree = "<group>"; };
 		63E4DC98263F400600867F88 /* ExamplesViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamplesViewDelegate.swift; sourceTree = "<group>"; };
 		63E4DCB2263FBDDC00867F88 /* CountersError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountersError.swift; sourceTree = "<group>"; };
+		63E4DCC72642693B00867F88 /* CounterDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CounterDataModel.xcdatamodel; sourceTree = "<group>"; };
+		63E4DCCC26426C6F00867F88 /* CoreDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataRepository.swift; sourceTree = "<group>"; };
+		63E4DCE826431D4500867F88 /* CounterCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterCellViewModel.swift; sourceTree = "<group>"; };
 		DE3EBACB25E048CE00DA1E0D /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		DECA256825CC8D4200851431 /* Counters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Counters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DECA256B25CC8D4200851431 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -279,8 +283,9 @@
 			isa = PBXGroup;
 			children = (
 				6384974526329C13002EB98F /* KeyValueStorage */,
+				63E4DCCC26426C6F00867F88 /* CoreDataRepository.swift */,
+				63E4DCC62642693B00867F88 /* CounterDataModel.xcdatamodeld */,
 				63849738263296C4002EB98F /* CounterModel.swift */,
-				63849722263291BC002EB98F /* CounterModelProtocol.swift */,
 				6384978E26362C1F002EB98F /* CounterRepository.swift */,
 				638497B426367E3F002EB98F /* Repository.swift */,
 			);
@@ -318,6 +323,7 @@
 				63849760263398EB002EB98F /* CountersBoardTableView.swift */,
 				6384976826339E19002EB98F /* CountersBoardTableViewCell.swift */,
 				638497702634F1D3002EB98F /* CountersBoardTableViewConfigureDelegate.swift */,
+				63E4DCE826431D4500867F88 /* CounterCellViewModel.swift */,
 			);
 			path = CountersBoardTableView;
 			sourceTree = "<group>";
@@ -679,6 +685,7 @@
 				35868D2825E03F090028AF1D /* WelcomeViewPresenter.swift in Sources */,
 				6324CD8A2629487100F79036 /* CountersBoardViewController.swift in Sources */,
 				6324CDAF262A8EF700F79036 /* UIColor+Extension.swift in Sources */,
+				63E4DCE926431D4600867F88 /* CounterCellViewModel.swift in Sources */,
 				63849813263D29A4002EB98F /* ExamplesViewModel.swift in Sources */,
 				6324CD7A2629479400F79036 /* CountersBoardNoContentView.swift in Sources */,
 				350AF6ED25E0365A0000F698 /* UIImage+Badge.swift in Sources */,
@@ -704,12 +711,12 @@
 				6324CDC5262A959B00F79036 /* UIViewPreviewContainer.swift in Sources */,
 				6324CDBD262A956400F79036 /* UIViewControllerPreviewContainer.swift in Sources */,
 				6324CD822629481F00F79036 /* CountersBoardNoContentViewDelegate.swift in Sources */,
-				63849723263291BC002EB98F /* CounterModelProtocol.swift in Sources */,
 				6324CDB7262A938E00F79036 /* UIView+Extension.swift in Sources */,
 				6324CD5E2629364A00F79036 /* CoordinatorProtocol.swift in Sources */,
 				6324CD8F262948CE00F79036 /* CountersBoardViewDelegate.swift in Sources */,
 				63849818263D29C5002EB98F /* ExamplesView.swift in Sources */,
 				6384978126361D8D002EB98F /* Route.swift in Sources */,
+				63E4DCC82642693C00867F88 /* CounterDataModel.xcdatamodeld in Sources */,
 				6384977926353208002EB98F /* NetworkingClient.swift in Sources */,
 				638496E3262E7485002EB98F /* CountersBoardStates.swift in Sources */,
 				6384981D263D2A32002EB98F /* ExamplesViewPresenter.swift in Sources */,
@@ -719,6 +726,7 @@
 				350AF6D925E02D5E0000F698 /* WelcomeView.swift in Sources */,
 				6324CD6B262938C400F79036 /* WelcomeViewDelegate.swift in Sources */,
 				6384978F26362C1F002EB98F /* CounterRepository.swift in Sources */,
+				63E4DCCD26426C6F00867F88 /* CoreDataRepository.swift in Sources */,
 				638497BA263682A9002EB98F /* JSONLoaderHelper.swift in Sources */,
 				63B1E258263E61C20095BB5B /* ExampleCellView.swift in Sources */,
 				638497AA26366912002EB98F /* NetworkingClientLoader.swift in Sources */,
@@ -1059,6 +1067,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		63E4DCC62642693B00867F88 /* CounterDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				63E4DCC72642693B00867F88 /* CounterDataModel.xcdatamodel */,
+			);
+			currentVersion = 63E4DCC72642693B00867F88 /* CounterDataModel.xcdatamodel */;
+			path = CounterDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = DECA256025CC8D4200851431 /* Project object */;
 }

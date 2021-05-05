@@ -36,10 +36,10 @@ class CounterCardView: UIView {
 
     // MARK: - Configuration
 
-    func configure(with counter: CounterModelProtocol) {
-        self.counter.text = String(counter.count)
-        self.counter.textColor =  counter.count ==  0 ? .background : .accentColor
-        title.text = counter.title
+    func configure(with counterCellVM: CounterCellViewModel) {
+        self.counter.text = String(counterCellVM.count)
+        self.counter.textColor =  counterCellVM.count ==  0 ? .background : .accentColor
+        title.text = counterCellVM.name
         tintColor = .accentColor
     }
 
@@ -169,11 +169,11 @@ private extension CounterCardView {
 import SwiftUI
 
 class ViewModel {
-    internal init(counter: CounterModelProtocol) {
+    internal init(counter: CounterModel) {
         self.counter = counter
     }
 
-    var counter: CounterModelProtocol
+    var counter: CounterModel
     @objc func valueChanged(sender: UIStepper) {
         self.counter.count = Int(sender.value)
     }
@@ -192,7 +192,7 @@ struct CounterCard_Preview: PreviewProvider {
                 let view = CounterCardView()
                 view.stepper.addTarget(viewModel,
                                        action: #selector(viewModel.valueChanged(sender:)), for: .valueChanged)
-                view.configure(with: viewModel.counter)
+                view.configure(with: CounterCellViewModel(counterModel: viewModel.counter))
                 return view
             }
             .padding()
@@ -202,7 +202,7 @@ struct CounterCard_Preview: PreviewProvider {
                 let view = CounterCardView()
                 view.stepper.addTarget(viewModel2,
                                        action: #selector(viewModel2.valueChanged(sender:)), for: .valueChanged)
-                view.configure(with: viewModel2.counter)
+                view.configure(with: CounterCellViewModel(counterModel: viewModel2.counter))
                 return view
             }
             .preferredColorScheme(.dark)

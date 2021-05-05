@@ -26,7 +26,7 @@ protocol  RequestHandler {
 }
 
 protocol ResponseHandler {
-    func parseResponse(data: Data) throws -> [CounterModelProtocol]
+    func parseResponse(data: Data) throws -> [CounterModel]
 }
 
 typealias APIHandler = RequestHandler & ResponseHandler

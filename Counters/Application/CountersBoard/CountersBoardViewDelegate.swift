@@ -14,7 +14,7 @@ protocol CountersBoardViewDelegate: class {
                                        selectAllBarButton: UIBarButtonItem?,
                                        searchPlaceholder: String,
                                        toolbarItems: [UIBarButtonItem])
-    func cellStepperDidChangeValue(_ counter: CounterModelProtocol, stepperChangeType: CounterCardView.StepperChangeType)
+    func cellStepperDidChangeValue(_ counterCellVM: CounterCellViewModel, stepperChangeType: CounterCardView.StepperChangeType)
     func editButtonWasPressed()
     func selectAllButtonWasPressed()
     func addButtonWasPressed()
