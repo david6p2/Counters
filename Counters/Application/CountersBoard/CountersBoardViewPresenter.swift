@@ -36,7 +36,7 @@ protocol CountersBoardViewProtocol: class {
     func updateTableData(with counters: [CounterModelProtocol], whileSearching isSearching: Bool)
 }
 
-internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol {
+internal final class CountersBoardViewPresenter {
     weak var view: CountersBoardViewProtocol?
     var currentStateStrategy: CountersBoardState = CountersBoardStateLoading()
     private(set) var counters: [CounterModelProtocol] = []
@@ -44,15 +44,11 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
     var filter: String = ""
     var isSearching = false
 
-    var editModeDisableAction: (() -> Void)?
-
     let api = NetworkingClient()
     lazy var countersRepository = CounterRepository(apiTaskLoader: NetworkingClientLoader(apiRequest:api))
+    lazy var coreDataRepository = CoreDataRepository()
 
-    func viewDidLoad(animated: Bool) {
-        view?.setup(viewModel: currentStateStrategy.viewModel, animated: animated)
-        getCounters(animated: false)
-    }
+    var editModeDisableAction: (() -> Void)?
 
     func getCounters(animated: Bool) {
         countersRepository.getCounters { [weak self] (result) in
@@ -65,18 +61,92 @@ internal final class CountersBoardViewPresenter: CountersBoardPresenterProtocol 
                 }
                 print("The counters are: \(counters)")
                 self.counters = counters
+
+                // Save in CoreData
+                self.saveCountersInDB(self.counters)
+
                 self.currentStateStrategy = CountersBoardStateHasContent(counters, isSearching: self.isSearching)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: animated)
                 }
             case .failure(let error):
                 print("The error for getCounters is: \(error)")
+                self.handleGetCountersError(animated: animated)
+            }
+        }
+    }
+
+
+    /// Saves the Counters array in the local Data Base
+    /// - Parameter counters: The array of Counters
+    func saveCountersInDB(_ counters: [CounterModelProtocol]) {
+        coreDataRepository.cleanDB()
+        counters.forEach { (counter) in
+            coreDataRepository.createCounter(counter) { (result) in
+                switch result {
+                case .success(let counters):
+                    print("\(String(describing: counters?.first)) -> saved")
+                case .failure(let error):
+                    print("Error saving Counter \(error)")
+                }
+
+            }
+        }
+        coreDataRepository.saveContext()
+    }
+
+    /// The app should persist the counter list if the network is not available
+    func handleGetCountersError(animated: Bool) {
+        coreDataRepository.getCounters { [weak self] (result) in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .success(let localCounters):
+                guard let localCounters = localCounters else {
+                    return
+                }
+
+                // If there is no local data we are going to the Error State
+                if localCounters.isEmpty {
+                    self.currentStateStrategy = CountersBoardStateError()
+                    DispatchQueue.main.async {
+                        self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: animated)
+                    }
+                    return
+                }
+                // If we have local data we are going to show the error for a few seconds and then the local counters
+                self.currentStateStrategy = CountersBoardStateError()
+
+                DispatchQueue.main.async {
+                    self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: animated)
+                }
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.counters = localCounters
+
+                    self.currentStateStrategy = CountersBoardStateHasContent(self.counters, isSearching: self.isSearching)
+                    DispatchQueue.main.async {
+                        self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: animated)
+                    }
+                }
+
+            case .failure(let error):
+                print("Error Showing Local Counters \(error)")
                 self.currentStateStrategy = CountersBoardStateError()
                 DispatchQueue.main.async {
                     self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: animated)
                 }
             }
         }
+    }
+}
+
+extension CountersBoardViewPresenter: CountersBoardPresenterProtocol {
+
+    func viewDidLoad(animated: Bool) {
+        view?.setup(viewModel: currentStateStrategy.viewModel, animated: animated)
+        getCounters(animated: false)
     }
 
     func noContentViewButtonPressed(with type: CountersBoardNoContentView.NoContentViewType) {
