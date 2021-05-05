@@ -13,7 +13,7 @@ class CountersBoardTableView: UIView {
     /// The CountersBoard TableView ViewModel
     struct ViewModel {
         /// Counters Array for the Table
-        let counters: [CounterModelProtocol]
+        let counterCellsVMs: [CounterCellViewModel]
 
         let noResultsString: String
 
@@ -21,20 +21,23 @@ class CountersBoardTableView: UIView {
 
         /// Mock Counter ViewModel to test when there's no data from the server
         static var mockCounters: ViewModel = .init(
-            counters: [
-                CounterModel(id: "Title1",
-                             title: "Apples eaten",
-                             count: 0),
-                CounterModel(id: "Title2",
-                             title: "Number of times I’ve forgotten my mother’s name because I was high on Frugelés.",
-                             count: 10)
+            counterCellsVMs: [
+                CounterCellViewModel(counterModel:
+                                        CounterModel(id: "Title1",
+                                                     title: "Apples eaten",
+                                                     count: 0)
+                ),
+                CounterCellViewModel(counterModel:
+                                        CounterModel(id: "Title2",
+                                                     title: "Number of times I’ve forgotten my mother’s name because I was high on Frugelés.",
+                                                     count: 10))
             ],
             noResultsString: "COUNTERSDASHBOARD_NO_RESULTS_MESSAGE".localized(),
             isSearching: false
         )
 
         /// Empty Counters ViewModel to test the case when there are no counters
-        static var empty: ViewModel = .init(counters: [], noResultsString: "", isSearching: false)
+        static var empty: ViewModel = .init(counterCellsVMs: [], noResultsString: "", isSearching: false)
     }
 
     // MARK: - Properties
@@ -63,9 +66,9 @@ class CountersBoardTableView: UIView {
         tableView.allowsSelection = false
         tableView.separatorStyle = .none
         // Whe need to hide the complete view when there are no counters and we are not searching
-        self.isHidden = tableViewModel.counters.isEmpty && !tableViewModel.isSearching
+        self.isHidden = tableViewModel.counterCellsVMs.isEmpty && !tableViewModel.isSearching
 
-        noResultsLabelShouldBeShown(countersIsEmpty: tableViewModel.counters.isEmpty, isSearching: tableViewModel.isSearching)
+        noResultsLabelShouldBeShown(countersIsEmpty: tableViewModel.counterCellsVMs.isEmpty, isSearching: tableViewModel.isSearching)
         noResultsLabel.attributedText = .init(string: tableViewModel.noResultsString,
                                               attributes: [.kern: Font.titleKern])
         configureDelegate?.isCallingConfigureTable(with: tableViewModel, whileSearching: tableViewModel.isSearching, animated: animated)

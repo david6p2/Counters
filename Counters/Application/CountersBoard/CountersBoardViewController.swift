@@ -146,15 +146,15 @@ extension CountersBoardViewController: CountersBoardViewProtocol {
                                   retryTitle: "COUNTERSDASHBOARD_ERROR_INCREASEDECREASE_BUTTON_TITLE_RETRY".localized()) { [weak self] (_) in
             switch error.type {
             case .increase(let id):
-                guard let counter = self?.innerView.viewModel.getCounter(for: id) else {
+                guard let counterCellVM = self?.innerView.viewModel.getCounterCellVM(for: id) else {
                     return
                 }
-                self?.presenter.handleCounterIncrease(counter: counter)
+                self?.presenter.handleCounterIncrease(counterCellVM: counterCellVM)
             case .decrease(let id):
-                guard let counter = self?.innerView.viewModel.getCounter(for: id) else {
+                guard let counterCellVM = self?.innerView.viewModel.getCounterCellVM(for: id) else {
                     return
                 }
-                self?.presenter.handleCounterDecrease(counter: counter)
+                self?.presenter.handleCounterDecrease(counterCellVM: counterCellVM)
             default:
                 break;
             }
@@ -171,7 +171,7 @@ extension CountersBoardViewController: CountersBoardViewProtocol {
         }
 
         if let counterId = counterId {
-            counterName = innerView.viewModel.getCounter(for: counterId)?.title ?? ""
+            counterName = innerView.viewModel.getCounterCellVM(for: counterId)?.name ?? ""
         } else {
             counterName = ""
         }
@@ -187,12 +187,8 @@ extension CountersBoardViewController: CountersBoardViewProtocol {
         self.presentAlert(with: deleteError)
     }
 
-    func updateTableData(with counters: [CounterModelProtocol], whileSearching isSearching: Bool) {
-        guard let counters = counters as? [CounterModel] else {
-            return
-        }
-
-        innerView.updateData(on: counters, whileSearching: isSearching, animated: true)
+    func updateTableData(with counterCellsVMs: [CounterCellViewModel], whileSearching isSearching: Bool) {
+        innerView.updateData(on: counterCellsVMs, whileSearching: isSearching, animated: true)
     }
 }
 
@@ -211,12 +207,12 @@ extension CountersBoardViewController: CountersBoardViewDelegate {
         setupToolbar(toolbarItems)
     }
 
-    func cellStepperDidChangeValue(_ counter: CounterModelProtocol, stepperChangeType: CounterCardView.StepperChangeType) {
+    func cellStepperDidChangeValue(_ counterCellVM: CounterCellViewModel, stepperChangeType: CounterCardView.StepperChangeType) {
         switch stepperChangeType {
         case .increase:
-            presenter.handleCounterIncrease(counter: counter)
+            presenter.handleCounterIncrease(counterCellVM: counterCellVM)
         case .decrease:
-            presenter.handleCounterDecrease(counter: counter)
+            presenter.handleCounterDecrease(counterCellVM: counterCellVM)
         }
     }
 

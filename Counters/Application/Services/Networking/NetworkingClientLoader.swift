@@ -9,7 +9,7 @@ import Foundation
 
 protocol APILoader {
     func loadAPIRequest(requestData: Route,
-                        completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> ())
+                        completionHandler: @escaping (Result<[CounterModel]?, Error>) -> ())
 }
 
 class NetworkingClientLoader: APILoader {
@@ -24,7 +24,7 @@ class NetworkingClientLoader: APILoader {
     }
 
     func loadAPIRequest(requestData: Route,
-                        completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> ()) {
+                        completionHandler: @escaping (Result<[CounterModel]?, Error>) -> ()) {
         // Check network status
         if reachibility.connection == .none {
             return completionHandler(.failure(NetworkError(message: "No Internet Connection")))

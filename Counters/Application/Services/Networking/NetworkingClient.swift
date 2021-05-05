@@ -21,7 +21,7 @@ struct NetworkingClient: APIHandler {
         return client.makeRequest(with: requestURL, httpMethod: route.method.rawValue, parameters: route.parameters) as URLRequest
     }
 
-    func parseResponse(data: Data) throws -> [CounterModelProtocol] {
+    func parseResponse(data: Data) throws -> [CounterModel] {
         return try defaultParseResponse(data: data)
     }
 }
