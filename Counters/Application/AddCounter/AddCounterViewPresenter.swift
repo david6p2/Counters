@@ -66,7 +66,8 @@ extension AddCounterViewPresenter: AddCounterViewPresenterProtocol {
 
     func addCounterIsLoading(withCounterName name: String) {
         print("Call service to create")
-        countersRepository.createCounter(name: name) { [weak self] (result) in
+        let counter: CounterModelProtocol = CounterModel(id: "-1", title: name, count: 0)
+        countersRepository.createCounter(counter) { [weak self] (result) in
             switch result {
             case .success(let counters):
                 print("The counters when Create are: \(String(describing: counters))")
