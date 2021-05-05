@@ -7,8 +7,8 @@
 
 import Foundation
 
-/// Concrete implementation of the CounterModelProtocol
-struct CounterModel: CounterModelProtocol {
+/// Counter Model to parse the response from the API and store in the DB
+struct CounterModel {
     var id: String
     var title: String
     var count: Int

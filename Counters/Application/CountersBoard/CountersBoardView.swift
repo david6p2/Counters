@@ -51,12 +51,12 @@ internal final class CountersBoardView: UIView {
         let countersVM: CountersBoardTableView.ViewModel
 
         func countersSum() -> String {
-            guard countersVM.counters.count > 0 else {
+            guard countersVM.counterCellsVMs.count > 0 else {
                 return ""
             }
             return String(format: "COUNTERSDASHBOARD_COUNTED_ITEMS".localized(),
-                          countersVM.counters.count,
-                          countersVM.counters.reduce(0, { (result, counter) -> Int in
+                          countersVM.counterCellsVMs.count,
+                          countersVM.counterCellsVMs.reduce(0, { (result, counter) -> Int in
                             return result + counter.count
                           })
             )
@@ -65,18 +65,18 @@ internal final class CountersBoardView: UIView {
         func getErrorAlertTitle(for errorType: CountersError.ErrorType) -> String {
             switch errorType {
             case .increase(let id):
-                let counter = getCounter(for: id)
-                return String(format: "COUNTERSDASHBOARD_ERROR_INCREASEDECREASE_TITLE".localized(), counter?.title ?? "", (counter?.count ?? 0) + 1)
+                let counterCellVM = getCounterCellVM(for: id)
+                return String(format: "COUNTERSDASHBOARD_ERROR_INCREASEDECREASE_TITLE".localized(), counterCellVM?.name ?? "", (counterCellVM?.count ?? 0) + 1)
             case .decrease(let id):
-                let counter = getCounter(for: id)
-                return String(format: "COUNTERSDASHBOARD_ERROR_INCREASEDECREASE_TITLE".localized(), counter?.title ?? "", (counter?.count ?? 0) - 1)
+                let counterCellVM = getCounterCellVM(for: id)
+                return String(format: "COUNTERSDASHBOARD_ERROR_INCREASEDECREASE_TITLE".localized(), counterCellVM?.name ?? "", (counterCellVM?.count ?? 0) - 1)
             default:
                 return ""
             }
         }
 
-        func getCounter(for id: String) -> CounterModelProtocol? {
-            return self.countersVM.counters.first{ $0.id == id }
+        func getCounterCellVM(for id: String) -> CounterCellViewModel? {
+            return self.countersVM.counterCellsVMs.first{ $0.id == id }
         }
     }
 
@@ -150,7 +150,7 @@ internal final class CountersBoardView: UIView {
         selectAllButton.isEnabled = parentVM.isEditEnabled
 
         // Setup Items Counted Label
-        itemsCountedLabel.isHidden = viewModel.countersVM.counters.isEmpty
+        itemsCountedLabel.isHidden = viewModel.countersVM.counterCellsVMs.isEmpty
         itemsCountedLabel.textAlignment = .center
         itemsCountedLabel.attributedText = .init(string: viewModel.countersSum(),
                                                  attributes: [.kern: Font.itemsCountedKern,
@@ -218,8 +218,8 @@ internal final class CountersBoardView: UIView {
         }
         
         let counterItems: [String] = indexPaths.map({ String(format: "COUNTERSDASHBOARD_EDIT_SHARE_TITLE".localized(),
-                                                             viewModel.countersVM.counters[$0.row].count,
-                                                             viewModel.countersVM.counters[$0.row].title)}
+                                                             viewModel.countersVM.counterCellsVMs[$0.row].count,
+                                                             viewModel.countersVM.counterCellsVMs[$0.row].name)}
         )
 
         return UIActivityViewController(activityItems: counterItems, applicationActivities: nil)
@@ -249,7 +249,7 @@ private extension CountersBoardView {
         guard let indexes = self.countersTableView.tableView.indexPathsForSelectedRows else {
             return
         }
-        let ids = indexes.map({ self.viewModel.countersVM.counters[$0.row].id})
+        let ids = indexes.map({ self.viewModel.countersVM.counterCellsVMs[$0.row].id})
         delegate?.trashButtonWasPressed(withSelectedItemsIds: ids)
     }
 
@@ -378,7 +378,7 @@ private extension CountersBoardView {
 private extension CountersBoardView {
     // Subclassing our data source to supply various UITableViewDataSource methods
 
-    class DataSource: UITableViewDiffableDataSource<CountersBoardView.CounterBoardSection, CounterModel> {
+    class DataSource: UITableViewDiffableDataSource<CountersBoardView.CounterBoardSection, CounterCellViewModel> {
 
         // MARK: editing support
 
@@ -398,12 +398,12 @@ extension CountersBoardView {
 
     func configureDataSource() {
         dataSource = DataSource(tableView: countersTableView.tableView,
-                                cellProvider: { (tableView, indexPath, counter) -> UITableViewCell? in
+                                cellProvider: { (tableView, indexPath, counterCellVM) -> UITableViewCell? in
                                     let cell = tableView.dequeueReusableCell(withIdentifier: CountersBoardTableViewCell.reuseIdentifier,
                                                                              for: indexPath) as! CountersBoardTableViewCell
-                                    cell.configure(with: .init(counterModel: counter))
-                                    cell.counterCardView.valueDidChange = { [weak self, counter] stepType in
-                                        self?.delegate?.cellStepperDidChangeValue(counter,
+                                    cell.configure(with: counterCellVM)
+                                    cell.counterCardView.valueDidChange = { [weak self, counterCellVM] stepType in
+                                        self?.delegate?.cellStepperDidChangeValue(counterCellVM,
                                                                                   stepperChangeType: stepType)
                                     }
 
@@ -412,8 +412,8 @@ extension CountersBoardView {
         )
     }
 
-    func updateData(on results: [CounterModel], whileSearching isSearching: Bool, animated: Bool) {
-        var snapshot = NSDiffableDataSourceSnapshot<CounterBoardSection, CounterModel>()
+    func updateData(on results: [CounterCellViewModel], whileSearching isSearching: Bool, animated: Bool) {
+        var snapshot = NSDiffableDataSourceSnapshot<CounterBoardSection, CounterCellViewModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems(results)
         DispatchQueue.main.async {
@@ -449,12 +449,7 @@ extension CountersBoardView: CountersBoardTableViewConfigureDelegate {
     func isCallingConfigureTable(with viewModel: CountersBoardTableView.ViewModel,
                                  whileSearching isSearching: Bool,
                                  animated: Bool) {
-        guard let counters = viewModel.counters as? [CounterModel] else {
-            updateData(on: [], whileSearching: isSearching, animated: animated)
-            return
-        }
-
-        updateData(on: counters, whileSearching: isSearching, animated: animated)
+        updateData(on: viewModel.counterCellsVMs, whileSearching: isSearching, animated: animated)
     }
 }
 

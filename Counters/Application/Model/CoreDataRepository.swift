@@ -10,7 +10,7 @@ import CoreData
 
 class CoreDataRepository: Repository {
     
-    typealias Entity = CounterModelProtocol
+    typealias Entity = CounterModel
     private let entityName = "CounterManagedObject"
 
     // MARK: - Core Data Stack Configuration
@@ -68,17 +68,17 @@ class CoreDataRepository: Repository {
 
     // MARK: - Repository Implementation
 
-    func getCounters(completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> Void) {
+    func getCounters(completionHandler: @escaping (Result<[CounterModel]?, Error>) -> Void) {
         guard let fetchedItems = getEntities(entityName: entityName) else {
             return completionHandler(.success([]))
         }
 
-        let fetchedCounters = fetchedItems.compactMap({ CounterModel(entity: $0 as! CounterManagedObject) })
+        let fetchedCounters = fetchedItems.compactMap({ CounterModel(entity: $0 ) })
         completionHandler(.success(fetchedCounters))
     }
 
-    func createCounter(_ counter: CounterModelProtocol,
-                       completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> Void) {
+    func createCounter(_ counter: CounterModel,
+                       completionHandler: @escaping (Result<[CounterModel]?, Error>) -> Void) {
         guard let entity = NSEntityDescription.entity(forEntityName: entityName,
                                                       in: managedObjectContext) else {
             return completionHandler(.success(nil))
@@ -93,15 +93,15 @@ class CoreDataRepository: Repository {
         }
     }
 
-    func increaseCounter(id: String, completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> Void) {
+    func increaseCounter(id: String, completionHandler: @escaping (Result<[CounterModel]?, Error>) -> Void) {
         // May be needed if we prefer an offline first aproach
     }
 
-    func decreaseCounter(id: String, completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> Void) {
+    func decreaseCounter(id: String, completionHandler: @escaping (Result<[CounterModel]?, Error>) -> Void) {
         // May be needed if we prefer an offline first aproach
     }
 
-    func deleteCounter(id: String, completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> Void) {
+    func deleteCounter(id: String, completionHandler: @escaping (Result<[CounterModel]?, Error>) -> Void) {
         // May be needed if we prefer an offline first aproach
     }
 
