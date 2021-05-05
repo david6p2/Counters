@@ -12,7 +12,7 @@ class NetworkingClientLoaderMock: APILoader {
     let apiRequest = NetworkingClient()
 
     func loadAPIRequest(requestData: Route,
-                        completionHandler: @escaping (Result<[CounterModelProtocol]?, Error>) -> ()) {
+                        completionHandler: @escaping (Result<[CounterModel]?, Error>) -> ()) {
         switch requestData {
         case .getCounters:
             do {

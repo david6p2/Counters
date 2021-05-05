@@ -15,7 +15,7 @@ class CounterModelTests: XCTestCase {
         do {
             let jsonData: Data = try JSONLoaderHelper.loadJSONToData(fileName: "CounterJSONExample")!
             let jsonDict: [String:Any] = try JSONLoaderHelper.loadJSONToDictionary(fileName: "CounterJSONExample")!
-            var model: CounterModelProtocol
+            var model: CounterModel
 
             // When
             model = try! JSONDecoder().decode(CounterModel.self, from: jsonData)

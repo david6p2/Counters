@@ -86,10 +86,10 @@ class NetworkingClientTests: XCTestCase {
         do {
             let response = try request.parseResponse(data: jsonData)
             XCTFail("Shouldn't be able to parse invalid JSON srtucture \(response)")
-        } catch let error as UnknownParseError {
-            XCTAssertEqual(error.message, "Error Parsing Data")
+        } catch let error as NSError {
+            XCTAssertNotNil(error.debugDescription, "Error Parsing Data")
         } catch {
-            XCTFail("Should have thrown an UnknownParseError")
+            XCTFail("Should have thrown an NSError")
         }
     }
 }
