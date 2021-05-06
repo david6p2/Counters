@@ -7,14 +7,7 @@
 
 import Foundation
 
-enum CountersBoardStates<CounterData> {
-    case loading
-    case noContent
-    case hasContent(_ content: CounterData)
-    case error(_ error: Error)
-}
-
-protocol CountersBoardState { //El VM Usa esto comoo un state para delegarle al state
+protocol CountersBoardState {
     var viewModel: CountersBoardView.ViewModel { get }
 }
 
