@@ -1,16 +1,16 @@
 # Counters
 
-This iOS app will help you count anything you want and persits them in case you loose your internet connection.
+This iOS app will help you count anything you want and persist them in case you lose your internet connection.
 
 ## Prerequisites
 
-This App was build with **Xcode 12.4**
+This App was built with **Xcode 12.4**
 
 Requirements:
 
 - iOS 14.1 or superior
 - iPhone Device in portrait mode
-- An internet connection is prefered for the App to work as expected
+- An internet connection is preferred for the App to work as expected
 
 ## How to Run the project?
 
@@ -25,7 +25,7 @@ $ npm start
 
 ### iOS App:
 
-Just need to clone the Repo from https://github.com/david6p2/Counters.git using git and then open the `Counters.xcodeproj` and run. There are no 3rd party dependecies, so there's no need to use Cocoapods, Swift Package Manage, Carthage, etc.
+Just need to clone the Repo from https://github.com/david6p2/Counters.git using git and then open the `Counters.xcodeproj` and run. There are no 3rd party dependencies, so there's no need to use Cocoapods, Swift Package Manage, Carthage, etc.
 
 If the server is already running, you should be ready to start counting what you want.
 
@@ -53,15 +53,15 @@ We have the following MVPs:
     - Add a new counter. [15](https://github.com/david6p2/Counters/pull/15)
     - Search all the counters you have and edit them while you are searching. (`obscuresBackgroundDuringPresentation` was disabled on the searchController so this can be done easier) [21](https://github.com/david6p2/Counters/pull/21)
     - Show a sum of all the counter values. [19](https://github.com/david6p2/Counters/pull/19)
-  - The Loading indicator if the App is retriving the Counters from the backend. [7](https://github.com/david6p2/Counters/pull/7)
+  - The Loading indicator if the App is retrieving the Counters from the backend. [7](https://github.com/david6p2/Counters/pull/7)
   - The No Content View when you haven't created any Counter yet. [5](https://github.com/david6p2/Counters/pull/5)
   - The Error View if there was some problem with the Network Connection. [20](https://github.com/david6p2/Counters/pull/20)
-- Add Counter: Here is where you can Add a new Counter by typing it's name tha then touching the **Save** button. [15](https://github.com/david6p2/Counters/pull/15)
-- Examples: This is accessible through a link under the the Add Counter text field. Here you will find some examples of things you can count if your imagination is blocked. This was done using Collection Views with the new `UICollectionViewCompositionalLayout`. [18](https://github.com/david6p2/Counters/pull/18)
+- Add Counter: Here is where you can Add a new Counter by typing it's name and then touching the **Save** button. [15](https://github.com/david6p2/Counters/pull/15)
+- Examples: This is accessible through a link under the Add Counter text field. Here you will find some examples of things you can count if your imagination is blocked. This was done using Collection Views with the new `UICollectionViewCompositionalLayout`. [18](https://github.com/david6p2/Counters/pull/18)
 
-All of these MVP Navigation is controlled by a MainCoordinator [1](https://github.com/david6p2/Counters/pull/1) that decides which MPV should be presented next and is the one in charge of assemblying each MVP before presenting them.
+All of these MVP Navigation is controlled by a MainCoordinator [1](https://github.com/david6p2/Counters/pull/1) that decides which MPV should be presented next and is the one in charge of assembling each MVP before presenting them.
 
-The Networking [12](https://github.com/david6p2/Counters/pull/12) and Storage (CoreData [22](https://github.com/david6p2/Counters/pull/22)) Layers are decouple from the App with the use of the Repository Pattern and using the `CounterCellViewModel` as the Domain object, so you wont see any NSManagedObject inside the Domain, making the change of CoreData for any other storage much easier, if needed in the future.
+The Networking [12](https://github.com/david6p2/Counters/pull/12) and Storage (CoreData [22](https://github.com/david6p2/Counters/pull/22)) Layers are decouple from the App with the use of the Repository Pattern and using the `CounterCellViewModel` as the Domain object, so you won’t see any NSManagedObject inside the Domain, making the change of CoreData for any other storage much easier, if needed in the future.
 
 To manage the different States the Strategy Pattern was used [6](https://github.com/david6p2/Counters/pull/6)
 
