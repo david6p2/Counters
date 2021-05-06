@@ -90,12 +90,10 @@ class AddCounterViewController: UIViewController {
 private extension AddCounterViewController {
 
     @objc private func cancel(sender: UIBarButtonItem) {
-        print("Cancel button was pressed")
         presenter.cancelButtonPressed()
     }
 
     @objc private func save(sender: UIBarButtonItem) {
-        print("Save button was pressed")
         guard let name = nameTextField.text else {
             return
         }
@@ -103,12 +101,10 @@ private extension AddCounterViewController {
     }
 
     @IBAction private func nameTextFieldChanged(_ sender: UITextField) {
-        print(sender.text!)
         saveButton.isEnabled = sender.text?.isEmpty ?? true ? false : true
     }
 
     private func examplesLinkWasTapped(withURL url: URL) {
-        print("Examples link was tapped")
         presenter.examplesLinkPressed()
     }
 }
@@ -200,7 +196,6 @@ private extension AddCounterViewController {
 
 extension AddCounterViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        print("Examples TextView tapped with URL: \(URL)")
         examplesLinkWasTapped(withURL: URL)
         return false
     }
