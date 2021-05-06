@@ -42,6 +42,7 @@ internal final class WelcomeFeatureView: UIView {
         descriptionLabel.attributedText = .init(string: viewModel.subtitle, attributes: [.kern: Font.kern])
     }
 }
+
 // MARK: - Constants
 
 private extension WelcomeFeatureView {

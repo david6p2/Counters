@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Protocol used by the Views to comunicate user actions to the Presenter
 protocol CountersBoardPresenterProtocol {
     var editModeDisableAction: (() -> Void)? { get set }
 
@@ -24,6 +25,7 @@ protocol CountersBoardPresenterProtocol {
     func updateSearchResultsCalled(with filter: String)
 }
 
+/// Protocol used by the Presenter to update the View
 protocol CountersBoardViewProtocol: class {
     func setup(viewModel: CountersBoardView.ViewModel, animated: Bool)
     func presentAddNewCounter()
@@ -36,19 +38,28 @@ protocol CountersBoardViewProtocol: class {
     func updateTableData(with countersCellsVMs: [CounterCellViewModel], whileSearching isSearching: Bool)
 }
 
+
 internal final class CountersBoardViewPresenter {
+
+    // MARK: - Properties
+
     weak var view: CountersBoardViewProtocol?
-    var currentStateStrategy: CountersBoardState = CountersBoardStateLoading()
+
     private(set) var counterCellsVMs: [CounterCellViewModel] = []
     private(set) var filteredCounterCellsVMs: [CounterCellViewModel] = []
-    var filter: String = ""
-    var isSearching = false
 
-    let api = NetworkingClient()
-    lazy var countersRepository = CounterRepository(apiTaskLoader: NetworkingClientLoader(apiRequest:api))
-    lazy var coreDataRepository = CoreDataRepository()
+    var currentStateStrategy: CountersBoardState = CountersBoardStateLoading()
+
+    private var filter: String = ""
+    private var isSearching = false
+
+    private let api = NetworkingClient()
+    private lazy var countersRepository = CounterRepository(apiTaskLoader: NetworkingClientLoader(apiRequest:api))
+    private lazy var coreDataRepository = CoreDataRepository()
 
     var editModeDisableAction: (() -> Void)?
+
+    // MARK: - Presenter Methods
 
     func getCounters(animated: Bool) {
         countersRepository.getCounters { [weak self] (result) in
@@ -128,9 +139,20 @@ internal final class CountersBoardViewPresenter {
             }
         }
     }
+
+    /// Update the Counters filtered array
+    /// - Parameters:
+    ///   - counterCellsVMs: the arrays of Counter Cell ViewModels that needs to be filtered
+    ///   - filter: The string to be used to filter
+    /// - Returns: the filtered array of Counter Cells ViewModels
+    func updateFiltered(counterCellsVMs: [CounterCellViewModel], with filter: String) -> [CounterCellViewModel] {
+        return counterCellsVMs.filter { $0.name.lowercased().contains(filter.lowercased()) }
+    }
 }
 
 extension CountersBoardViewPresenter: CountersBoardPresenterProtocol {
+
+    // MARK: - CountersBoardPresenterProtocol Methods
 
     func viewDidLoad(animated: Bool) {
         view?.setup(viewModel: currentStateStrategy.viewModel, animated: animated)
@@ -310,10 +332,6 @@ extension CountersBoardViewPresenter: CountersBoardPresenterProtocol {
         isSearching = true
         filteredCounterCellsVMs = updateFiltered(counterCellsVMs: counterCellsVMs, with: filter)
         view?.updateTableData(with: filteredCounterCellsVMs, whileSearching: isSearching)
-    }
-
-    func updateFiltered(counterCellsVMs: [CounterCellViewModel], with filter: String) -> [CounterCellViewModel] {
-        return counterCellsVMs.filter { $0.name.lowercased().contains(filter.lowercased()) }
     }
 }
 
