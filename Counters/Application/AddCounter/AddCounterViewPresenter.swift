@@ -65,19 +65,15 @@ extension AddCounterViewPresenter: AddCounterViewPresenterProtocol {
     }
 
     func addCounterIsLoading(withCounterName name: String) {
-        print("Call service to create")
         let counter: CounterModel = CounterModel(id: "-1", title: name, count: 0)
         countersRepository.createCounter(counter) { [weak self] (result) in
             switch result {
             case .success(let counters):
-                print("The counters when Create are: \(String(describing: counters))")
                 guard counters != nil else {
-                    print("The error in Create success is: there are no counters")
                     return
                 }
                 self?.view?.counterSuccessfullyCreated()
             case .failure(let error):
-                print("The error for addCounterIsLoading is: \(error)")
                 let addError = CountersError(error: error as NSError,
                                              type: .add(name: name),
                                              title: nil,
@@ -93,7 +89,6 @@ extension AddCounterViewPresenter: AddCounterViewPresenterProtocol {
     }
 
     func examplesLinkPressed() {
-        print("examples Link was Pressed")
         view?.presentExamplesView()
     }
 

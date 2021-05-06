@@ -56,10 +56,8 @@ internal final class CountersBoardViewPresenter {
             switch result {
             case .success(let counters):
                 guard let counters = counters else {
-                    print("The error in success is: there are no counters")
                     return
                 }
-                print("The counters are: \(counters)")
                 self.counterCellsVMs = counters.map{ CounterCellViewModel(counterModel: $0) }
 
                 // Save in CoreData
@@ -70,7 +68,6 @@ internal final class CountersBoardViewPresenter {
                     self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: animated)
                 }
             case .failure(let error):
-                print("The error for getCounters is: \(error)")
                 self.handleGetCountersError(animated: animated)
             }
         }
@@ -82,15 +79,7 @@ internal final class CountersBoardViewPresenter {
     func saveCountersInDB(_ counters: [CounterModel]) {
         coreDataRepository.cleanDB()
         counters.forEach { (counter) in
-            coreDataRepository.createCounter(counter) { (result) in
-                switch result {
-                case .success(let counters):
-                    print("\(String(describing: counters?.first)) -> saved")
-                case .failure(let error):
-                    print("Error saving Counter \(error)")
-                }
-
-            }
+            coreDataRepository.createCounter(counter) { _ in }
         }
         coreDataRepository.saveContext()
     }
@@ -132,7 +121,6 @@ internal final class CountersBoardViewPresenter {
                 }
 
             case .failure(let error):
-                print("Error Showing Local Counters \(error)")
                 self.currentStateStrategy = CountersBoardStateError()
                 DispatchQueue.main.async {
                     self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: animated)
@@ -161,32 +149,26 @@ extension CountersBoardViewPresenter: CountersBoardPresenterProtocol {
     }
 
     func editButtonPressed() {
-        print("Calling Edit counters")
         view?.toggleEditing()
     }
 
     func selectAllPressed() {
-        print("Calling selectAll counters")
         view?.selectAllCounters()
     }
 
     func addButtonPressed() {
-        print("Add Counter was pressed")
         view?.presentAddNewCounter()
     }
 
     func shareButtonWasPressed() {
-        print("Share was pressed")
         view?.shareSelectedCounters()
     }
 
     func trashButtonWasPressed(withSelectedItemsIds ids: [String]) {
-        print("Trash was pressed with Items \(ids)")
         view?.presentDeleteItemsConfirmationAlert(ids)
     }
 
     func pullToRefreshCalled() {
-        print("Pull to refresh called")
         getCounters(animated: true)
     }
 
@@ -196,10 +178,9 @@ extension CountersBoardViewPresenter: CountersBoardPresenterProtocol {
             switch result {
             case .success(let counters):
                 guard let counters = counters else {
-                    print("The error in Increase success is: there are no counters")
                     return
                 }
-                print("The counters when Increase are: \(counters)")
+
                 self.counterCellsVMs = counters.map{ CounterCellViewModel(counterModel: $0) }
                 if self.isSearching {
                     self.filteredCounterCellsVMs = self.updateFiltered(counterCellsVMs: counters.map{ CounterCellViewModel(counterModel: $0) }, with: self.filter)
@@ -210,7 +191,6 @@ extension CountersBoardViewPresenter: CountersBoardPresenterProtocol {
                     self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: false)
                 }
             case .failure(let error):
-                print("The error for handleCounterIncrease is: \(error)")
                 let increaseError = CountersError(error: error as NSError,
                                                   type: .increase(id: counterCellVM.id),
                                                   title: nil,
@@ -233,10 +213,8 @@ extension CountersBoardViewPresenter: CountersBoardPresenterProtocol {
                 switch result {
                 case .success(let counters):
                     guard let counters = counters else {
-                        print("The error in Decrease success is: there are no counters")
                         return
                     }
-                    print("The counters when Decrease are: \(counters)")
                     self.counterCellsVMs = counters.map{ CounterCellViewModel(counterModel: $0) }
                     if self.isSearching {
                         self.filteredCounterCellsVMs = self.updateFiltered(counterCellsVMs: self.counterCellsVMs, with: self.filter)
@@ -247,7 +225,6 @@ extension CountersBoardViewPresenter: CountersBoardPresenterProtocol {
                         self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: false)
                     }
                 case .failure(let error):
-                    print("The error for handleCounterDecrease is: \(error)")
                     let decreaseError = CountersError(error: error as NSError,
                                                       type: .decrease(id: counterCellVM.id),
                                                       title: nil,
@@ -274,10 +251,8 @@ extension CountersBoardViewPresenter: CountersBoardPresenterProtocol {
                 switch result {
                 case .success(let counters):
                     guard let counters = counters else {
-                        print("The error in Delete success is: there are no counters")
                         return
                     }
-                    print("The counters when Delete are: \(counters)")
                     self.counterCellsVMs = counters.map{ CounterCellViewModel(counterModel: $0) }
                     if self.isSearching {
                         self.filteredCounterCellsVMs = self.updateFiltered(counterCellsVMs: self.counterCellsVMs, with: self.filter)
@@ -297,7 +272,6 @@ extension CountersBoardViewPresenter: CountersBoardPresenterProtocol {
                         self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: true)
                     }
                 case .failure(let error):
-                    print("The error for handleCountersDelete is: \(error)")
                     let deleteError = CountersError(error: error as NSError,
                                                     type: .delete(id: id),
                                                     title: nil,
