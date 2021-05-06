@@ -155,7 +155,6 @@ extension ExamplesView {
 extension ExamplesView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let exampleName = viewModel.examplesViewModel[indexPath.section].sectionExamples[indexPath.row]
-        print("Selected Cell is \(exampleName)")
         delegate?.oneOfTheExamplesWasTapped(with: exampleName)
         collectionView.deselectItem(at: indexPath, animated: true)
     }

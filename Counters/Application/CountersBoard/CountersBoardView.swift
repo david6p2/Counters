@@ -230,22 +230,18 @@ internal final class CountersBoardView: UIView {
 
 private extension CountersBoardView {
     @objc private func edit(sender: UIBarButtonItem) {
-        print("Edit button was pressed")
         delegate?.editButtonWasPressed()
     }
 
     @objc private func selectAll(sender: UIBarButtonItem) {
-        print("selectAll button was pressed")
         delegate?.selectAllButtonWasPressed()
     }
 
     @objc private func add(sender: UIBarButtonItem) {
-        print("Add button was pressed")
         delegate?.addButtonWasPressed()
     }
 
     @objc private func trash(sender: UIBarButtonItem) {
-        print("trash button was pressed")
         guard let indexes = self.countersTableView.tableView.indexPathsForSelectedRows else {
             return
         }
@@ -254,7 +250,6 @@ private extension CountersBoardView {
     }
 
     @objc private func share(sender: UIBarButtonItem) {
-        print("share button was pressed")
         delegate?.shareButtonWasPressed()
     }
 

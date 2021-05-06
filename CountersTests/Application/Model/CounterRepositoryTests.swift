@@ -87,7 +87,6 @@ class CounterRepositoryTests: XCTestCase {
                 XCTAssertEqual(counters.first!.id, expectedCounters.first!.id)
                 XCTAssertEqual(counters.last!.id, expectedCounters.last!.id)
             case .failure(let error):
-                print("The error is: \(error)")
                 XCTFail("Failed with error: \(error)")
             }
             expectation.fulfill()
@@ -154,7 +153,6 @@ class CounterRepositoryTests: XCTestCase {
                 XCTAssertEqual(counters.first!.id, idToIncrease)
                 XCTAssertEqual(counters.first!.count, 1)
             case .failure(let error):
-                print("The error is: \(error)")
                 XCTFail("Failed with error: \(error)")
             }
             expectation.fulfill()
@@ -188,7 +186,6 @@ class CounterRepositoryTests: XCTestCase {
                 XCTAssertEqual(counters.first!.id, idToDecrease)
                 XCTAssertEqual(counters.first!.count, 0)
             case .failure(let error):
-                print("The error is: \(error)")
                 XCTFail("Failed with error: \(error)")
             }
             expectation.fulfill()
@@ -222,7 +219,6 @@ class CounterRepositoryTests: XCTestCase {
                 XCTAssertNotEqual(counters.first!.id, idToDelete)
                 XCTAssertNotEqual(counters.first!.count, 0)
             case .failure(let error):
-                print("The error is: \(error)")
                 XCTFail("Failed with error: \(error)")
             }
             expectation.fulfill()
