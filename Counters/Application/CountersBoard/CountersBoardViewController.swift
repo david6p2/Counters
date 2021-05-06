@@ -229,11 +229,11 @@ extension CountersBoardViewController: CountersBoardViewDelegate {
     }
 
     func trashButtonWasPressed(withSelectedItemsIds ids: [String]) {
-        presenter.trashButtonWasPressed(withSelectedItemsIds: ids)
+        presenter.trashButtonPressed(withSelectedItemsIds: ids)
     }
 
     func shareButtonWasPressed() {
-        presenter.shareButtonWasPressed()
+        presenter.shareButtonPressed()
     }
 
     func pullToRefreshWasCalled() {

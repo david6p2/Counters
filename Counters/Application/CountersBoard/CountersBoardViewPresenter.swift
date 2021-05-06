@@ -15,8 +15,8 @@ protocol CountersBoardPresenterProtocol {
     func editButtonPressed()
     func selectAllPressed()
     func addButtonPressed()
-    func shareButtonWasPressed()
-    func trashButtonWasPressed(withSelectedItemsIds ids: [String])
+    func shareButtonPressed()
+    func trashButtonPressed(withSelectedItemsIds ids: [String])
     func pullToRefreshCalled()
     func handleCounterIncrease(counterCellVM: CounterCellViewModel)
     func handleCounterDecrease(counterCellVM: CounterCellViewModel)
@@ -160,11 +160,11 @@ extension CountersBoardViewPresenter: CountersBoardPresenterProtocol {
         view?.presentAddNewCounter()
     }
 
-    func shareButtonWasPressed() {
+    func shareButtonPressed() {
         view?.shareSelectedCounters()
     }
 
-    func trashButtonWasPressed(withSelectedItemsIds ids: [String]) {
+    func trashButtonPressed(withSelectedItemsIds ids: [String]) {
         view?.presentDeleteItemsConfirmationAlert(ids)
     }
 
