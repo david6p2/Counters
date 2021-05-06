@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// This is the one in charge of all the App Navigation
 class MainCoordinator: CoordinatorProtocol {
     var childCoordinators = [CoordinatorProtocol]()
     private var window = UIWindow(frame: UIScreen.main.bounds)

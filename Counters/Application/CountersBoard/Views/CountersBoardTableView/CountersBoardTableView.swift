@@ -12,7 +12,7 @@ class CountersBoardTableView: UIView {
     // MARK: - View Model
     /// The CountersBoard TableView ViewModel
     struct ViewModel {
-        /// Counters Array for the Table
+        /// Counter Cells ViewModel Array for the Table
         let counterCellsVMs: [CounterCellViewModel]
 
         let noResultsString: String

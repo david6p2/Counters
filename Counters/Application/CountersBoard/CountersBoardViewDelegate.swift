@@ -7,7 +7,7 @@
 
 import UIKit
 
-/// CountersDashboard actions
+/// CountersDashboard actions delegate. InnerViews communicate to it's parent view their actions using this delegate
 protocol CountersBoardViewDelegate: class {
     func setupNavigationControllerWith(title: String,
                                        editBarButton: UIBarButtonItem,
