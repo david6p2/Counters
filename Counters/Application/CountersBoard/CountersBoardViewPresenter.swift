@@ -64,7 +64,7 @@ internal final class CountersBoardViewPresenter {
                 self.saveCountersInDB(counters)
 
                 self.currentStateStrategy = CountersBoardStateHasContent(counters, isSearching: self.isSearching)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                DispatchQueue.main.async {
                     self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: animated)
                 }
             case .failure(let error):
@@ -187,7 +187,7 @@ extension CountersBoardViewPresenter: CountersBoardPresenterProtocol {
                 }
                 let usingCounters: [CounterModel] = self.isSearching ? self.filteredCounterCellsVMs.map{ $0.getModel() } : self.counterCellsVMs.map{ $0.getModel() }
                 self.currentStateStrategy = CountersBoardStateHasContent(usingCounters, isSearching: self.isSearching)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                DispatchQueue.main.async {
                     self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: false)
                 }
             case .failure(let error):
@@ -221,7 +221,7 @@ extension CountersBoardViewPresenter: CountersBoardPresenterProtocol {
                     }
                     let usingCounters: [CounterModel] = self.isSearching ? self.filteredCounterCellsVMs.map{ $0.getModel() } : self.counterCellsVMs.map{ $0.getModel() }
                     self.currentStateStrategy = CountersBoardStateHasContent(usingCounters, isSearching: self.isSearching)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    DispatchQueue.main.async {
                         self.view?.setup(viewModel: self.currentStateStrategy.viewModel, animated: false)
                     }
                 case .failure(let error):
@@ -264,7 +264,7 @@ extension CountersBoardViewPresenter: CountersBoardPresenterProtocol {
                         self.currentStateStrategy = CountersBoardStateHasContent(usingCounters, isSearching: self.isSearching)
                     }
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    DispatchQueue.main.async {
                         if let editModeDisableAction = self.editModeDisableAction {
                             editModeDisableAction()
                         }
